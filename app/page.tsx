@@ -12,6 +12,7 @@ const services = [
     image: "/infantojuvenil.png",
     alt: "Criança em atividade lúdica durante acompanhamento profissional",
     message: "avaliação infantojuvenil",
+    href: "/avaliacaoinfantil",
   },
   {
     number: "02",
@@ -21,6 +22,7 @@ const services = [
     image: "/adulto.png",
     alt: "Aplicação de instrumento de avaliação neuropsicológica em adulto",
     message: "avaliação neuropsicológica para adultos",
+    href: "/avaliacaoneuropsicologicaadulto",
   },
   {
     number: "03",
@@ -30,6 +32,7 @@ const services = [
     image: "/idoso.png",
     alt: "Pessoa idosa em atividade de cuidado e atenção",
     message: "avaliação neuropsicológica para idosos",
+    href: "/avaliacaoneuropsicologicaidoso",
   },
   {
     number: "04",
@@ -39,6 +42,7 @@ const services = [
     image: "/online.png",
     alt: "Pessoa participando de atendimento profissional por videochamada",
     message: "avaliação neuropsicológica on-line",
+    href: "/avaliacaoonline",
   },
   {
     number: "05",
@@ -48,6 +52,7 @@ const services = [
     image: "/terapia.png",
     alt: "Sessão de psicoterapia em ambiente acolhedor",
     message: "psicoterapia TCC",
+    href: "/terapiaparaadultos",
   },
 ];
 
@@ -103,11 +108,9 @@ export default function Home() {
 
       <header className="site-header">
         <div className="container nav-wrap">
-          <a className="brand" href="#inicio" aria-label="Integrada Neuropsicologia — início">
-            <span className="brand-mark" aria-hidden="true">in</span>
-            <span>
-              <strong>Integrada</strong>
-              <small>Neuropsicologia</small>
+          <a className="brand brand-logo-link" href="#inicio" aria-label="Integrada Neuropsicologia — início">
+            <span className="brand-logo-crop" aria-hidden="true">
+              <img src="/logo-horizontal.jpg" alt="" width="500" height="500" />
             </span>
           </a>
 
@@ -136,16 +139,17 @@ export default function Home() {
       <section className="hero" id="inicio">
         <div className="container hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow">Neuropsicologia com escuta e precisão</p>
+            <p className="eyebrow">Avaliação neuropsicológica com clareza e acolhimento</p>
             <h1>
-              Entender muda <em>tudo.</em>
+              Entender abre <em>caminhos.</em>
             </h1>
             <p className="hero-lead">
-              Avaliação neuropsicológica e psicoterapia para todas as fases da vida —
-              com acolhimento, rigor técnico e orientações que fazem sentido na prática.
+              A avaliação neuropsicológica investiga, de forma integrada, como atenção,
+              memória, linguagem, aprendizagem e emoções participam da rotina — com
+              rigor técnico, escuta cuidadosa e orientações práticas.
             </p>
             <div className="hero-actions">
-              <WhatsAppLink className="button">Quero orientação</WhatsAppLink>
+              <WhatsAppLink className="button">Quero entender a avaliação</WhatsAppLink>
               <a className="text-link" href="#como-funciona">
                 Entenda o processo <span aria-hidden="true">↓</span>
               </a>
@@ -168,7 +172,7 @@ export default function Home() {
               />
             </div>
             <div className="hero-note hero-note-top">
-              <strong>14+ anos</strong>
+              <strong>Mais de 15 anos</strong>
               <span>de experiência clínica</span>
             </div>
             <div className="hero-note hero-note-bottom">
@@ -181,10 +185,10 @@ export default function Home() {
 
       <section className="signal-strip" aria-label="Quando buscar ajuda">
         <div className="container signal-grid">
-          <p className="signal-intro">Talvez você esteja percebendo…</p>
-          <div><span>01</span><p>Dificuldade para manter o foco ou organizar a rotina</p></div>
-          <div><span>02</span><p>Esquecimentos, queda no rendimento ou sobrecarga</p></div>
-          <div><span>03</span><p>Dúvidas sobre TDAH, TEA, aprendizagem ou cognição</p></div>
+          <p className="signal-intro">A avaliação pode ajudar a…</p>
+          <div><span>01</span><p>Compreender mudanças no funcionamento cognitivo e emocional</p></div>
+          <div><span>02</span><p>Investigar dificuldades que afetam estudos, trabalho ou rotina</p></div>
+          <div><span>03</span><p>Transformar resultados em orientações e próximos passos possíveis</p></div>
         </div>
       </section>
 
@@ -196,8 +200,9 @@ export default function Home() {
               <h2>Um atendimento que começa pela sua história.</h2>
             </div>
             <p>
-              Cada pessoa chega com uma necessidade diferente. A investigação e o
-              plano de cuidado são construídos de forma individual, sem respostas prontas.
+              O processo começa com uma compreensão ampla da necessidade. Depois,
+              cada avaliação é planejada de acordo com o momento de vida, o contexto
+              e os objetivos de cada pessoa.
             </p>
           </div>
 
@@ -211,9 +216,14 @@ export default function Home() {
                 <div className="service-body">
                   <h3>{service.title}</h3>
                   <p>{service.description}</p>
-                  <WhatsAppLink className="card-link" message={service.message}>
-                    Conhecer atendimento <span aria-hidden="true">↗</span>
-                  </WhatsAppLink>
+                  <div className="service-actions">
+                    <WhatsAppLink className="card-link" message={service.message}>
+                      Conhecer atendimento <span aria-hidden="true">↗</span>
+                    </WhatsAppLink>
+                    <a className="card-link card-link-more" href={service.href}>
+                      Saber mais <span aria-hidden="true">→</span>
+                    </a>
+                  </div>
                 </div>
               </article>
             ))}
@@ -345,9 +355,10 @@ export default function Home() {
 
       <footer>
         <div className="container footer-main">
-          <a className="brand brand-footer" href="#inicio">
-            <span className="brand-mark" aria-hidden="true">in</span>
-            <span><strong>Integrada</strong><small>Neuropsicologia</small></span>
+          <a className="brand brand-footer brand-logo-link" href="#inicio" aria-label="Integrada Neuropsicologia — início">
+            <span className="brand-logo-crop" aria-hidden="true">
+              <img src="/logo-horizontal.jpg" alt="" width="500" height="500" />
+            </span>
           </a>
           <p>Avaliando o presente,<br />transformando o futuro.</p>
           <nav aria-label="Links do rodapé">
