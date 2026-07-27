@@ -2,6 +2,38 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
+const mentalExercises = [
+  ["labirinto", "Labirinto", "rota eficiente"],
+  ["caca-palavras", "Caça-Palavras", "varredura visual organizada"],
+  ["torre-de-hanoi", "Torre de Hanói", "Transferir toda a torre"],
+  ["resta-um", "Resta Um", "Remover peças por saltos válidos"],
+  ["sequencia-inteligente", "Sequência Inteligente", "Inferir regras numéricas"],
+  ["reflexo-fantasmas", "Reflexo Fantasmas", "inibir respostas diante de distratores"],
+  ["torre-de-londres", "Torre de Londres", "Reproduzir um modelo-alvo"],
+  ["quebra-cabeca-emoji", "Quebra-Cabeça Emoji", "tabuleiro deslizante numerado"],
+  ["afirmou-bateu", "Afirmou, Bateu!", "palavra e direção visual"],
+  ["memoria-mix", "Memória Mix", "identidade e a posição de cartas"],
+  ["desafio-das-cores", "Desafio das Cores", "ignorar o significado automático"],
+  ["emoji-alvo", "Emoji Alvo", "única figura idêntica"],
+  ["intruso-das-palavras", "Intruso das Palavras", "categorias semânticas"],
+  ["clique-no-momento-certo", "Clique no Momento Certo", "sem antecipar o clique"],
+  ["caca-circulos", "Caça-Círculos", "círculos preenchidos"],
+  ["sequencia-numerica", "Sequência Numérica", "série breve de dígitos"],
+  ["busca-do-simbolo", "Busca do Símbolo", "símbolo-modelo"],
+  ["ordem-das-acoes", "Ordem das Ações", "dependências entre ações"],
+  ["palavra-emoji", "Palavra & Emoji", "representações visuais"],
+];
+
+const oldWixUrl = /https?:\/\/(?:www\.)?integradaneuropsicologia\.com\.br/i;
+
+function normalizeHtml(html) {
+  return html
+    .replaceAll("&amp;", "&")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#x27;", "'")
+    .replaceAll("&apos;", "'");
+}
+
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
@@ -104,8 +136,61 @@ test("serves every mental exercise without an access gate", async () => {
   assert.match(html, /Caça-Palavras/);
   assert.match(html, /Emoji Alvo/);
   assert.match(html, /Palavra &amp; Emoji|Palavra & Emoji/);
-  assert.ok((html.match(/Abrir exercício/g) ?? []).length >= 19);
+  assert.ok((html.match(/Praticar agora/g) ?? []).length >= 19);
+  assert.equal(
+    (html.match(/<a\b[^>]*class="[^"]*\bexercise-card\b[^"]*"/g) ?? []).length,
+    19,
+  );
+
+  const localExerciseHrefs = new Set(
+    [...html.matchAll(/href="(\/exercicios-de-estimulacao-mental\/[^"#?]+)"/g)].map(
+      (match) => match[1],
+    ),
+  );
+  assert.equal(localExerciseHrefs.size, 19);
+  for (const [slug] of mentalExercises) {
+    assert.ok(
+      localExerciseHrefs.has(`/exercicios-de-estimulacao-mental/${slug}`),
+      `missing local exercise link for ${slug}`,
+    );
+  }
+
+  const localExerciseImages = new Set(
+    [...html.matchAll(/src="(\/exercises\/[^"?]+\.webp)"/g)].map((match) => match[1]),
+  );
+  assert.equal(localExerciseImages.size, 19);
+  for (const [slug] of mentalExercises) {
+    assert.ok(localExerciseImages.has(`/exercises/${slug}.webp`), `missing card image for ${slug}`);
+  }
+
+  assert.doesNotMatch(html, oldWixUrl);
   assert.doesNotMatch(html, /name="cpf"|cpfPaciente|SheetDB|data-access|prescrito|restrito/i);
+});
+
+test("server-renders all 19 original mental exercise pages", async () => {
+  for (const [slug, title, contentMarker] of mentalExercises) {
+    const pathname = `/exercicios-de-estimulacao-mental/${slug}`;
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+    assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i, pathname);
+
+    const html = await response.text();
+    const normalizedHtml = normalizeHtml(html);
+    assert.ok(normalizedHtml.includes(title), `${pathname} must render its title`);
+    assert.match(normalizedHtml, new RegExp(contentMarker, "i"), pathname);
+    assert.match(html, new RegExp(`src="/exercises/${slug}\\.webp"`), pathname);
+    assert.match(normalizedHtml, /Sua vez de praticar/, pathname);
+    assert.doesNotMatch(html, oldWixUrl, pathname);
+  }
+});
+
+test("ships all 19 optimized exercise card images", async () => {
+  assert.equal(mentalExercises.length, 19);
+  await Promise.all(
+    mentalExercises.map(([slug]) =>
+      access(new URL(`../public/exercises/${slug}.webp`, import.meta.url)),
+    ),
+  );
 });
 
 test("ships production metadata, local imagery, and responsive styles", async () => {

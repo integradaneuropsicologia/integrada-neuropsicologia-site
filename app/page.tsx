@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ContactForm } from "./ContactForm";
 import { SiteHeader } from "./SiteHeader";
 
@@ -332,7 +333,7 @@ export default function Home() {
             <a href="#como-funciona">Como funciona</a>
             <a href="#depoimentos">Depoimentos</a>
             <a href="#duvidas">Dúvidas frequentes</a>
-            <a href="/exercicios-de-estimulacao-mental">Exercícios de estimulação mental</a>
+            <Link href="/exercicios-de-estimulacao-mental">Exercícios de estimulação mental</Link>
           </nav>
         </div>
         <div className="container footer-bottom">
