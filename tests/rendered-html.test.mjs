@@ -29,6 +29,11 @@ test("server-renders the Integrada homepage", async () => {
   assert.match(html, /Cuidado em cada etapa da vida/);
   assert.match(html, /Como funciona/);
   assert.match(html, /Dúvidas frequentes/);
+  assert.match(html, /Avaliação Neuropsicológica/);
+  assert.match(html, /Psicoterapia/);
+  assert.match(html, /Teste grátis/);
+  assert.match(html, /Exercícios de estimulação mental/);
+  assert.match(html, /href="\/exercicios-de-estimulacao-mental"/);
   assert.match(html, /wa\.me\/5541992113665/);
   assert.match(html, /name="interest"/);
   assert.match(html, /src="\/logo-horizontal\.jpg"/);
@@ -62,13 +67,31 @@ test("server-renders every service detail route", async () => {
     assert.match(html, new RegExp(marker), pathname);
     assert.match(html, /logo-horizontal\.jpg/, pathname);
     assert.match(html, /wa\.me\/5541992113665/, pathname);
+    assert.match(html, /Exercícios de estimulação mental/, pathname);
   }
 });
 
+test("serves every mental exercise without an access gate", async () => {
+  const response = await render("/exercicios-de-estimulacao-mental");
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+
+  const html = await response.text();
+  assert.match(html, /Exercícios de estimulação mental/);
+  assert.match(html, /Torre de Hanói/);
+  assert.match(html, /Caça-Palavras/);
+  assert.match(html, /Emoji Alvo/);
+  assert.match(html, /Palavra &amp; Emoji|Palavra & Emoji/);
+  assert.ok((html.match(/Abrir exercício/g) ?? []).length >= 19);
+  assert.doesNotMatch(html, /name="cpf"|cpfPaciente|SheetDB|data-access|prescrito|restrito/i);
+});
+
 test("ships production metadata, local imagery, and responsive styles", async () => {
-  const [layout, page, css, packageJson] = await Promise.all([
+  const [layout, page, siteHeader, exercisePage, css, packageJson] = await Promise.all([
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/SiteHeader.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/exercicios-de-estimulacao-mental/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
@@ -78,6 +101,9 @@ test("ships production metadata, local imagery, and responsive styles", async ()
   assert.match(layout, /lang="pt-BR"/);
   assert.match(page, /\/hero\.png/);
   assert.match(page, /ContactForm/);
+  assert.match(siteHeader, /Exercícios de estimulação mental/);
+  assert.match(siteHeader, /<details/);
+  assert.doesNotMatch(`${siteHeader}\n${exercisePage}`, /cpfPaciente|SheetDB|data-access|prescrito|restrito/i);
   assert.match(css, /@media \(max-width: 760px\)/);
   assert.match(css, /prefers-reduced-motion/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);

@@ -1,4 +1,5 @@
 import { ContactForm } from "./ContactForm";
+import { SiteHeader } from "./SiteHeader";
 
 const whatsapp =
   "https://wa.me/5541992113665?text=Ol%C3%A1%21%20Gostaria%20de%20entender%20qual%20atendimento%20%C3%A9%20mais%20indicado%20para%20mim.";
@@ -99,42 +100,7 @@ function WhatsAppLink({
 export default function Home() {
   return (
     <main>
-      <div className="topbar">
-        <div className="container topbar-inner">
-          <p>Presencial em Curitiba e on-line em todo o Brasil</p>
-          <a href="tel:+5541992113665">(41) 99211-3665</a>
-        </div>
-      </div>
-
-      <header className="site-header">
-        <div className="container nav-wrap">
-          <a className="brand brand-logo-link" href="#inicio" aria-label="Integrada Neuropsicologia — início">
-            <span className="brand-logo-crop" aria-hidden="true">
-              <img src="/logo-horizontal.jpg" alt="" width="500" height="500" />
-            </span>
-          </a>
-
-          <nav className="desktop-nav" aria-label="Navegação principal">
-            <a href="#atendimentos">Atendimentos</a>
-            <a href="#como-funciona">Como funciona</a>
-            <a href="#depoimentos">Depoimentos</a>
-            <a href="#duvidas">Dúvidas</a>
-          </nav>
-
-          <WhatsAppLink className="button button-small">Agendar conversa</WhatsAppLink>
-
-          <details className="mobile-menu">
-            <summary aria-label="Abrir menu">Menu</summary>
-            <nav aria-label="Navegação para celular">
-              <a href="#atendimentos">Atendimentos</a>
-              <a href="#como-funciona">Como funciona</a>
-              <a href="#depoimentos">Depoimentos</a>
-              <a href="#duvidas">Dúvidas</a>
-              <WhatsAppLink>Agendar conversa</WhatsAppLink>
-            </nav>
-          </details>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="hero" id="inicio">
         <div className="container hero-grid">
@@ -366,6 +332,7 @@ export default function Home() {
             <a href="#como-funciona">Como funciona</a>
             <a href="#depoimentos">Depoimentos</a>
             <a href="#duvidas">Dúvidas frequentes</a>
+            <a href="/exercicios-de-estimulacao-mental">Exercícios de estimulação mental</a>
           </nav>
         </div>
         <div className="container footer-bottom">

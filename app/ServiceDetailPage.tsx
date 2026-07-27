@@ -1,3 +1,5 @@
+import { SiteHeader } from "./SiteHeader";
+
 const whatsappNumber = "5541992113665";
 
 type DetailIndicator = {
@@ -46,33 +48,7 @@ export function ServiceDetailPage({ content }: { content: ServiceDetailContent }
 
   return (
     <main className="detail-page">
-      <div className="detail-topbar">
-        <div className="detail-container detail-topbar-inner">
-          <p>Presencial em Curitiba e on-line em todo o Brasil</p>
-          <a href="tel:+5541992113665">(41) 99211-3665</a>
-        </div>
-      </div>
-
-      <header className="detail-header">
-        <div className="detail-container detail-header-inner">
-          <a className="detail-brand" href="/" aria-label="Integrada Neuropsicologia — início">
-            <img
-              src="/logo-horizontal.jpg"
-              alt="Integrada Neuropsicologia"
-              width="500"
-              height="500"
-            />
-          </a>
-          <nav className="detail-nav" aria-label="Navegação principal">
-            <a href="/#atendimentos">Atendimentos</a>
-            <a href="/#como-funciona">Como funciona</a>
-            <a href="/#duvidas">Dúvidas</a>
-          </nav>
-          <a className="detail-button detail-button-small" href={contactHref} target="_blank" rel="noreferrer">
-            Agendar conversa
-          </a>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="detail-hero">
         <div className="detail-container detail-hero-grid">
@@ -200,6 +176,7 @@ export function ServiceDetailPage({ content }: { content: ServiceDetailContent }
             <a href="/#atendimentos">Atendimentos</a>
             <a href="/#como-funciona">Como funciona</a>
             <a href="/#duvidas">Dúvidas frequentes</a>
+            <a href="/exercicios-de-estimulacao-mental">Exercícios de estimulação mental</a>
           </nav>
         </div>
         <div className="detail-container detail-footer-bottom">
