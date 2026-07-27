@@ -1,0 +1,372 @@
+import { ContactForm } from "./ContactForm";
+
+const whatsapp =
+  "https://wa.me/5541992113665?text=Ol%C3%A1%21%20Gostaria%20de%20entender%20qual%20atendimento%20%C3%A9%20mais%20indicado%20para%20mim.";
+
+const services = [
+  {
+    number: "01",
+    title: "Infantojuvenil",
+    description:
+      "Desenvolvimento, aprendizagem, TDAH, TEA, altas habilidades e regulação emocional.",
+    image: "/infantojuvenil.png",
+    alt: "Criança em atividade lúdica durante acompanhamento profissional",
+    message: "avaliação infantojuvenil",
+  },
+  {
+    number: "02",
+    title: "Adultos",
+    description:
+      "Atenção, memória, organização, ansiedade e mudanças no funcionamento cognitivo.",
+    image: "/adulto.png",
+    alt: "Aplicação de instrumento de avaliação neuropsicológica em adulto",
+    message: "avaliação neuropsicológica para adultos",
+  },
+  {
+    number: "03",
+    title: "Idosos",
+    description:
+      "Esquecimentos, autonomia, avaliação pré-operatória e monitoramento cognitivo.",
+    image: "/idoso.png",
+    alt: "Pessoa idosa em atividade de cuidado e atenção",
+    message: "avaliação neuropsicológica para idosos",
+  },
+  {
+    number: "04",
+    title: "Avaliação on-line",
+    description:
+      "Um processo remoto, seguro e criterioso para adultos em qualquer lugar do Brasil.",
+    image: "/online.png",
+    alt: "Pessoa participando de atendimento profissional por videochamada",
+    message: "avaliação neuropsicológica on-line",
+  },
+  {
+    number: "05",
+    title: "Psicoterapia (TCC)",
+    description:
+      "Metas claras e estratégias práticas para rotina, relações e qualidade de vida.",
+    image: "/terapia.png",
+    alt: "Sessão de psicoterapia em ambiente acolhedor",
+    message: "psicoterapia TCC",
+  },
+];
+
+const testimonials = [
+  {
+    quote:
+      "Atendimento excepcional! Do início do contato até o final das avaliações e as sessões de terapia, todo o processo foi absurdamente incrível.",
+    name: "Mariana Sousa",
+  },
+  {
+    quote:
+      "Com sensibilidade, profissionalismo e escuta atenta, a Dra. Carla me ajudou a compreender aspectos da minha vida que por muito tempo estiveram sem explicação.",
+    name: "Hugo Beraldi",
+  },
+  {
+    quote:
+      "A equipe da Integrada Neuropsicologia é incrível e muito profissional. Só tenho a elogiar e a agradecer!",
+    name: "Ana Paula",
+  },
+];
+
+function WhatsAppLink({
+  children,
+  className = "",
+  message,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  message?: string;
+}) {
+  const href = message
+    ? `https://wa.me/5541992113665?text=${encodeURIComponent(
+        `Olá! Gostaria de saber mais sobre ${message}.`,
+      )}`
+    : whatsapp;
+
+  return (
+    <a className={className} href={href} target="_blank" rel="noreferrer">
+      {children}
+    </a>
+  );
+}
+
+export default function Home() {
+  return (
+    <main>
+      <div className="topbar">
+        <div className="container topbar-inner">
+          <p>Presencial em Curitiba e on-line em todo o Brasil</p>
+          <a href="tel:+5541992113665">(41) 99211-3665</a>
+        </div>
+      </div>
+
+      <header className="site-header">
+        <div className="container nav-wrap">
+          <a className="brand" href="#inicio" aria-label="Integrada Neuropsicologia — início">
+            <span className="brand-mark" aria-hidden="true">in</span>
+            <span>
+              <strong>Integrada</strong>
+              <small>Neuropsicologia</small>
+            </span>
+          </a>
+
+          <nav className="desktop-nav" aria-label="Navegação principal">
+            <a href="#atendimentos">Atendimentos</a>
+            <a href="#como-funciona">Como funciona</a>
+            <a href="#depoimentos">Depoimentos</a>
+            <a href="#duvidas">Dúvidas</a>
+          </nav>
+
+          <WhatsAppLink className="button button-small">Agendar conversa</WhatsAppLink>
+
+          <details className="mobile-menu">
+            <summary aria-label="Abrir menu">Menu</summary>
+            <nav aria-label="Navegação para celular">
+              <a href="#atendimentos">Atendimentos</a>
+              <a href="#como-funciona">Como funciona</a>
+              <a href="#depoimentos">Depoimentos</a>
+              <a href="#duvidas">Dúvidas</a>
+              <WhatsAppLink>Agendar conversa</WhatsAppLink>
+            </nav>
+          </details>
+        </div>
+      </header>
+
+      <section className="hero" id="inicio">
+        <div className="container hero-grid">
+          <div className="hero-copy">
+            <p className="eyebrow">Neuropsicologia com escuta e precisão</p>
+            <h1>
+              Entender muda <em>tudo.</em>
+            </h1>
+            <p className="hero-lead">
+              Avaliação neuropsicológica e psicoterapia para todas as fases da vida —
+              com acolhimento, rigor técnico e orientações que fazem sentido na prática.
+            </p>
+            <div className="hero-actions">
+              <WhatsAppLink className="button">Quero orientação</WhatsAppLink>
+              <a className="text-link" href="#como-funciona">
+                Entenda o processo <span aria-hidden="true">↓</span>
+              </a>
+            </div>
+            <ul className="trust-list" aria-label="Diferenciais">
+              <li><span aria-hidden="true">✓</span> Atendimento humanizado</li>
+              <li><span aria-hidden="true">✓</span> Laudo claro e direcionado</li>
+              <li><span aria-hidden="true">✓</span> Integração com outros profissionais</li>
+            </ul>
+          </div>
+
+          <div className="hero-visual">
+            <div className="hero-image-frame">
+              <img
+                src="/hero.png"
+                alt="Família reunida ao ar livre em um momento de alegria"
+                width="1000"
+                height="1000"
+                fetchPriority="high"
+              />
+            </div>
+            <div className="hero-note hero-note-top">
+              <strong>14+ anos</strong>
+              <span>de experiência clínica</span>
+            </div>
+            <div className="hero-note hero-note-bottom">
+              <span className="note-icon" aria-hidden="true">✦</span>
+              <span>Ciência para compreender.<br />Cuidado para transformar.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="signal-strip" aria-label="Quando buscar ajuda">
+        <div className="container signal-grid">
+          <p className="signal-intro">Talvez você esteja percebendo…</p>
+          <div><span>01</span><p>Dificuldade para manter o foco ou organizar a rotina</p></div>
+          <div><span>02</span><p>Esquecimentos, queda no rendimento ou sobrecarga</p></div>
+          <div><span>03</span><p>Dúvidas sobre TDAH, TEA, aprendizagem ou cognição</p></div>
+        </div>
+      </section>
+
+      <section className="section services" id="atendimentos">
+        <div className="container">
+          <div className="section-heading split-heading">
+            <div>
+              <p className="eyebrow">Cuidado em cada etapa da vida</p>
+              <h2>Um atendimento que começa pela sua história.</h2>
+            </div>
+            <p>
+              Cada pessoa chega com uma necessidade diferente. A investigação e o
+              plano de cuidado são construídos de forma individual, sem respostas prontas.
+            </p>
+          </div>
+
+          <div className="service-grid">
+            {services.map((service) => (
+              <article className="service-card" key={service.title}>
+                <div className="service-image">
+                  <img src={service.image} alt={service.alt} width="500" height="500" loading="lazy" />
+                  <span>{service.number}</span>
+                </div>
+                <div className="service-body">
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+                  <WhatsAppLink className="card-link" message={service.message}>
+                    Conhecer atendimento <span aria-hidden="true">↗</span>
+                  </WhatsAppLink>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section process" id="como-funciona">
+        <div className="container process-grid">
+          <div className="process-intro">
+            <p className="eyebrow eyebrow-light">Como funciona</p>
+            <h2>Clareza em cada etapa do processo.</h2>
+            <p>
+              Você entende o que está sendo investigado, por que cada etapa importa e
+              quais serão os próximos passos.
+            </p>
+            <WhatsAppLink className="button button-light">Conversar com a equipe</WhatsAppLink>
+          </div>
+
+          <ol className="process-list">
+            <li>
+              <span>01</span>
+              <div><h3>Conversa inicial</h3><p>Escutamos suas queixas, sua rotina e o histórico de vida.</p></div>
+            </li>
+            <li>
+              <span>02</span>
+              <div><h3>Plano personalizado</h3><p>Selecionamos instrumentos e estratégias adequados à sua necessidade.</p></div>
+            </li>
+            <li>
+              <span>03</span>
+              <div><h3>Avaliação cuidadosa</h3><p>As sessões combinam testes, entrevistas e observação clínica.</p></div>
+            </li>
+            <li>
+              <span>04</span>
+              <div><h3>Devolutiva e direcionamento</h3><p>Você recebe uma explicação clara, laudo e recomendações práticas.</p></div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section className="section difference">
+        <div className="container difference-grid">
+          <div className="difference-copy">
+            <p className="eyebrow">Por que a Integrada</p>
+            <h2>Um diagnóstico não é um rótulo. É um caminho.</h2>
+            <p>
+              Nosso trabalho transforma informação técnica em compreensão e possibilidades
+              reais para a vida, os estudos, o trabalho e as relações.
+            </p>
+          </div>
+          <div className="difference-cards">
+            <article><span aria-hidden="true">01</span><h3>Rigor técnico</h3><p>Instrumentos atualizados e investigação criteriosa.</p></article>
+            <article><span aria-hidden="true">02</span><h3>Escuta sem pressa</h3><p>Um espaço seguro para compreender a sua história.</p></article>
+            <article><span aria-hidden="true">03</span><h3>Laudo que orienta</h3><p>Linguagem clara e recomendações que cabem na rotina.</p></article>
+            <article><span aria-hidden="true">04</span><h3>Cuidado em rede</h3><p>Diálogo com escola, médicos e outros profissionais quando indicado.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section className="section testimonials" id="depoimentos">
+        <div className="container">
+          <div className="section-heading testimonial-heading">
+            <p className="eyebrow">Quem passou por aqui recomenda</p>
+            <h2>Histórias de quem encontrou respostas.</h2>
+          </div>
+          <div className="testimonial-grid">
+            {testimonials.map((testimonial, index) => (
+              <figure key={testimonial.name}>
+                <div className="stars" aria-label="5 estrelas">★★★★★</div>
+                <blockquote>“{testimonial.quote}”</blockquote>
+                <figcaption>
+                  <span>{testimonial.name.slice(0, 1)}</span>
+                  <div><strong>{testimonial.name}</strong><small>Avaliação publicada no Google</small></div>
+                </figcaption>
+                <span className="quote-number" aria-hidden="true">0{index + 1}</span>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section faq" id="duvidas">
+        <div className="container faq-grid">
+          <div>
+            <p className="eyebrow">Dúvidas frequentes</p>
+            <h2>Antes de começar, é natural querer entender.</h2>
+            <p>Se a sua dúvida não estiver aqui, fale com a nossa equipe.</p>
+          </div>
+          <div className="faq-list">
+            <details>
+              <summary>Quando devo procurar uma avaliação neuropsicológica?</summary>
+              <p>Quando dificuldades de atenção, memória, aprendizagem, comportamento ou autonomia passam a afetar a rotina. A avaliação também ajuda a investigar hipóteses como TDAH e TEA.</p>
+            </details>
+            <details>
+              <summary>Quanto tempo dura o processo?</summary>
+              <p>O número de sessões depende da idade, da demanda e dos instrumentos necessários. Após a conversa inicial, explicamos o planejamento completo do seu caso.</p>
+            </details>
+            <details>
+              <summary>A avaliação on-line tem validade?</summary>
+              <p>Quando indicada e realizada com instrumentos adequados ao formato remoto, ela segue os mesmos princípios de rigor, sigilo e responsabilidade profissional.</p>
+            </details>
+            <details>
+              <summary>Vocês atendem crianças, adultos e idosos?</summary>
+              <p>Sim. A equipe atua em todas as fases da vida, adaptando o processo às necessidades de cada faixa etária e contexto.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section className="contact-section" id="contato">
+        <div className="container contact-grid">
+          <div className="contact-copy">
+            <p className="eyebrow eyebrow-light">Vamos conversar?</p>
+            <h2>O primeiro passo pode ser mais simples do que parece.</h2>
+            <p>
+              Conte brevemente o que você procura. Nossa equipe vai orientar o atendimento
+              mais adequado — sem compromisso.
+            </p>
+            <div className="contact-details">
+              <a href="tel:+5541992113665"><small>Telefone e WhatsApp</small><strong>(41) 99211-3665</strong></a>
+              <a href="https://maps.google.com/?q=Rua+Jacarezinho+1266+Mercês+Curitiba+PR" target="_blank" rel="noreferrer">
+                <small>Atendimento presencial</small><strong>Rua Jacarezinho, 1266 — Mercês, Curitiba/PR</strong>
+              </a>
+            </div>
+          </div>
+          <ContactForm />
+        </div>
+      </section>
+
+      <footer>
+        <div className="container footer-main">
+          <a className="brand brand-footer" href="#inicio">
+            <span className="brand-mark" aria-hidden="true">in</span>
+            <span><strong>Integrada</strong><small>Neuropsicologia</small></span>
+          </a>
+          <p>Avaliando o presente,<br />transformando o futuro.</p>
+          <nav aria-label="Links do rodapé">
+            <a href="#atendimentos">Atendimentos</a>
+            <a href="#como-funciona">Como funciona</a>
+            <a href="#depoimentos">Depoimentos</a>
+            <a href="#duvidas">Dúvidas frequentes</a>
+          </nav>
+        </div>
+        <div className="container footer-bottom">
+          <p>© {new Date().getFullYear()} Integrada Neuropsicologia. Todos os direitos reservados.</p>
+          <p>Conteúdo informativo. Não substitui avaliação profissional.</p>
+        </div>
+      </footer>
+
+      <WhatsAppLink className="floating-whatsapp">
+        <span aria-hidden="true">✦</span>
+        <span>Fale com a equipe</span>
+      </WhatsAppLink>
+    </main>
+  );
+}
