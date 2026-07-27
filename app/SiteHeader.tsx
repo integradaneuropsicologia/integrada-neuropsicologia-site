@@ -1,3 +1,8 @@
+"use client";
+
+import Link from "next/link";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 const navigationGroups = [
   {
     label: "Avaliação Neuropsicológica",
@@ -5,14 +10,8 @@ const navigationGroups = [
       { label: "Infantojuvenil", href: "/avaliacaoinfantil" },
       { label: "Adultos", href: "/avaliacaoneuropsicologicaadulto" },
       { label: "On-line", href: "/avaliacaoonline" },
-      {
-        label: "TDAH",
-        href: "https://www.integradaneuropsicologia.com.br/avaliacaotdah",
-      },
-      {
-        label: "TEA/Autismo",
-        href: "https://www.integradaneuropsicologia.com.br/avaliacaoautismo",
-      },
+      { label: "TDAH", href: "/avaliacaotdah" },
+      { label: "TEA/Autismo", href: "/avaliacaoautismo" },
       { label: "Idosos", href: "/avaliacaoneuropsicologicaidoso" },
     ],
   },
@@ -22,15 +21,15 @@ const navigationGroups = [
       { label: "Para adultos", href: "/terapiaparaadultos" },
       {
         label: "Adultos com autismo",
-        href: "https://www.integradaneuropsicologia.com.br/terapiaparaadultoscomautismo",
+        href: "/terapiaparaadultoscomautismo",
       },
       {
         label: "Adultos com TDAH",
-        href: "https://www.integradaneuropsicologia.com.br/terapiaparaadultoscomtdah",
+        href: "/terapiaparaadultoscomtdah",
       },
       {
         label: "Jovens e adolescentes",
-        href: "https://www.integradaneuropsicologia.com.br/terapiafasedavida",
+        href: "/terapiafasedavida",
       },
     ],
   },
@@ -39,19 +38,19 @@ const navigationGroups = [
     links: [
       {
         label: "TDAH em adultos",
-        href: "https://www.integradaneuropsicologia.com.br/testetdahadulto",
+        href: "/testetdahadulto",
       },
       {
         label: "Autismo em adultos",
-        href: "https://www.integradaneuropsicologia.com.br/teste-autismo-adulto",
+        href: "/teste-autismo-adulto",
       },
       {
         label: "TDAH em crianças",
-        href: "https://www.integradaneuropsicologia.com.br/teste-tdah-infantil",
+        href: "/teste-tdah-infantil",
       },
       {
         label: "Autismo em crianças",
-        href: "https://www.integradaneuropsicologia.com.br/teste-autismo-infantil",
+        href: "/teste-autismo-infantil",
       },
     ],
   },
@@ -60,7 +59,7 @@ const navigationGroups = [
 const directLinks = [
   {
     label: "Blog",
-    href: "https://www.integradaneuropsicologia.com.br/blog",
+    href: "/blog",
   },
   {
     label: "Exercícios de estimulação mental",
@@ -69,6 +68,48 @@ const directLinks = [
 ] as const;
 
 export function SiteHeader() {
+  const headerRef = useRef<HTMLElement>(null);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openMobileGroup, setOpenMobileGroup] = useState<string | null>(null);
+
+  const closeAllMenus = useCallback(() => {
+    setOpenMenu(null);
+    setMobileMenuOpen(false);
+    setOpenMobileGroup(null);
+  }, []);
+
+  useEffect(() => {
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      const clickedInsideMenu =
+        target instanceof Element &&
+        Boolean(target.closest(".nav-dropdown, .mobile-menu"));
+
+      if (
+        !(target instanceof Node) ||
+        !headerRef.current?.contains(target) ||
+        !clickedInsideMenu
+      ) {
+        closeAllMenus();
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeAllMenus();
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [closeAllMenus]);
+
   return (
     <>
       <div className="topbar">
@@ -78,68 +119,155 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <header className="site-header">
+      <header className="site-header" ref={headerRef}>
         <div className="container nav-wrap">
-          <a
+          <Link
             className="brand brand-logo-link"
             href="/"
             aria-label="Integrada Neuropsicologia — início"
+            onClick={closeAllMenus}
           >
             <span className="brand-logo-crop" aria-hidden="true">
               <img src="/logo-horizontal.jpg" alt="" width="500" height="500" />
             </span>
-          </a>
+          </Link>
 
           <nav className="site-nav" aria-label="Navegação principal">
-            {navigationGroups.map((group) => (
-              <details className="nav-dropdown" key={group.label}>
-                <summary>
-                  {group.label}
-                  <span aria-hidden="true">⌄</span>
-                </summary>
-                <div className="nav-dropdown-panel">
-                  {group.links.map((link) => (
-                    <a href={link.href} key={link.href}>
-                      {link.label}
-                    </a>
-                  ))}
+            {navigationGroups.map((group, index) => {
+              const isOpen = openMenu === group.label;
+              const panelId = `desktop-menu-${index}`;
+
+              return (
+                <div
+                  className="nav-dropdown"
+                  data-open={isOpen}
+                  key={group.label}
+                >
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    onClick={() => {
+                      setOpenMenu(isOpen ? null : group.label);
+                      setMobileMenuOpen(false);
+                      setOpenMobileGroup(null);
+                    }}
+                  >
+                    {group.label}
+                    <span aria-hidden="true">⌄</span>
+                  </button>
+                  <div
+                    className="nav-dropdown-panel"
+                    id={panelId}
+                    hidden={!isOpen}
+                  >
+                    {group.links.map((link) => (
+                      <a
+                        href={link.href}
+                        key={link.href}
+                        onClick={closeAllMenus}
+                      >
+                        {link.label}
+                      </a>
+                    ))}
+                  </div>
                 </div>
-              </details>
-            ))}
+              );
+            })}
 
             {directLinks.map((link) => (
-              <a className="nav-direct-link" href={link.href} key={link.href}>
+              <a
+                className="nav-direct-link"
+                href={link.href}
+                key={link.href}
+                onClick={closeAllMenus}
+              >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          <details className="mobile-menu">
-            <summary aria-label="Abrir menu principal">Menu</summary>
-            <nav className="mobile-menu-panel" aria-label="Navegação para celular">
-              {navigationGroups.map((group) => (
-                <details className="mobile-nav-group" key={group.label}>
-                  <summary>
-                    {group.label}
-                    <span aria-hidden="true">⌄</span>
-                  </summary>
-                  <div className="mobile-nav-links">
-                    {group.links.map((link) => (
-                      <a href={link.href} key={link.href}>
-                        {link.label}
-                      </a>
-                    ))}
+          <div className="mobile-menu" data-open={mobileMenuOpen}>
+            <button
+              type="button"
+              className="mobile-menu-trigger"
+              aria-label={
+                mobileMenuOpen
+                  ? "Fechar menu principal"
+                  : "Abrir menu principal"
+              }
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu-panel"
+              onClick={() => {
+                setMobileMenuOpen((current) => {
+                  if (current) {
+                    setOpenMobileGroup(null);
+                  }
+                  return !current;
+                });
+                setOpenMenu(null);
+              }}
+            >
+              Menu
+            </button>
+            <nav
+              className="mobile-menu-panel"
+              id="mobile-menu-panel"
+              aria-label="Navegação para celular"
+              hidden={!mobileMenuOpen}
+            >
+              {navigationGroups.map((group, index) => {
+                const isOpen = openMobileGroup === group.label;
+                const panelId = `mobile-menu-${index}`;
+
+                return (
+                  <div
+                    className="mobile-nav-group"
+                    data-open={isOpen}
+                    key={group.label}
+                  >
+                    <button
+                      type="button"
+                      aria-expanded={isOpen}
+                      aria-controls={panelId}
+                      onClick={() =>
+                        setOpenMobileGroup(isOpen ? null : group.label)
+                      }
+                    >
+                      {group.label}
+                      <span aria-hidden="true">⌄</span>
+                    </button>
+                    <div
+                      className="mobile-nav-links"
+                      id={panelId}
+                      hidden={!isOpen}
+                    >
+                      {group.links.map((link) => (
+                        <a
+                          href={link.href}
+                          key={link.href}
+                          onClick={closeAllMenus}
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
                   </div>
-                </details>
-              ))}
+                );
+              })}
 
               {directLinks.map((link) => (
-                <a className="nav-direct-link" href={link.href} key={link.href}>
+                <a
+                  className="nav-direct-link"
+                  href={link.href}
+                  key={link.href}
+                  onClick={closeAllMenus}
+                >
                   {link.label}
                 </a>
               ))}
             </nav>
-          </details>
+          </div>
         </div>
       </header>
     </>

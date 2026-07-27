@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { SiteHeader } from "../SiteHeader";
 
 export const metadata: Metadata = {
@@ -209,23 +210,23 @@ export default function MentalExercisesPage() {
             desempenho clínico e não substituem avaliação neuropsicológica, diagnóstico
             ou acompanhamento profissional.
           </p>
-          <a href="/#contato">Conversar com a equipe</a>
+          <Link href="/#contato">Conversar com a equipe</Link>
         </div>
       </aside>
 
       <footer className="exercise-footer">
         <div className="container footer-main">
-          <a className="brand brand-footer brand-logo-link" href="/" aria-label="Integrada Neuropsicologia — início">
+          <Link className="brand brand-footer brand-logo-link" href="/" aria-label="Integrada Neuropsicologia — início">
             <span className="brand-logo-crop" aria-hidden="true">
               <img src="/logo-horizontal.jpg" alt="" width="500" height="500" />
             </span>
-          </a>
+          </Link>
           <p>Avaliando o presente,<br />transformando o futuro.</p>
           <nav aria-label="Links do rodapé">
-            <a href="/#atendimentos">Atendimentos</a>
-            <a href="/#como-funciona">Como funciona</a>
-            <a href="/#duvidas">Dúvidas frequentes</a>
-            <a href="/exercicios-de-estimulacao-mental">Exercícios</a>
+            <Link href="/#atendimentos">Atendimentos</Link>
+            <Link href="/#como-funciona">Como funciona</Link>
+            <Link href="/#duvidas">Dúvidas frequentes</Link>
+            <Link href="/exercicios-de-estimulacao-mental">Exercícios</Link>
           </nav>
         </div>
         <div className="container footer-bottom">

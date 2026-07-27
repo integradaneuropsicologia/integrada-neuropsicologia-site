@@ -1,0 +1,61 @@
+import type { Metadata } from "next";
+import { ServiceDetailPage, type ServiceDetailContent } from "../ServiceDetailPage";
+
+export const metadata: Metadata = {
+  title: "Psicoterapia para Jovens e Adolescentes | Integrada Neuropsicologia",
+  description:
+    "Psicoterapia para adolescentes e jovens, com acolhimento, participação familiar responsável e estratégias para emoções, relações, estudos e transições.",
+};
+
+const content = {
+  eyebrow: "Psicoterapia para jovens e adolescentes",
+  title: "Acolhimento para compreender mudanças e construir novos recursos.",
+  introduction:
+    "A adolescência e o início da vida adulta trazem transformações importantes. A terapia oferece um espaço protegido para falar sobre emoções, relações, identidade, escolhas e desafios da rotina.",
+  image: "/infantojuvenil.png",
+  imageAlt: "Jovem em atividade durante acompanhamento psicológico",
+  whatsappMessage:
+    "Olá! Gostaria de receber orientação sobre psicoterapia para jovens e adolescentes.",
+  indicators: [
+    { label: "Sessões", value: "Periodicidade combinada" },
+    { label: "Formato", value: "Definido na conversa inicial" },
+    { label: "Abordagem", value: "TCC individualizada" },
+  ],
+  signsTitle: "Mudanças persistentes podem indicar que é hora de buscar apoio.",
+  signsIntroduction:
+    "Nem todo desconforto é sinal de um transtorno. O acompanhamento pode ajudar quando o sofrimento ou as dificuldades começam a limitar a vida do jovem.",
+  signs: [
+    "Ansiedade, irritabilidade, tristeza ou isolamento que persistem e afetam a rotina.",
+    "Dificuldades de autoestima, identidade, pertencimento ou imagem corporal.",
+    "Conflitos familiares, desafios nas amizades ou experiências de bullying.",
+    "Procrastinação, queda no desempenho, pressão acadêmica ou dúvidas profissionais.",
+    "Impactos cotidianos relacionados a TDAH, TEA ou outras condições já avaliadas.",
+  ],
+  scopeEyebrow: "O que podemos trabalhar",
+  scopeTitle: "Um espaço para desenvolver voz própria, segurança e autonomia.",
+  topics: [
+    { title: "Emoções e autocuidado", description: "Reconhecimento de necessidades, manejo de ansiedade e construção de práticas de cuidado." },
+    { title: "Relações e comunicação", description: "Limites, habilidades sociais, conflitos e expressão mais segura de sentimentos." },
+    { title: "Estudos e rotina", description: "Organização, hábitos, motivação e estratégias para lidar com demandas acadêmicas." },
+    { title: "Identidade e escolhas", description: "Valores, autoconhecimento, transições e decisões compatíveis com o momento de vida." },
+  ],
+  processTitle: "Vínculo, privacidade e participação responsável da família.",
+  processIntroduction:
+    "A forma de participação dos responsáveis é combinada de acordo com a idade, a demanda e os princípios éticos do atendimento.",
+  steps: [
+    { title: "Conversa inicial", description: "Acolhimento da demanda e compreensão da história e do contexto atual." },
+    { title: "Combinados do acompanhamento", description: "Explicação sobre objetivos, privacidade, participação familiar e funcionamento das sessões." },
+    { title: "Construção de vínculo", description: "Criação de um espaço seguro, respeitando ritmo, linguagem e interesses do jovem." },
+    { title: "Estratégias terapêuticas", description: "Desenvolvimento de recursos emocionais e práticos conectados às situações reais." },
+    { title: "Revisão dos objetivos", description: "Acompanhamento das mudanças e alinhamento dos próximos passos com o jovem." },
+  ],
+  disclaimer:
+    "A psicoterapia não oferece garantia de resultados específicos. Situações de risco, urgência ou demandas que necessitem de avaliação médica ou outro cuidado serão conduzidas conforme critérios éticos, com orientação aos responsáveis quando aplicável.",
+  finalTitle: "Buscar apoio pode transformar a forma de atravessar esta fase.",
+  finalText:
+    "Conte brevemente o que vem acontecendo. A equipe explica como funciona o atendimento e como o jovem pode participar desse primeiro passo.",
+} satisfies ServiceDetailContent;
+
+export default function YouthTherapyPage() {
+  return <ServiceDetailPage content={content} />;
+}

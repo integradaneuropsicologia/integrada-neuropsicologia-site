@@ -2,8 +2,6 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-const root = new URL("../", import.meta.url);
-
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
@@ -57,6 +55,11 @@ test("server-renders every service detail route", async () => {
     ["/avaliacaoneuropsicologicaidoso", "Compreender as mudanças"],
     ["/avaliacaoonline", "Cuidado e rigor técnico"],
     ["/terapiaparaadultos", "Acolhimento, objetivos claros"],
+    ["/avaliacaotdah", "TDAH"],
+    ["/avaliacaoautismo", "autismo"],
+    ["/terapiaparaadultoscomautismo", "autismo"],
+    ["/terapiaparaadultoscomtdah", "TDAH"],
+    ["/terapiafasedavida", "adolescentes"],
   ];
 
   for (const [pathname, marker] of routes) {
@@ -64,10 +67,29 @@ test("server-renders every service detail route", async () => {
     assert.equal(response.status, 200, pathname);
     assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i, pathname);
     const html = await response.text();
-    assert.match(html, new RegExp(marker), pathname);
+    assert.match(html, new RegExp(marker, "i"), pathname);
     assert.match(html, /logo-horizontal\.jpg/, pathname);
     assert.match(html, /wa\.me\/5541992113665/, pathname);
     assert.match(html, /Exercícios de estimulação mental/, pathname);
+  }
+});
+
+test("serves original local pages for every screening and the blog", async () => {
+  const routes = [
+    "/testetdahadulto",
+    "/teste-autismo-adulto",
+    "/teste-tdah-infantil",
+    "/teste-autismo-infantil",
+    "/blog",
+  ];
+
+  for (const pathname of routes) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+    assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i, pathname);
+    const html = await response.text();
+    assert.match(html, /Integrada Neuropsicologia/, pathname);
+    assert.doesNotMatch(html, /https?:\/\/(?:www\.)?integradaneuropsicologia\.com\.br/i, pathname);
   }
 });
 
@@ -102,7 +124,26 @@ test("ships production metadata, local imagery, and responsive styles", async ()
   assert.match(page, /\/hero\.png/);
   assert.match(page, /ContactForm/);
   assert.match(siteHeader, /Exercícios de estimulação mental/);
-  assert.match(siteHeader, /<details/);
+  assert.match(siteHeader, /["']use client["']/);
+  assert.match(siteHeader, /pointerdown/);
+  assert.match(siteHeader, /Escape/);
+  assert.match(siteHeader, /openMenu/);
+  assert.doesNotMatch(siteHeader, /<details/);
+  assert.doesNotMatch(siteHeader, /https?:\/\/(?:www\.)?integradaneuropsicologia\.com\.br/i);
+  for (const href of [
+    "/avaliacaotdah",
+    "/avaliacaoautismo",
+    "/terapiaparaadultoscomautismo",
+    "/terapiaparaadultoscomtdah",
+    "/terapiafasedavida",
+    "/testetdahadulto",
+    "/teste-autismo-adulto",
+    "/teste-tdah-infantil",
+    "/teste-autismo-infantil",
+    "/blog",
+  ]) {
+    assert.match(siteHeader, new RegExp(`href: ["']${href}["']`));
+  }
   assert.doesNotMatch(`${siteHeader}\n${exercisePage}`, /cpfPaciente|SheetDB|data-access|prescrito|restrito/i);
   assert.match(css, /@media \(max-width: 760px\)/);
   assert.match(css, /prefers-reduced-motion/);

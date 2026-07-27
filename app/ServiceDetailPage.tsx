@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SiteHeader } from "./SiteHeader";
 
 const whatsappNumber = "5541992113665";
@@ -53,7 +54,7 @@ export function ServiceDetailPage({ content }: { content: ServiceDetailContent }
       <section className="detail-hero">
         <div className="detail-container detail-hero-grid">
           <div className="detail-hero-copy">
-            <a className="detail-back-link" href="/#atendimentos">← Voltar aos atendimentos</a>
+            <Link className="detail-back-link" href="/#atendimentos">← Voltar aos atendimentos</Link>
             <p className="detail-eyebrow">{content.eyebrow}</p>
             <h1>{content.title}</h1>
             <p className="detail-hero-lead">{content.introduction}</p>
@@ -162,7 +163,7 @@ export function ServiceDetailPage({ content }: { content: ServiceDetailContent }
 
       <footer className="detail-footer">
         <div className="detail-container detail-footer-main">
-          <a className="detail-brand detail-brand-footer" href="/" aria-label="Integrada Neuropsicologia — início">
+          <Link className="detail-brand detail-brand-footer" href="/" aria-label="Integrada Neuropsicologia — início">
             <img
               src="/logo-horizontal.jpg"
               alt="Integrada Neuropsicologia"
@@ -170,13 +171,13 @@ export function ServiceDetailPage({ content }: { content: ServiceDetailContent }
               height="500"
               loading="lazy"
             />
-          </a>
+          </Link>
           <p>Avaliando o presente, transformando o futuro.</p>
           <nav aria-label="Links do rodapé">
-            <a href="/#atendimentos">Atendimentos</a>
-            <a href="/#como-funciona">Como funciona</a>
-            <a href="/#duvidas">Dúvidas frequentes</a>
-            <a href="/exercicios-de-estimulacao-mental">Exercícios de estimulação mental</a>
+            <Link href="/#atendimentos">Atendimentos</Link>
+            <Link href="/#como-funciona">Como funciona</Link>
+            <Link href="/#duvidas">Dúvidas frequentes</Link>
+            <Link href="/exercicios-de-estimulacao-mental">Exercícios de estimulação mental</Link>
           </nav>
         </div>
         <div className="detail-container detail-footer-bottom">
