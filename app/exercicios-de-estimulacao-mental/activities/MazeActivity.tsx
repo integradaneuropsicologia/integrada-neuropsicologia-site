@@ -109,6 +109,7 @@ function shortestPathLength(grid: string[]) {
 export function MazeActivity() {
   const [levelIndex, setLevelIndex] = useState(0);
   const [position, setPosition] = useState(() => findCell(levels[0].grid, "S"));
+  const [trail, setTrail] = useState<Position[]>(() => [findCell(levels[0].grid, "S")]);
   const [moves, setMoves] = useState(0);
   const [complete, setComplete] = useState(false);
   const [feedback, setFeedback] = useState(
@@ -126,7 +127,9 @@ export function MazeActivity() {
   const resetLevel = useCallback(
     (nextLevelIndex = levelIndex) => {
       setLevelIndex(nextLevelIndex);
-      setPosition(findCell(levels[nextLevelIndex].grid, "S"));
+      const nextStart = findCell(levels[nextLevelIndex].grid, "S");
+      setPosition(nextStart);
+      setTrail([nextStart]);
       setMoves(0);
       setComplete(false);
       setFeedback("Percurso reiniciado. Planeje a rota antes de mover.");
@@ -151,6 +154,7 @@ export function MazeActivity() {
 
       const nextMoves = moves + 1;
       setPosition(next);
+      setTrail((currentTrail) => [...currentTrail, next]);
       setMoves(nextMoves);
 
       if (next.row === goal.row && next.column === goal.column) {
@@ -242,7 +246,10 @@ export function MazeActivity() {
         onKeyDown={handleBoardKeyDown}
         aria-describedby="maze-keyboard-instructions"
         aria-label={`Labirinto ${level.name}, com ${level.grid.length} linhas e ${level.grid[0].length} colunas. Sua posição está na linha ${position.row + 1}, coluna ${position.column + 1}. A chegada está na linha ${goal.row + 1}, coluna ${goal.column + 1}.`}
-        style={{ "--maze-columns": level.grid[0].length } as CSSProperties}
+        style={{
+          "--maze-columns": level.grid[0].length,
+          "--maze-rows": level.grid.length,
+        } as CSSProperties}
       >
         {level.grid.flatMap((row, rowIndex) =>
           [...row].map((cell, columnIndex) => {
@@ -250,9 +257,12 @@ export function MazeActivity() {
               position.row === rowIndex && position.column === columnIndex;
             const isGoal = cell === "G";
             const isWall = cell === "#";
+            const isTrail = trail.some(
+              (visited) => visited.row === rowIndex && visited.column === columnIndex,
+            );
             return (
               <span
-                className={`maze-cell${isWall ? " is-wall" : ""}${isGoal ? " is-goal" : ""}${isPlayer ? " is-player" : ""}`}
+                className={`maze-cell${isWall ? " is-wall" : ""}${isTrail && !isPlayer ? " is-trail" : ""}${isGoal ? " is-goal" : ""}${isPlayer ? " is-player" : ""}`}
                 aria-hidden="true"
                 key={`${rowIndex}-${columnIndex}`}
               >

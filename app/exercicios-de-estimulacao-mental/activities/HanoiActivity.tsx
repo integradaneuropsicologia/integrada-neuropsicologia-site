@@ -132,12 +132,21 @@ export function HanoiActivity() {
       <div className="game-board hanoi-board" role="group" aria-label="Três estacas da Torre de Hanói">
         {rods.map((rod, rodIndex) => {
           const topDisk = rod[rod.length - 1];
+          const selectedDisk =
+            selectedRod === null
+              ? undefined
+              : rods[selectedRod][rods[selectedRod].length - 1];
+          const isValidTarget =
+            selectedRod !== null &&
+            selectedRod !== rodIndex &&
+            selectedDisk !== undefined &&
+            (topDisk === undefined || topDisk > selectedDisk);
           return (
             <button
               type="button"
-              className={`hanoi-rod${selectedRod === rodIndex ? " is-selected" : ""}`}
+              className={`hanoi-rod${selectedRod === rodIndex ? " is-selected" : ""}${isValidTarget ? " is-valid-target" : ""}`}
               aria-pressed={selectedRod === rodIndex}
-              aria-label={`Estaca ${rodIndex + 1}, ${rod.length === 0 ? "vazia" : `${rod.length} discos, de baixo para cima: ${rod.join(", ")}; disco do topo: ${topDisk}`}${selectedRod === rodIndex ? "; selecionada" : ""}`}
+              aria-label={`Estaca ${rodIndex + 1}, ${rod.length === 0 ? "vazia" : `${rod.length} discos, de baixo para cima: ${rod.join(", ")}; disco do topo: ${topDisk}`}${selectedRod === rodIndex ? "; selecionada" : ""}${isValidTarget ? "; destino válido" : ""}`}
               key={rodIndex}
               onClick={() => selectRod(rodIndex)}
             >

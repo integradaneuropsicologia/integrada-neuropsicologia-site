@@ -1,6 +1,6 @@
 "use client";
 
-import type { ComponentType } from "react";
+import { useCallback, useEffect, useRef, useState, type ComponentType } from "react";
 import { ActionOrderActivity } from "./activities/ActionOrderActivity";
 import { CircleHuntActivity } from "./activities/CircleHuntActivity";
 import { ColorChallengeActivity } from "./activities/ColorChallengeActivity";
@@ -46,6 +46,56 @@ const activityBySlug: Record<ExerciseSlug, ComponentType> = {
 
 export function ExercisePlayer({ slug }: { slug: ExerciseSlug }) {
   const Activity = activityBySlug[slug];
+  const [focusMode, setFocusMode] = useState(false);
+  const shellRef = useRef<HTMLDivElement>(null);
+  const openFocusButtonRef = useRef<HTMLButtonElement>(null);
+  const closeFocusButtonRef = useRef<HTMLButtonElement>(null);
+  const restoreOpenButtonFocus = useCallback(() => {
+    window.requestAnimationFrame(() => openFocusButtonRef.current?.focus());
+  }, []);
+
+  useEffect(() => {
+    if (!focusMode) return;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    closeFocusButtonRef.current?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setFocusMode(false);
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const focusableElements = Array.from(
+        shellRef.current?.querySelectorAll<HTMLElement>(
+          'button:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((element) => element.offsetParent !== null);
+      const first = focusableElements[0];
+      const last = focusableElements[focusableElements.length - 1];
+      if (!first || !last) return;
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      restoreOpenButtonFocus();
+    };
+  }, [focusMode, restoreOpenButtonFocus]);
 
   if (!Activity) {
     return (
@@ -55,5 +105,42 @@ export function ExercisePlayer({ slug }: { slug: ExerciseSlug }) {
     );
   }
 
-  return <Activity />;
+  return (
+    <div
+      ref={shellRef}
+      className={`exercise-play-shell${focusMode ? " is-focus-mode" : ""}`}
+      role={focusMode ? "dialog" : undefined}
+      aria-modal={focusMode ? true : undefined}
+      aria-label={focusMode ? "Exercício em modo foco" : undefined}
+    >
+      <div className="exercise-play-shell-bar">
+        <div>
+          <span aria-hidden="true">●</span>
+          <p><strong>Área de prática</strong><small>Tabuleiro e controles organizados na mesma tela</small></p>
+        </div>
+        {focusMode ? (
+          <button
+            ref={closeFocusButtonRef}
+            type="button"
+            className="game-secondary"
+            onClick={() => setFocusMode(false)}
+          >
+            Sair do modo foco <span aria-hidden="true">×</span>
+          </button>
+        ) : (
+          <button
+            ref={openFocusButtonRef}
+            type="button"
+            className="game-secondary"
+            onClick={() => setFocusMode(true)}
+          >
+            Ampliar exercício <span aria-hidden="true">⛶</span>
+          </button>
+        )}
+      </div>
+      <div className="exercise-play-canvas">
+        <Activity />
+      </div>
+    </div>
+  );
 }

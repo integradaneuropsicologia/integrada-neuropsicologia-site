@@ -139,7 +139,7 @@ export function GhostReflexActivity() {
 
       <button
         type="button"
-        className="game-board ghost-reflex-board"
+        className={`game-board ghost-reflex-board ghost-${phase}${phase === "stimulus" ? ` is-${stimulus}` : ""}`}
         onClick={resolveClick}
         disabled={phase === "idle" || phase === "done"}
         aria-label={phase === "stimulus" ? (stimulus === "target" ? "Fantasma alvo" : "Personagem distrator") : "Área de estímulo vazia"}

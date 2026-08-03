@@ -193,14 +193,19 @@ export function PegSolitaireActivity() {
         {board.flatMap((row, rowIndex) =>
           row.map((cell, columnIndex) => {
             const isSelected = selected?.row === rowIndex && selected.column === columnIndex;
+            const isValidTarget = Boolean(
+              selected &&
+              cell === false &&
+              isLegalMove(board, selected, { row: rowIndex, column: columnIndex }),
+            );
             if (cell === null) {
               return <span className="peg-cell is-outside" aria-hidden="true" key={`${rowIndex}-${columnIndex}`} />;
             }
             return (
               <button
                 type="button"
-                className={`peg-cell${cell ? " has-peg" : " is-empty"}${isSelected ? " is-selected" : ""}`}
-                aria-label={`Linha ${rowIndex + 1}, coluna ${columnIndex + 1}: ${cell ? "com peça" : "vazia"}${isSelected ? ", selecionada" : ""}`}
+                className={`peg-cell${cell ? " has-peg" : " is-empty"}${isSelected ? " is-selected" : ""}${isValidTarget ? " is-valid-target" : ""}`}
+                aria-label={`Linha ${rowIndex + 1}, coluna ${columnIndex + 1}: ${cell ? "com peça" : "vazia"}${isSelected ? ", selecionada" : ""}${isValidTarget ? ", destino válido" : ""}`}
                 aria-pressed={isSelected}
                 key={`${rowIndex}-${columnIndex}`}
                 onClick={() => chooseCell({ row: rowIndex, column: columnIndex })}
