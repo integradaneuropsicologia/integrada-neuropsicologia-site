@@ -432,27 +432,87 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 .testimonials { background: var(--paper); }
 .testimonial-heading { text-align: center; }
 .testimonial-heading h2 { max-width: 700px; margin: 0 auto; }
-.testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.testimonial-grid figure {
+.google-reviews {
+  display: grid;
+  grid-template-columns: minmax(250px, .58fr) minmax(0, 1.42fr);
+  gap: 24px;
+  align-items: stretch;
+}
+.google-review-summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 36px;
+  border-radius: 18px;
+  background: var(--forest-deep);
+  color: white;
+}
+.google-review-source { margin: 0; color: #c8d8d2; font-size: 14px; font-weight: 800; }
+.google-average-rating { display: flex; align-items: center; gap: 16px; margin-top: 24px; }
+.google-average-rating > strong { font: 400 56px/1 var(--serif); }
+.google-average-rating .stars { display: block; }
+.google-average-rating small { display: block; margin-top: 5px; color: #b7cbc4; font-size: 10px; }
+.google-review-intro { max-width: 230px; margin: 24px 0 0; color: #d3dfdb; font: 400 22px/1.4 var(--serif); }
+.google-review-summary > a {
+  width: fit-content;
+  margin-top: 30px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(255,255,255,.55);
+  font-size: 11px;
+  font-weight: 800;
+}
+.google-review-summary > a span { margin-left: 5px; color: #e49b87; }
+.google-review-order { max-width: 260px; margin-top: 22px; color: #8da9a1; font-size: 8px; line-height: 1.5; }
+.google-review-stage { min-width: 0; display: flex; flex-direction: column; }
+.google-review-stage figure {
   position: relative;
-  min-height: 350px;
+  min-height: 370px;
   display: flex;
   flex-direction: column;
   margin: 0;
-  padding: 32px;
+  padding: clamp(30px, 5vw, 52px);
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 18px;
   background: var(--cream);
+  animation: testimonial-enter 440ms ease both;
 }
 .stars { color: #d18a45; font-size: 12px; letter-spacing: 0.12em; }
-.testimonial-grid blockquote { position: relative; z-index: 1; margin: 24px 0 36px; font: 400 18px/1.65 var(--serif); }
-.testimonial-grid figcaption { display: flex; align-items: center; gap: 12px; margin-top: auto; }
-.testimonial-grid figcaption > span { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--sage); color: var(--forest); font-family: var(--serif); font-weight: 700; }
-.testimonial-grid figcaption strong, .testimonial-grid figcaption small { display: block; }
-.testimonial-grid figcaption strong { font-size: 12px; }
-.testimonial-grid figcaption small { margin-top: 2px; color: var(--ink-soft); font-size: 9px; }
-.quote-number { position: absolute; right: 20px; bottom: -20px; color: rgba(23, 77, 71, 0.06); font: 700 100px/1 var(--serif); }
+.review-card-topline { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.review-card-topline > span:last-child { color: #7b8d89; font-size: 9px; font-weight: 800; letter-spacing: .12em; }
+.google-review-stage blockquote { position: relative; z-index: 1; max-width: 760px; margin: 30px 0 38px; font: 400 clamp(20px, 2.2vw, 27px)/1.55 var(--serif); }
+.google-review-stage figcaption { position: relative; z-index: 1; display: flex; align-items: center; gap: 13px; margin-top: auto; }
+.google-review-stage figcaption > span { width: 42px; height: 42px; display: grid; place-items: center; flex-shrink: 0; border-radius: 50%; background: var(--sage); color: var(--forest); font-family: var(--serif); font-weight: 700; }
+.google-review-stage figcaption strong, .google-review-stage figcaption a, .google-review-stage figcaption small { display: block; }
+.google-review-stage figcaption strong, .google-review-stage figcaption a { font-size: 12px; font-weight: 800; }
+.google-review-stage figcaption a:hover { color: var(--coral); }
+.google-review-stage figcaption small { margin-top: 2px; color: var(--ink-soft); font-size: 9px; }
+.review-source-link { position: relative; z-index: 1; width: fit-content; margin: 22px 0 0 55px; color: var(--forest); font-size: 9px; font-weight: 800; }
+.review-source-link:hover { color: var(--coral); }
+.quote-mark { position: absolute; right: 24px; bottom: -45px; color: rgba(23, 77, 71, 0.055); font: 700 180px/1 var(--serif); }
+.testimonial-controls { display: flex; align-items: center; justify-content: space-between; gap: 22px; margin-top: 18px; }
+.testimonial-arrows { display: flex; gap: 8px; }
+.testimonial-arrows button {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--forest);
+  cursor: pointer;
+  font-size: 17px;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+.testimonial-arrows button:hover { background: var(--forest); color: white; transform: translateY(-2px); }
+.testimonial-dots { display: flex; align-items: center; gap: 8px; }
+.testimonial-dots button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 999px; background: #b9c4c0; cursor: pointer; transition: width 180ms ease, background 180ms ease; }
+.testimonial-dots button.is-active { width: 28px; background: var(--coral); }
+@keyframes testimonial-enter {
+  from { opacity: 0; transform: translateX(18px); }
+  to { opacity: 1; transform: translateX(0); }
+}
 
 .faq-grid { display: grid; grid-template-columns: 0.78fr 1.22fr; gap: 100px; }
 .faq-grid > div > p { margin-top: 24px; }
@@ -1281,9 +1341,11 @@ section[aria-labelledby="word-emoji-title"] .game-board .game-control small { fo
   .service-image { height: 280px; }
   .service-body p { min-height: 0; }
   .process-grid, .difference-grid, .faq-grid, .contact-grid { gap: 48px; }
-  .difference-cards, .testimonial-grid { grid-template-columns: 1fr; }
+  .difference-cards { grid-template-columns: 1fr; }
   .difference-cards article { min-height: 190px; }
-  .testimonial-grid figure { min-height: 315px; }
+  .google-reviews { grid-template-columns: 1fr; }
+  .google-review-summary { padding: 28px; }
+  .google-review-stage figure { min-height: 360px; }
   .contact-section { padding: 80px 0; }
   .contact-form { grid-template-columns: 1fr; padding: 27px 22px; }
   .contact-form label, .form-heading, .contact-form label:nth-of-type(3), .form-button, .form-privacy { grid-column: 1; }

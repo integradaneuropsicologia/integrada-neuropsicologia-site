@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ContactForm } from "./ContactForm";
+import { GoogleReviewsCarousel } from "./GoogleReviewsCarousel";
 import { SiteHeader } from "./SiteHeader";
 
 const whatsapp =
@@ -55,24 +56,6 @@ const services = [
     alt: "Sessão de psicoterapia em ambiente acolhedor",
     message: "psicoterapia TCC",
     href: "/terapiaparaadultos",
-  },
-];
-
-const testimonials = [
-  {
-    quote:
-      "Atendimento excepcional! Do início do contato até o final das avaliações e as sessões de terapia, todo o processo foi absurdamente incrível.",
-    name: "Mariana Sousa",
-  },
-  {
-    quote:
-      "Com sensibilidade, profissionalismo e escuta atenta, a Dra. Carla me ajudou a compreender aspectos da minha vida que por muito tempo estiveram sem explicação.",
-    name: "Hugo Beraldi",
-  },
-  {
-    quote:
-      "A equipe da Integrada Neuropsicologia é incrível e muito profissional. Só tenho a elogiar e a agradecer!",
-    name: "Ana Paula",
   },
 ];
 
@@ -256,19 +239,7 @@ export default function Home() {
             <p className="eyebrow">Quem passou por aqui recomenda</p>
             <h2>Histórias de quem encontrou respostas.</h2>
           </div>
-          <div className="testimonial-grid">
-            {testimonials.map((testimonial, index) => (
-              <figure key={testimonial.name}>
-                <div className="stars" aria-label="5 estrelas">★★★★★</div>
-                <blockquote>“{testimonial.quote}”</blockquote>
-                <figcaption>
-                  <span>{testimonial.name.slice(0, 1)}</span>
-                  <div><strong>{testimonial.name}</strong><small>Avaliação publicada no Google</small></div>
-                </figcaption>
-                <span className="quote-number" aria-hidden="true">0{index + 1}</span>
-              </figure>
-            ))}
-          </div>
+          <GoogleReviewsCarousel />
         </div>
       </section>
 
