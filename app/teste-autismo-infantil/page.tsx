@@ -3,9 +3,9 @@ import { ScreeningPage } from "../ScreeningPage";
 import { childAutismScreening } from "../screeningContent";
 
 export const metadata: Metadata = {
-  title: "Reflexão sobre Autismo na Infância | Integrada Neuropsicologia",
+  title: "Rastreamento de Autismo Infantil | Integrada Neuropsicologia",
   description:
-    "Conteúdo educativo para responsáveis refletirem sobre comunicação, interação e sensorialidade infantil, sem pontuação ou diagnóstico.",
+    "Questionário gratuito de rastreamento de sinais relacionados à comunicação, interação, flexibilidade e sensorialidade infantil.",
 };
 
 export default function ChildAutismScreeningPage() {

@@ -3,9 +3,9 @@ import { ScreeningPage } from "../ScreeningPage";
 import { childAdhdScreening } from "../screeningContent";
 
 export const metadata: Metadata = {
-  title: "Reflexão sobre TDAH na Infância | Integrada Neuropsicologia",
+  title: "Rastreamento de TDAH Infantil | Integrada Neuropsicologia",
   description:
-    "Checklist educativo para responsáveis organizarem observações sobre atenção e autorregulação infantil, sem pontuação ou diagnóstico.",
+    "Questionário gratuito para responsáveis observarem sinais de desatenção, hiperatividade, impulsividade e comportamento infantil.",
 };
 
 export default function ChildAdhdScreeningPage() {

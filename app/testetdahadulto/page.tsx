@@ -3,9 +3,9 @@ import { ScreeningPage } from "../ScreeningPage";
 import { adultAdhdScreening } from "../screeningContent";
 
 export const metadata: Metadata = {
-  title: "Reflexão sobre TDAH em Adultos | Integrada Neuropsicologia",
+  title: "Rastreamento de TDAH em Adultos | Integrada Neuropsicologia",
   description:
-    "Checklist educativo para organizar observações sobre atenção, organização e impulsividade na vida adulta, sem pontuação ou diagnóstico.",
+    "Questionário gratuito de rastreamento de sinais de desatenção, organização, hiperatividade e impulsividade em adultos.",
 };
 
 export default function AdultAdhdScreeningPage() {

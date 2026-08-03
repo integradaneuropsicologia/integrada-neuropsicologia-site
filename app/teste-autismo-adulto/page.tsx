@@ -3,9 +3,9 @@ import { ScreeningPage } from "../ScreeningPage";
 import { adultAutismScreening } from "../screeningContent";
 
 export const metadata: Metadata = {
-  title: "Reflexão sobre Autismo em Adultos | Integrada Neuropsicologia",
+  title: "Rastreamento de Autismo em Adultos | Integrada Neuropsicologia",
   description:
-    "Conteúdo educativo para refletir sobre comunicação, sensorialidade e previsibilidade na vida adulta, sem pontuação ou diagnóstico.",
+    "Questionário gratuito de rastreamento de sinais relacionados à comunicação social, rigidez, sensorialidade e masking em adultos.",
 };
 
 export default function AdultAutismScreeningPage() {

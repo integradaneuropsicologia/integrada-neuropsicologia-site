@@ -1,41 +1,82 @@
+"use client";
+
 import Link from "next/link";
+import { FormEvent, useState } from "react";
 import { InformationalFooter } from "./InformationalFooter";
+import { calculateScreeningResult, type CalculatedScreeningResult } from "./screeningScoring";
+import type { ScreeningContent } from "./screeningContent";
 import { SiteHeader } from "./SiteHeader";
 
 const whatsappNumber = "5541992113665";
-
-type Topic = { title: string; description: string };
-
-export type ScreeningContent = {
-  slug: string;
-  eyebrow: string;
-  title: string;
-  introduction: string;
-  image: string;
-  imageAlt: string;
-  checklistTitle: string;
-  checklistIntroduction: string;
-  checklist: string[];
-  contextTitle: string;
-  contextIntroduction: string;
-  contextTopics: Topic[];
-  nextStepTitle: string;
-  nextStepText: string;
-  assessmentHref: string;
-  assessmentLabel: string;
-  whatsappMessage: string;
-};
 
 function whatsappHref(message: string) {
   return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
 
 export function ScreeningPage({ content }: { content: ScreeningContent }) {
+  const initialVariant = content.variants?.[0]?.id ?? "default";
+  const [variantId, setVariantId] = useState(initialVariant);
+  const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [showErrors, setShowErrors] = useState(false);
+  const [result, setResult] = useState<CalculatedScreeningResult | null>(null);
+
+  const activeVariant = content.variants?.find((variant) => variant.id === variantId);
+  const activeSections = activeVariant ? activeVariant.sections : (content.sections ?? []);
+  const questions = activeSections.flatMap((section) => section.questions);
+  const answeredCount = questions.reduce(
+    (total, _, index) => total + (answers[index] === undefined ? 0 : 1),
+    0,
+  );
+
+  function chooseAnswer(questionIndex: number, value: number) {
+    setAnswers((current) => ({ ...current, [questionIndex]: value }));
+    setResult(null);
+  }
+
+  function chooseVariant(nextVariantId: string) {
+    setVariantId(nextVariantId);
+    setAnswers({});
+    setShowErrors(false);
+    setResult(null);
+  }
+
+  function submitScreening(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const firstMissingIndex = questions.findIndex((_, index) => answers[index] === undefined);
+
+    if (firstMissingIndex >= 0) {
+      setShowErrors(true);
+      setResult(null);
+      requestAnimationFrame(() => {
+        document.getElementById(`${content.slug}-question-${firstMissingIndex + 1}`)?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      });
+      return;
+    }
+
+    setShowErrors(false);
+    setResult(calculateScreeningResult({ content, questions, answers, variantLabel: activeVariant?.label }));
+    requestAnimationFrame(() => {
+      document.getElementById(`${content.slug}-result`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  function resetScreening() {
+    setAnswers({});
+    setShowErrors(false);
+    setResult(null);
+    document.getElementById("rastreamento")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  let runningIndex = 0;
+
   return (
-    <main className="detail-page">
+    <main className="detail-page screening-page">
       <SiteHeader />
 
-      <section className="detail-hero">
+      <section className="detail-hero screening-hero">
         <div className="detail-container detail-hero-grid">
           <div className="detail-hero-copy">
             <Link className="detail-back-link" href="/">← Voltar ao início</Link>
@@ -43,9 +84,9 @@ export function ScreeningPage({ content }: { content: ScreeningContent }) {
             <h1>{content.title}</h1>
             <p className="detail-hero-lead">{content.introduction}</p>
             <div className="detail-hero-actions">
-              <a className="detail-button" href="#reflexao">Começar a reflexão</a>
+              <a className="detail-button" href="#rastreamento">Começar o rastreamento</a>
               <a className="detail-text-link" href="#como-interpretar">
-                Como usar este conteúdo <span aria-hidden="true">↓</span>
+                Como interpretar <span aria-hidden="true">↓</span>
               </a>
             </div>
           </div>
@@ -55,45 +96,122 @@ export function ScreeningPage({ content }: { content: ScreeningContent }) {
         </div>
       </section>
 
-      <section className="detail-indicators" aria-label="Características do conteúdo">
-        <div className="detail-container detail-indicator-grid">
-          <div className="detail-indicator"><span>Finalidade</span><strong>Auto-observação educativa</strong></div>
-          <div className="detail-indicator"><span>Resultado</span><strong>Sem pontuação diagnóstica</strong></div>
-          <div className="detail-indicator"><span>Privacidade</span><strong>Nenhuma resposta é enviada</strong></div>
-        </div>
-      </section>
-
-      <section className="detail-section detail-signs" id="reflexao">
-        <div className="detail-container detail-two-columns">
-          <div className="detail-section-heading">
-            <p className="detail-eyebrow">Checklist reflexivo</p>
-            <h2>{content.checklistTitle}</h2>
-            <p>{content.checklistIntroduction}</p>
-            <p>
-              Marque apenas para organizar suas observações. A marcação fica nesta tela, não é salva e não gera
-              resultado, classificação ou diagnóstico.
-            </p>
+      <section className="screening-questionnaire" id="rastreamento">
+        <div className="detail-container">
+          <div className="screening-heading">
+            <p className="detail-eyebrow">Teste gratuito de rastreamento</p>
+            <h2>{content.questionnaireTitle}</h2>
+            <p>{content.questionnaireIntroduction}</p>
           </div>
-          <ul className="detail-check-list" aria-label="Itens para reflexão">
-            {content.checklist.map((item, index) => {
-              const inputId = `${content.slug}-item-${index + 1}`;
-              return (
-                <li key={item}>
-                  <input
-                    id={inputId}
-                    type="checkbox"
-                    aria-describedby={`${content.slug}-orientation`}
-                    style={{ width: 22, height: 22, marginTop: 5, accentColor: "#174d47" }}
-                  />
-                  <p><label htmlFor={inputId}>{item}</label></p>
-                </li>
-              );
-            })}
-          </ul>
+
+          {content.variants && (
+            <fieldset className="screening-variant-picker">
+              <legend>Selecione a faixa da criança</legend>
+              <div>
+                {content.variants.map((variant) => (
+                  <label key={variant.id}>
+                    <input
+                      type="radio"
+                      name={`${content.slug}-variant`}
+                      value={variant.id}
+                      checked={variantId === variant.id}
+                      onChange={() => chooseVariant(variant.id)}
+                    />
+                    <span>{variant.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          )}
+
+          <form className="screening-form" onSubmit={submitScreening} noValidate>
+            <div className="screening-progress" aria-live="polite">
+              <span>{answeredCount} de {questions.length} respondidas</span>
+              <progress value={answeredCount} max={questions.length} aria-label="Progresso do rastreamento" />
+            </div>
+
+            {activeSections.map((section) => (
+              <section className="screening-question-section" key={section.title}>
+                {section.title && <h3>{section.title}</h3>}
+                <div className="screening-question-list">
+                  {section.questions.map((question) => {
+                    const questionIndex = runningIndex++;
+                    const questionNumber = questionIndex + 1;
+                    const isMissing = showErrors && answers[questionIndex] === undefined;
+                    const questionId = `${content.slug}-question-${questionNumber}`;
+
+                    return (
+                      <fieldset
+                        className={`screening-question${isMissing ? " screening-question-error" : ""}`}
+                        id={questionId}
+                        key={`${variantId}-${questionNumber}-${question.text}`}
+                      >
+                        <legend><span>{questionNumber}.</span> {question.text}</legend>
+                        {question.category && <p>Área observada: {content.categoryLabels?.[question.category] ?? question.category}</p>}
+                        <div className={`screening-options screening-options-${content.options.length}`}>
+                          {content.options.map((option) => {
+                            const optionId = `${questionId}-option-${option.value}`;
+                            return (
+                              <div className="screening-option" key={option.value}>
+                                <input
+                                  id={optionId}
+                                  type="radio"
+                                  name={`${content.slug}-answer-${questionNumber}`}
+                                  value={option.value}
+                                  checked={answers[questionIndex] === option.value}
+                                  onChange={() => chooseAnswer(questionIndex, option.value)}
+                                />
+                                <label htmlFor={optionId}>{option.label}</label>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        {isMissing && <span className="screening-question-message">Selecione uma opção.</span>}
+                      </fieldset>
+                    );
+                  })}
+                </div>
+              </section>
+            ))}
+
+            {showErrors && answeredCount < questions.length && (
+              <p className="screening-form-error" role="alert">
+                Responda todas as perguntas destacadas antes de ver o resultado.
+              </p>
+            )}
+
+            <button className="detail-button screening-submit" type="submit">Ver meu resultado</button>
+          </form>
+
+          {result && (
+            <section
+              className={`screening-result screening-result-${result.tone}`}
+              id={`${content.slug}-result`}
+              aria-live="polite"
+            >
+              <p className="detail-eyebrow">Seu rastreamento</p>
+              <h2>{result.title}</h2>
+              <p className="screening-result-lead">{result.description}</p>
+              <ul>
+                {result.metrics.map((metric) => (
+                  <li key={metric.label}><strong>{metric.label}:</strong> {metric.value}</li>
+                ))}
+              </ul>
+              <p className="screening-result-note"><strong>Importante:</strong> {result.disclaimer}</p>
+              <div className="screening-result-actions">
+                <a
+                  className="detail-button"
+                  href={whatsappHref(result.whatsappMessage)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Enviar resultado pelo WhatsApp
+                </a>
+                <button className="screening-reset" type="button" onClick={resetScreening}>Refazer teste</button>
+              </div>
+            </section>
+          )}
         </div>
-        <p id={`${content.slug}-orientation`} hidden>
-          Este checklist é educativo, não validado e não produz diagnóstico.
-        </p>
       </section>
 
       <section className="detail-section detail-scope" id="como-interpretar">
@@ -115,31 +233,12 @@ export function ScreeningPage({ content }: { content: ScreeningContent }) {
         </div>
       </section>
 
-      <section className="detail-section detail-process">
-        <div className="detail-container detail-process-grid">
-          <div className="detail-section-heading">
-            <p className="detail-eyebrow">Próximos passos</p>
-            <h2>Observação é um ponto de partida, não uma conclusão.</h2>
-            <p>
-              Se os desafios são persistentes ou trazem impacto à vida cotidiana, uma conversa profissional pode
-              ajudar a compreender o contexto e definir o cuidado adequado.
-            </p>
-          </div>
-          <ol className="detail-process-list">
-            <li><span>01</span><div><h3>Observe situações concretas</h3><p>Anote quando as dificuldades aparecem, há quanto tempo e o que ajuda ou piora.</p></div></li>
-            <li><span>02</span><div><h3>Considere diferentes contextos</h3><p>Rotina, sono, saúde, demandas ambientais e momento emocional também influenciam o comportamento.</p></div></li>
-            <li><span>03</span><div><h3>Procure orientação qualificada</h3><p>Uma avaliação integra história, entrevistas, observação e instrumentos adequados — nunca um item isolado.</p></div></li>
-          </ol>
-        </div>
-      </section>
-
       <aside className="detail-disclaimer">
         <div className="detail-container">
           <strong>Importante</strong>
           <p>
-            Este é um material educativo e não validado, sem valor de teste, laudo ou diagnóstico. Os itens não
-            reproduzem instrumentos psicológicos e não substituem avaliação com profissional habilitado. Marcar um ou
-            vários itens não confirma nem exclui nenhuma condição.
+            Este rastreamento não confirma nem exclui diagnóstico. A interpretação adequada considera história de
+            vida, desenvolvimento, intensidade dos sinais, prejuízo funcional e outras possíveis explicações.
           </p>
         </div>
       </aside>

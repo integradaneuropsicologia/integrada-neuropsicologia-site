@@ -107,22 +107,50 @@ test("server-renders every service detail route", async () => {
 });
 
 test("serves original local pages for every screening and the blog", async () => {
-  const routes = [
-    "/testetdahadulto",
-    "/teste-autismo-adulto",
-    "/teste-tdah-infantil",
-    "/teste-autismo-infantil",
-    "/blog",
+  const screenings = [
+    ["/testetdahadulto", 18, "comete erros por falta de atenção"],
+    ["/teste-autismo-adulto", 30, "Minhas dificuldades sociais"],
+    ["/teste-tdah-infantil", 26, "controlar suas emoções"],
+    ["/teste-autismo-infantil", 25, "desenvolvimento social ou comunicativo"],
   ];
 
-  for (const pathname of routes) {
+  for (const [pathname, questionCount, finalQuestionMarker] of screenings) {
     const response = await render(pathname);
     assert.equal(response.status, 200, pathname);
     assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i, pathname);
     const html = await response.text();
     assert.match(html, /Integrada Neuropsicologia/, pathname);
+    assert.match(html, /Ver meu resultado/, pathname);
+    assert.match(html, new RegExp(finalQuestionMarker, "i"), pathname);
+    assert.equal(
+      (html.match(/<fieldset\b[^>]*class="screening-question"/g) ?? []).length,
+      questionCount,
+      `${pathname} must render every base question`,
+    );
+    assert.doesNotMatch(html, /Auto-observação educativa|Sem pontuação diagnóstica|Nenhuma resposta é enviada/i, pathname);
     assert.doesNotMatch(html, /https?:\/\/(?:www\.)?integradaneuropsicologia\.com\.br/i, pathname);
   }
+
+  const blogResponse = await render("/blog");
+  assert.equal(blogResponse.status, 200);
+  const blogHtml = await blogResponse.text();
+  assert.match(blogHtml, /Integrada Neuropsicologia/);
+  assert.doesNotMatch(blogHtml, /https?:\/\/(?:www\.)?integradaneuropsicologia\.com\.br/i);
+});
+
+test("keeps the base scoring thresholds and result WhatsApp action", async () => {
+  const [screeningPage, scoring] = await Promise.all([
+    readFile(new URL("../app/ScreeningPage.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/screeningScoring.ts", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(screeningPage, /Enviar resultado pelo WhatsApp/);
+  assert.match(screeningPage, /Refazer teste/);
+  assert.match(scoring, /inattentive >= 5 \|\| hyperactive >= 5/);
+  assert.match(scoring, /counts\.inattentive >= 6 \|\| counts\.hyperactive >= 6 \|\| counts\.oppositional >= 6/);
+  assert.match(scoring, /relevantIndicators >= 17 \|\| total >= 50/);
+  assert.match(scoring, /relevantIndicators >= 14 \|\| total >= 42/);
+  assert.match(scoring, /wa\.me|whatsappMessage/);
 });
 
 test("serves every mental exercise without an access gate", async () => {
