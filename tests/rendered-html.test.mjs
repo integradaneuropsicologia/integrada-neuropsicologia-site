@@ -144,7 +144,7 @@ test("keeps the base scoring thresholds and result WhatsApp action", async () =>
     readFile(new URL("../app/screeningScoring.ts", import.meta.url), "utf8"),
   ]);
 
-  assert.match(screeningPage, /Enviar resultado pelo WhatsApp/);
+  assert.match(screeningPage, /Saber mais sobre resultado/);
   assert.match(screeningPage, /Refazer teste/);
   assert.match(scoring, /inattentive >= 5 \|\| hyperactive >= 5/);
   assert.match(scoring, /counts\.inattentive >= 6 \|\| counts\.hyperactive >= 6 \|\| counts\.oppositional >= 6/);

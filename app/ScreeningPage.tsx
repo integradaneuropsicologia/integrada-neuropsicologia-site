@@ -205,7 +205,7 @@ export function ScreeningPage({ content }: { content: ScreeningContent }) {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Enviar resultado pelo WhatsApp
+                  Saber mais sobre resultado
                 </a>
                 <button className="screening-reset" type="button" onClick={resetScreening}>Refazer teste</button>
               </div>
