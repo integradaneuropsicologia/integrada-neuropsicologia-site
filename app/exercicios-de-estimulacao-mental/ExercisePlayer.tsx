@@ -44,7 +44,13 @@ const activityBySlug: Record<ExerciseSlug, ComponentType> = {
   "palavra-emoji": WordEmojiActivity,
 };
 
-export function ExercisePlayer({ slug }: { slug: ExerciseSlug }) {
+export function ExercisePlayer({
+  slug,
+  standalone = false,
+}: {
+  slug: ExerciseSlug;
+  standalone?: boolean;
+}) {
   const Activity = activityBySlug[slug];
   const [focusMode, setFocusMode] = useState(false);
   const shellRef = useRef<HTMLDivElement>(null);
@@ -102,6 +108,16 @@ export function ExercisePlayer({ slug }: { slug: ExerciseSlug }) {
       <p className="game-feedback" role="alert">
         Esta atividade não está disponível no momento.
       </p>
+    );
+  }
+
+  if (standalone) {
+    return (
+      <div className="exercise-play-shell is-standalone" role="region" aria-label="Área interativa do exercício">
+        <div className="exercise-play-canvas">
+          <Activity />
+        </div>
+      </div>
     );
   }
 

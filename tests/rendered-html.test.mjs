@@ -195,7 +195,7 @@ test("serves every mental exercise without an access gate", async () => {
   assert.doesNotMatch(html, /name="cpf"|cpfPaciente|SheetDB|data-access|prescrito|restrito/i);
 });
 
-test("server-renders all 19 original mental exercise pages", async () => {
+test("server-renders all 19 exercise guides and isolated activity windows", async () => {
   for (const [slug, title, contentMarker] of mentalExercises) {
     const pathname = `/exercicios-de-estimulacao-mental/${slug}`;
     const response = await render(pathname);
@@ -207,8 +207,24 @@ test("server-renders all 19 original mental exercise pages", async () => {
     assert.ok(normalizedHtml.includes(title), `${pathname} must render its title`);
     assert.match(normalizedHtml, new RegExp(contentMarker, "i"), pathname);
     assert.match(html, new RegExp(`src="/exercises/${slug}\\.webp"`), pathname);
-    assert.match(normalizedHtml, /Sua vez de praticar/, pathname);
+    assert.match(normalizedHtml, /Iniciar exercício/, pathname);
+    assert.match(html, new RegExp(`href="${pathname}/atividade"`), pathname);
+    assert.match(html, /target="_blank"/, pathname);
+    assert.match(html, /rel="noopener noreferrer"/, pathname);
+    assert.doesNotMatch(html, /exercise-play-shell/, pathname);
     assert.doesNotMatch(html, oldWixUrl, pathname);
+
+    const activityPathname = `${pathname}/atividade`;
+    const activityResponse = await render(activityPathname);
+    assert.equal(activityResponse.status, 200, activityPathname);
+    assert.match(activityResponse.headers.get("content-type") ?? "", /^text\/html\b/i, activityPathname);
+
+    const activityHtml = normalizeHtml(await activityResponse.text());
+    assert.ok(activityHtml.includes(title), `${activityPathname} must render its title`);
+    assert.match(activityHtml, /exercise-window-page/, activityPathname);
+    assert.match(activityHtml, /exercise-play-shell is-standalone/, activityPathname);
+    assert.match(activityHtml, /Voltar às instruções/, activityPathname);
+    assert.doesNotMatch(activityHtml, oldWixUrl, activityPathname);
   }
 });
 

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { InformationalFooter } from "../../InformationalFooter";
 import { SiteHeader } from "../../SiteHeader";
-import { ExercisePlayer } from "../ExercisePlayer";
 import {
   exerciseCatalog,
   getExercise,
@@ -61,6 +60,7 @@ export default async function ExerciseDetailPage({ params }: ExercisePageProps) 
   if (!exercise) notFound();
 
   const relatedExercises = exercise.related.map(getExercise).filter(isExercise);
+  const activityHref = `/exercicios-de-estimulacao-mental/${exercise.slug}/atividade`;
 
   return (
     <main className="exercise-detail-page">
@@ -80,7 +80,14 @@ export default async function ExerciseDetailPage({ params }: ExercisePageProps) 
             <h1>{exercise.title}</h1>
             <p className="exercise-detail-lead">{exercise.description}</p>
             <div className="exercise-detail-actions">
-              <a className="game-primary" href="#atividade">Começar exercício</a>
+              <Link
+                className="game-primary"
+                href={activityHref}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Iniciar exercício <span aria-hidden="true">↗</span>
+              </Link>
               <Link className="game-secondary" href="/exercicios-de-estimulacao-mental">
                 Ver biblioteca
               </Link>
@@ -148,14 +155,28 @@ export default async function ExerciseDetailPage({ params }: ExercisePageProps) 
         </div>
       </section>
 
-      <section className="exercise-player-section" id="atividade" aria-labelledby="activity-heading">
-        <div className="container">
-          <div className="exercise-player-heading">
-            <p className="eyebrow">Área interativa</p>
-            <h2 id="activity-heading">Sua vez de praticar</h2>
-            <p>Reserve alguns minutos sem interrupções e ajuste o nível quando houver essa opção.</p>
+      <section className="exercise-launch-section" aria-labelledby="launch-title">
+        <div className="container exercise-launch-inner">
+          <div>
+            <p className="eyebrow">Pronto para praticar?</p>
+            <h2 id="launch-title">Abra o exercício em uma janela própria.</h2>
+            <p>
+              Assim, o tabuleiro e todos os controles ficam em destaque, enquanto esta
+              página permanece aberta para você consultar as instruções quando precisar.
+            </p>
           </div>
-          <ExercisePlayer slug={exercise.slug} />
+          <div className="exercise-launch-action">
+            <Link
+              className="game-primary exercise-launch-button"
+              href={activityHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-describedby="launch-window-note"
+            >
+              Iniciar exercício <span aria-hidden="true">↗</span>
+            </Link>
+            <small id="launch-window-note">Abre em uma nova janela.</small>
+          </div>
         </div>
       </section>
 
