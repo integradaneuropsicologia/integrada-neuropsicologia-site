@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ContactForm } from "./ContactForm";
-import { GoogleReviewsCarousel } from "./GoogleReviewsCarousel";
 import { SiteHeader } from "./SiteHeader";
+import { TestimonialsCarousel } from "./TestimonialsCarousel";
 
 const whatsapp =
   "https://wa.me/5541992113665?text=Ol%C3%A1%21%20Gostaria%20de%20entender%20qual%20atendimento%20%C3%A9%20mais%20indicado%20para%20mim.";
@@ -239,7 +239,7 @@ export default function Home() {
             <p className="eyebrow">Quem passou por aqui recomenda</p>
             <h2>Histórias de quem encontrou respostas.</h2>
           </div>
-          <GoogleReviewsCarousel />
+          <TestimonialsCarousel />
         </div>
       </section>
 
