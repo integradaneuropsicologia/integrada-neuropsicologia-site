@@ -114,6 +114,10 @@ test("describes the school-context analysis in the child assessment process", as
   assert.match(html, /professores e pedagogos da criança/i);
   assert.match(html, /compreender o contexto escolar/i);
   assert.match(html, /autorização da família/i);
+  assert.match(html, /investigação clínica aprofundada/i);
+  assert.match(html, /percurso terapêutico e os cuidados mais adequados/i);
+  assert.match(html, /maior previsibilidade e bem-estar/i);
+  assert.doesNotMatch(html, /diagnóstico pronto/i);
 });
 
 test("serves original local pages for every screening and the blog", async () => {

@@ -78,7 +78,7 @@ const content = {
     },
   ],
   disclaimer:
-    "A avaliação não parte de um diagnóstico pronto e não garante a confirmação de uma hipótese específica. Seu objetivo é compreender o perfil da criança ou do adolescente e orientar cuidados coerentes com os resultados.",
+    "A avaliação não parte de um diagnóstico previamente estabelecido nem garante a confirmação de uma hipótese específica. Seu propósito é realizar uma investigação clínica aprofundada, buscando compreender o perfil global da criança ou do adolescente e identificar os fatores que podem estar relacionados ao seu sofrimento. A partir dos resultados, será possível indicar o percurso terapêutico e os cuidados mais adequados, favorecendo um desenvolvimento saudável, seguro, com maior previsibilidade e bem-estar.",
   finalTitle: "Você não precisa organizar todas as dúvidas antes de conversar.",
   finalText:
     "Conte o que vem sendo observado. A equipe ajuda a entender se a avaliação é indicada e como o processo pode ser planejado.",
