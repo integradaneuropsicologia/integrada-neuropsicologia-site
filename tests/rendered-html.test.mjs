@@ -106,6 +106,16 @@ test("server-renders every service detail route", async () => {
   }
 });
 
+test("describes the school-context analysis in the child assessment process", async () => {
+  const response = await render("/avaliacaoinfantil");
+  assert.equal(response.status, 200);
+
+  const html = normalizeHtml(await response.text());
+  assert.match(html, /professores e pedagogos da criança/i);
+  assert.match(html, /compreender o contexto escolar/i);
+  assert.match(html, /autorização da família/i);
+});
+
 test("serves original local pages for every screening and the blog", async () => {
   const screenings = [
     ["/testetdahadulto", 18, "comete erros por falta de atenção"],

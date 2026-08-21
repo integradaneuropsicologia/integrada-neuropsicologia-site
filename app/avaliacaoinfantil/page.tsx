@@ -69,7 +69,8 @@ const content = {
     },
     {
       title: "Integração de informações",
-      description: "Análise conjunta dos resultados e, quando pertinente e autorizado, diálogo com escola e outros profissionais.",
+      description:
+        "Análise conjunta dos resultados e, com autorização da família, conversa com professores e pedagogos da criança para compreender o contexto escolar, além do diálogo com outros profissionais quando pertinente.",
     },
     {
       title: "Devolutiva e laudo",
