@@ -18,12 +18,12 @@ const content = {
     "Olá! Gostaria de receber orientação sobre avaliação neuropsicológica para adultos.",
   indicators: [
     { label: "Sessões", value: "Planejamento individual" },
-    { label: "Formato", value: "Presencial em Curitiba" },
+    { label: "Formato", value: "Presencial, on-line ou híbrido" },
     { label: "Entrega", value: "Devolutiva e laudo" },
   ],
   signsTitle: "Quando as dificuldades começam a afetar a vida cotidiana.",
   signsIntroduction:
-    "A avaliação pode ajudar a diferenciar possibilidades e dimensionar o impacto funcional, sem reduzir sua história a um rótulo.",
+    "A avaliação ajuda a compreender melhor o que pode estar acontecendo e o quanto isso interfere no dia a dia, sem resumir sua história a um diagnóstico.",
   signs: [
     "Dificuldade frequente para manter o foco, organizar tarefas ou cumprir prazos.",
     "Esquecimentos, sensação de sobrecarga ou queda no desempenho acadêmico e profissional.",
@@ -69,7 +69,8 @@ const content = {
     },
     {
       title: "Integração clínica",
-      description: "Análise dos resultados em conjunto com a história e o funcionamento cotidiano.",
+      description:
+        "Análise dos resultados em conjunto com a história, o funcionamento cotidiano e, com autorização do paciente, informações de pessoas próximas indicadas pelo próprio paciente, incorporando outros olhares à investigação.",
     },
     {
       title: "Devolutiva e laudo",

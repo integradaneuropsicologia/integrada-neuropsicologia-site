@@ -120,6 +120,19 @@ test("describes the school-context analysis in the child assessment process", as
   assert.doesNotMatch(html, /diagnóstico pronto/i);
 });
 
+test("describes formats and external perspectives in the adult assessment", async () => {
+  const response = await render("/avaliacaoneuropsicologicaadulto");
+  assert.equal(response.status, 200);
+
+  const html = normalizeHtml(await response.text());
+  assert.match(html, /Presencial, on-line ou híbrido/i);
+  assert.match(html, /o quanto isso interfere no dia a dia/i);
+  assert.match(html, /sem resumir sua história a um diagnóstico/i);
+  assert.match(html, /com autorização do paciente/i);
+  assert.match(html, /pessoas próximas indicadas pelo próprio paciente/i);
+  assert.match(html, /outros olhares à investigação/i);
+});
+
 test("serves original local pages for every screening and the blog", async () => {
   const screenings = [
     ["/testetdahadulto", 18, "comete erros por falta de atenção"],
