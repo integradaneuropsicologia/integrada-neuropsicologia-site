@@ -161,6 +161,28 @@ test("renders the revised psychotherapy content for adults with ADHD", async () 
   assert.doesNotMatch(html, /obstáculos e recaídas/i);
 });
 
+test("renders the revised psychotherapy content for young people and adolescents", async () => {
+  const response = await render("/terapiafasedavida");
+  assert.equal(response.status, 200);
+
+  const html = normalizeHtml(await response.text());
+  assert.match(html, /Veja quando a psicoterapia pode ser indicada/i);
+  assert.match(html, /Acompanhamento<\/span><strong>Periodicidade definida em conjunto/i);
+  assert.match(html, /Formato<\/span><strong>Definido na conversa inicial/i);
+  assert.match(html, /Abordagem<\/span><strong>TCC individualizada/i);
+  assert.match(html, /A participação dos responsáveis é definida conforme a idade/i);
+  assert.match(html, /preservando o sigilo e os princípios éticos aplicáveis/i);
+  assert.match(html, /sigilo, seus limites, participação dos responsáveis/i);
+  assert.match(html, /Este serviço não se destina ao atendimento de situações de urgência ou emergência/i);
+  assert.match(html, /os limites do sigilo são conduzidos conforme critérios técnicos e éticos/i);
+  assert.match(html, /Buscar apoio pode ajudar a atravessar esta fase com mais recursos/i);
+  assert.match(html, /a psicóloga responsável analisa a adequação do serviço à demanda apresentada/i);
+  assert.match(html, /Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08\/39739/i);
+  assert.doesNotMatch(html, /Periodicidade combinada/i);
+  assert.doesNotMatch(html, /privacidade, participação familiar/i);
+  assert.doesNotMatch(html, /pode transformar a forma de atravessar/i);
+});
+
 test("describes the school-context analysis in the child assessment process", async () => {
   const response = await render("/avaliacaoinfantil");
   assert.equal(response.status, 200);

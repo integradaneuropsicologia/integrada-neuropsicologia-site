@@ -16,8 +16,9 @@ const content = {
   imageAlt: "Jovem em atividade durante acompanhamento psicológico",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre psicoterapia para jovens e adolescentes.",
+  secondaryActionLabel: "Veja quando a psicoterapia pode ser indicada",
   indicators: [
-    { label: "Sessões", value: "Periodicidade combinada" },
+    { label: "Acompanhamento", value: "Periodicidade definida em conjunto" },
     { label: "Formato", value: "Definido na conversa inicial" },
     { label: "Abordagem", value: "TCC individualizada" },
   ],
@@ -41,19 +42,21 @@ const content = {
   ],
   processTitle: "Vínculo, privacidade e participação responsável da família.",
   processIntroduction:
-    "A forma de participação dos responsáveis é combinada de acordo com a idade, a demanda e os princípios éticos do atendimento.",
+    "A participação dos responsáveis é definida conforme a idade, a demanda e as necessidades do acompanhamento, preservando o sigilo e os princípios éticos aplicáveis.",
   steps: [
     { title: "Conversa inicial", description: "Acolhimento da demanda e compreensão da história e do contexto atual." },
-    { title: "Combinados do acompanhamento", description: "Explicação sobre objetivos, privacidade, participação familiar e funcionamento das sessões." },
+    { title: "Combinados do acompanhamento", description: "Explicação sobre objetivos, sigilo, seus limites, participação dos responsáveis e funcionamento das sessões." },
     { title: "Construção de vínculo", description: "Criação de um espaço seguro, respeitando ritmo, linguagem e interesses do jovem." },
     { title: "Estratégias terapêuticas", description: "Desenvolvimento de recursos emocionais e práticos conectados às situações reais." },
     { title: "Revisão dos objetivos", description: "Acompanhamento das mudanças e alinhamento dos próximos passos com o jovem." },
   ],
   disclaimer:
-    "A psicoterapia não oferece garantia de resultados específicos. Situações de risco, urgência ou demandas que necessitem de avaliação médica ou outro cuidado serão conduzidas conforme critérios éticos, com orientação aos responsáveis quando aplicável.",
-  finalTitle: "Buscar apoio pode transformar a forma de atravessar esta fase.",
+    "A psicoterapia não oferece garantia de resultados específicos. Quando houver necessidade de avaliação médica ou de outros cuidados, serão discutidos os encaminhamentos pertinentes. Este serviço não se destina ao atendimento de situações de urgência ou emergência. Em atendimentos de adolescentes, a participação dos responsáveis e os limites do sigilo são conduzidos conforme critérios técnicos e éticos.",
+  finalTitle: "Buscar apoio pode ajudar a atravessar esta fase com mais recursos.",
   finalText:
-    "Conte brevemente o que vem acontecendo. A equipe explica como funciona o atendimento e como o jovem pode participar desse primeiro passo.",
+    "Conte brevemente o que vem acontecendo. A equipe explica como funciona o atendimento, e a psicóloga responsável analisa a adequação do serviço à demanda apresentada.",
+  technicalResponsibility:
+    "Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08/39739",
 } satisfies ServiceDetailContent;
 
 export default function YouthTherapyPage() {
