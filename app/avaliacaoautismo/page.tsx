@@ -8,18 +8,19 @@ export const metadata: Metadata = {
 };
 
 const content = {
-  eyebrow: "Avaliação neuropsicológica para TEA / Autismo",
+  eyebrow: "Avaliação neuropsicológica para investigação de TEA (autismo)",
   title: "Compreender características, necessidades e potencialidades com respeito à singularidade.",
   introduction:
     "A investigação considera a história do desenvolvimento, a comunicação, as relações, os interesses, o perfil sensorial e o funcionamento cotidiano, sem reduzir a pessoa a uma lista de sinais.",
-  image: "/infantojuvenil.png",
-  imageAlt: "Pessoa participando de atividade durante avaliação neuropsicológica",
+  image: "/avaliacao-tea-geral.png",
+  imageAlt: "Pessoas de diferentes idades em conversa com uma psicóloga",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre avaliação neuropsicológica para investigar TEA/autismo.",
+  secondaryActionLabel: "Veja quando a avaliação pode ser indicada",
   indicators: [
-    { label: "Sessões", value: "Planejamento por faixa etária" },
-    { label: "Formato", value: "Definido após triagem" },
-    { label: "Entrega", value: "Devolutiva e laudo" },
+    { label: "Processo", value: "8 encontros" },
+    { label: "Formato", value: "Presencial para crianças e adolescentes; presencial ou on-line para adultos, após análise de adequação" },
+    { label: "Entrega", value: "Devolutiva e laudo psicológico" },
   ],
   signsTitle: "Algumas características podem justificar uma avaliação especializada.",
   signsIntroduction:
@@ -41,19 +42,21 @@ const content = {
   ],
   processTitle: "A avaliação reúne perspectivas e contextos diferentes.",
   processIntroduction:
-    "Os procedimentos são escolhidos de acordo com idade, linguagem, necessidades de acessibilidade e pergunta clínica.",
+    "A avaliação é organizada em 8 encontros. A distribuição das etapas e a seleção dos procedimentos são definidas conforme a idade, a linguagem, as necessidades de acessibilidade e os objetivos da avaliação.",
   steps: [
     { title: "Entrevista inicial", description: "Compreensão da história do desenvolvimento, da rotina e das principais dúvidas." },
     { title: "Plano de investigação", description: "Seleção de instrumentos, observações e fontes de informação adequadas." },
     { title: "Encontros de avaliação", description: "Atividades, testes e observação clínica com os ajustes necessários à participação." },
-    { title: "Integração das informações", description: "Análise do conjunto de dados e, quando autorizado, diálogo com familiares ou profissionais." },
-    { title: "Devolutiva e recomendações", description: "Apresentação dos achados, das hipóteses e dos apoios que podem favorecer o cotidiano." },
+    { title: "Integração das informações", description: "Análise integrada dos resultados, da história e do funcionamento cotidiano. Quando pertinente e mediante autorização da pessoa avaliada ou de seus responsáveis legais, podem ser consideradas informações de familiares, da escola ou de outros profissionais." },
+    { title: "Devolutiva e laudo psicológico", description: "Apresentação dos achados, das hipóteses consideradas, dos limites da avaliação e das recomendações para os próximos passos." },
   ],
   disclaimer:
-    "A avaliação não parte de um diagnóstico previamente estabelecido nem garante a confirmação de uma hipótese específica. Seu propósito é realizar uma investigação clínica aprofundada, buscando compreender o perfil global da pessoa avaliada e identificar os fatores que podem estar relacionados ao seu sofrimento. A partir dos resultados, será possível indicar o percurso terapêutico e os cuidados mais adequados, favorecendo um desenvolvimento saudável, seguro, com maior previsibilidade e bem-estar.",
+    "A avaliação não tem como objetivo confirmar automaticamente um diagnóstico ou uma hipótese previamente formulada. Seu propósito é investigar, de forma integrada, o desenvolvimento e o funcionamento cognitivo, emocional, comportamental, social e sensorial da pessoa, considerando sua história e seus diferentes contextos de vida. Os resultados podem contribuir para a análise da hipótese de TEA, de outras condições que apresentem características semelhantes e das necessidades de apoio identificadas, além de subsidiar recomendações e encaminhamentos.",
   finalTitle: "Uma avaliação responsável também reconhece recursos e necessidades.",
   finalText:
-    "Compartilhe suas dúvidas e o momento de vida da pessoa que será avaliada. A equipe orienta como a investigação pode ser organizada.",
+    "Compartilhe suas dúvidas e o momento de vida da pessoa que será avaliada. A equipe explica como funciona o processo, e a psicóloga responsável analisa se a avaliação é indicada e qual modalidade é adequada para a demanda apresentada.",
+  technicalResponsibility:
+    "Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08/39739",
 } satisfies ServiceDetailContent;
 
 export default function AutismAssessmentPage() {

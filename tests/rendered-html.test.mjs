@@ -162,7 +162,6 @@ test("renders the revised adult assessment content", async () => {
 test("uses the requested notice across assessment pages", async () => {
   for (const pathname of [
     "/avaliacaoneuropsicologicaidoso",
-    "/avaliacaoautismo",
   ]) {
     const response = await render(pathname);
     assert.equal(response.status, 200, pathname);
@@ -174,6 +173,35 @@ test("uses the requested notice across assessment pages", async () => {
     assert.match(html, /percurso terapêutico e os cuidados mais adequados/i, pathname);
     assert.match(html, /maior previsibilidade e bem-estar/i, pathname);
   }
+});
+
+test("renders the revised autism assessment content and general image", async () => {
+  await access(new URL("../public/avaliacao-tea-geral.png", import.meta.url));
+  const response = await render("/avaliacaoautismo");
+  assert.equal(response.status, 200);
+
+  const html = normalizeHtml(await response.text());
+  assert.match(html, /Avaliação neuropsicológica para investigação de TEA \(autismo\)/i);
+  assert.match(html, /Veja quando a avaliação pode ser indicada/i);
+  assert.match(html, /Processo<\/span><strong>8 encontros/i);
+  assert.match(html, /Presencial para crianças e adolescentes; presencial ou on-line para adultos, após análise de adequação/i);
+  assert.match(html, /Entrega<\/span><strong>Devolutiva e laudo psicológico/i);
+  assert.match(html, /A avaliação é organizada em 8 encontros/i);
+  assert.match(html, /necessidades de acessibilidade e os objetivos da avaliação/i);
+  assert.match(html, /mediante autorização da pessoa avaliada ou de seus responsáveis legais/i);
+  assert.match(html, /informações de familiares, da escola ou de outros profissionais/i);
+  assert.match(html, /Devolutiva e laudo psicológico/i);
+  assert.match(html, /das hipóteses consideradas, dos limites da avaliação/i);
+  assert.match(html, /funcionamento cognitivo, emocional, comportamental, social e sensorial/i);
+  assert.match(html, /análise da hipótese de TEA/i);
+  assert.match(html, /necessidades de apoio identificadas/i);
+  assert.match(html, /psicóloga responsável analisa se a avaliação é indicada/i);
+  assert.match(html, /qual modalidade é adequada/i);
+  assert.match(html, /Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08\/39739/i);
+  assert.match(html, /src="\/avaliacao-tea-geral\.png"/i);
+  assert.match(html, /alt="Pessoas de diferentes idades em conversa com uma psicóloga"/i);
+  assert.doesNotMatch(html, /src="\/infantojuvenil\.png"/i);
+  assert.doesNotMatch(html, /Planejamento por faixa etária/i);
 });
 
 test("renders the revised ADHD assessment content", async () => {
