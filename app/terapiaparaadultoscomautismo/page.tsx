@@ -16,8 +16,9 @@ const content = {
   imageAlt: "Sessão de psicoterapia em ambiente acolhedor",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre psicoterapia para adultos autistas.",
+  secondaryActionLabel: "Veja quando a psicoterapia pode ser indicada",
   indicators: [
-    { label: "Sessões", value: "Periodicidade combinada" },
+    { label: "Acompanhamento", value: "Periodicidade definida em conjunto" },
     { label: "Formato", value: "On-line" },
     { label: "Abordagem", value: "TCC individualizada" },
   ],
@@ -50,10 +51,12 @@ const content = {
     { title: "Revisão do percurso", description: "Avaliação periódica do que ajuda, do que precisa ser adaptado e dos próximos passos." },
   ],
   disclaimer:
-    "A psicoterapia é individualizada e não tem como objetivo normalizar comportamentos ou prometer resultados específicos. Quando houver demanda médica, situação de urgência ou necessidade de outro cuidado, serão discutidos encaminhamentos apropriados.",
+    "A psicoterapia é individualizada e não tem como objetivo normalizar comportamentos nem oferece garantia de resultados específicos. Quando houver necessidade de avaliação médica ou de outros cuidados, serão discutidos os encaminhamentos pertinentes. Este serviço não se destina ao atendimento de situações de urgência ou emergência.",
   finalTitle: "O cuidado pode começar por um espaço em que você não precise se encaixar.",
   finalText:
-    "Conte o que você gostaria de trabalhar e quais adaptações favorecem sua participação. A equipe explica como funciona o acompanhamento.",
+    "Conte o que você gostaria de trabalhar e quais adaptações favorecem sua participação. A equipe explica como funciona o acompanhamento, e a psicóloga responsável analisa a adequação do serviço à demanda apresentada.",
+  technicalResponsibility:
+    "Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08/39739",
 } satisfies ServiceDetailContent;
 
 export default function AutismAdultTherapyPage() {
