@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
-import { AnalyticsConsent } from "./AnalyticsConsent";
+import { CookieConsent } from "@/components/CookieConsent";
+import {
+  GoogleConsentDefaults,
+  GoogleTagManagerHead,
+  GoogleTagManagerNoScript,
+  resolveGtmContainerId,
+} from "@/components/GoogleTagManager";
 import { JsonLd, organizationJsonLd, websiteJsonLd } from "./seo";
 import { siteConfig } from "./siteConfig";
 import "./globals.css";
+import "./landing.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -34,12 +41,19 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const gtmContainerId = resolveGtmContainerId(siteConfig.googleTagManagerId);
+
   return (
     <html lang="pt-BR">
+      <head>
+        <GoogleConsentDefaults />
+        <GoogleTagManagerHead containerId={gtmContainerId} />
+      </head>
       <body>
+        <GoogleTagManagerNoScript containerId={gtmContainerId} />
         <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
         {children}
-        <AnalyticsConsent />
+        <CookieConsent />
       </body>
     </html>
   );

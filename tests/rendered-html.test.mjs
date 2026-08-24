@@ -95,7 +95,7 @@ test("server-renders every service detail route", async () => {
     ["/avaliacaoinfantil", "Compreender o desenvolvimento"],
     ["/avaliacaoneuropsicologicaadulto", "Clareza para compreender"],
     ["/avaliacaoneuropsicologicaidoso", "Compreender as mudanças"],
-    ["/avaliacao-neuropsicologica-online-adultos", "Avaliação neuropsicológica on-line para adultos"],
+    ["/avaliacao-neuropsicologica-online-adultos", "100% on-line para adultos"],
     ["/terapiaparaadultos", "Acolhimento, objetivos claros"],
     ["/avaliacaotdah", "TDAH"],
     ["/avaliacaoautismo", "autismo"],
@@ -110,9 +110,15 @@ test("server-renders every service detail route", async () => {
     assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i, pathname);
     const html = await response.text();
     assert.match(html, new RegExp(marker, "i"), pathname);
-    assert.match(html, /logo-horizontal\.jpg/, pathname);
+    if (pathname === "/avaliacao-neuropsicologica-online-adultos") {
+      assert.match(html, /landing-logo\.png/, pathname);
+    } else {
+      assert.match(html, /logo-horizontal\.jpg/, pathname);
+    }
     assert.match(html, /wa\.me\/5541992113665/, pathname);
-    assert.match(html, /Exercícios de estimulação mental/, pathname);
+    if (pathname !== "/avaliacao-neuropsicologica-online-adultos") {
+      assert.match(html, /Exercícios de estimulação mental/, pathname);
+    }
   }
 });
 
@@ -328,40 +334,44 @@ test("renders the revised ADHD assessment content", async () => {
   assert.doesNotMatch(html, /\*A viabilidade on-line depende de triagem prévia/i);
 });
 
-test("combines the adult clinical process with the online format", async () => {
+test("serves the Google Ads landing with its original conversion structure", async () => {
   const response = await render("/avaliacao-neuropsicologica-online-adultos");
   assert.equal(response.status, 200);
 
   const html = normalizeHtml(await response.text());
-  assert.match(html, /funcionamento cognitivo, emocional e funcional de adultos/i);
-  assert.match(html, /indicação técnica e condições adequadas de participação/i);
-  assert.match(html, /Veja quando pode ser indicada/i);
-  assert.match(html, /Processo<\/span><strong>8 encontros/i);
-  assert.match(html, /On-line, após análise de adequação/i);
-  assert.match(html, /Devolutiva e laudo psicológico digital/i);
-  assert.match(html, /alterações de humor/i);
-  assert.match(html, /manifestações semelhantes/i);
-  assert.match(html, /procedimentos são definidos conforme a demanda e as condições do atendimento remoto/i);
-  assert.match(html, /A avaliação é organizada em 8 encontros/i);
-  assert.match(html, /procedimentos e instrumentos compatíveis com aplicação remota/i);
-  assert.match(html, /Entrevista clínica por vídeo/i);
-  assert.match(html, /Definição do plano e orientação técnica/i);
-  assert.match(html, /instrumentos e fontes de informação adequados à demanda e à modalidade/i);
-  assert.match(html, /ambiente reservado/i);
-  assert.match(html, /Integração clínica/i);
-  assert.match(html, /quando pertinente e autorizado/i);
-  assert.match(html, /pessoas próximas ou de outros profissionais/i);
-  assert.match(html, /limites da avaliação e das recomendações/i);
-  assert.match(html, /funcionamento cognitivo, emocional e comportamental da pessoa/i);
-  assert.match(html, /modalidade presencial ou outro encaminhamento/i);
-  assert.match(html, /Verifique se a modalidade on-line é adequada para a sua necessidade/i);
-  assert.match(html, /psicóloga responsável analisa a adequação da modalidade/i);
+  assert.match(html, /Entenda o que está por trás das dificuldades de foco, memória, organização e relacionamento/i);
+  assert.match(html, /Avaliação planejada para ser 100% on-line/i);
+  assert.match(html, /Brasileiros com 18 anos ou mais, no Brasil e no exterior/i);
+  assert.match(html, /name="privacy-consent"/i);
+  assert.match(html, /data-form-location="hero"/i);
+  assert.match(html, /data-form-location="contact_section"/i);
+  assert.match(html, /id="para-quem"/i);
+  assert.match(html, /id="como-funciona"/i);
+  assert.match(html, /id="o-que-investiga"/i);
+  assert.match(html, /id="duvidas"/i);
+  assert.match(html, /id="avaliacoes"/i);
+  assert.match(html, /id="contato"/i);
+  assert.match(html, /landing-hero-online\.webp/i);
   assert.match(html, /Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08\/39739/i);
-  assert.doesNotMatch(html, /Planejamento individual/i);
-  assert.doesNotMatch(html, /incorporando outros olhares à investigação/i);
-  assert.doesNotMatch(html, /Antes de iniciar, a equipe verifica/i);
-  assert.doesNotMatch(html, /Quando o formato não for indicado/i);
-  assert.doesNotMatch(html, /Nem toda demanda pode ser avaliada integralmente on-line/i);
+  assert.equal((html.match(/data-tracking-event="whatsapp_click"/g) ?? []).length, 7);
+  assert.equal((html.match(/data-tracking-event="phone_click"/g) ?? []).length, 1);
+  assert.equal((html.match(/data-tracking-event="google_reviews_click"/g) ?? []).length, 1);
+  assert.match(html, /analytics_storage:\s*'denied'/i);
+  assert.match(html, /ad_storage:\s*'denied'/i);
+  assert.match(html, /ad_user_data:\s*'denied'/i);
+  assert.match(html, /ad_personalization:\s*'denied'/i);
+  assert.match(html, /wait_for_update:\s*500/i);
+  const consentDefaultsIndex = html.indexOf('data-google-consent-defaults="true"');
+  const consentUpdateIndex = html.indexOf("window.gtag('consent', 'update'");
+  const gtmHeadIndex = html.indexOf('data-google-tag-manager="head"');
+  assert.ok(consentDefaultsIndex >= 0);
+  assert.ok(consentUpdateIndex > consentDefaultsIndex);
+  assert.ok(gtmHeadIndex > consentUpdateIndex);
+  assert.equal((html.match(/data-google-tag-manager="head"/g) ?? []).length, 1);
+  assert.equal((html.match(/data-google-tag-manager="body"/g) ?? []).length, 1);
+  assert.doesNotMatch(html, /googletagmanager\.com\/gtag\/js|G-KN0F1TETG2|GT-NCN22HRP/i);
+  assert.doesNotMatch(html, /Triagem para confirmar a modalidade on-line/i);
+  assert.doesNotMatch(html, /quando indicado na triagem/i);
 });
 
 test("serves original local pages for every screening and the blog", async () => {
