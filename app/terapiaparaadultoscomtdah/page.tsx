@@ -1,18 +1,20 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 import { ServiceDetailPage, type ServiceDetailContent } from "../ServiceDetailPage";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Psicoterapia para Adultos com TDAH | Integrada Neuropsicologia",
   description:
     "Psicoterapia para adultos com TDAH, com estratégias individualizadas para organização, regulação emocional, relacionamentos e rotina.",
-};
+  path: "/terapiaparaadultoscomtdah",
+});
 
 const content = {
+  canonicalPath: "/terapiaparaadultoscomtdah",
   eyebrow: "Psicoterapia para adultos com TDAH",
   title: "Estratégias possíveis para uma rotina que respeite seu funcionamento.",
   introduction:
     "A psicoterapia ajuda a compreender padrões, reduzir sofrimento e experimentar ferramentas para lidar com atenção, impulsividade, emoções e demandas cotidianas.",
-  image: "/terapia.png",
+  image: "/terapia.webp",
   imageAlt: "Conversa entre profissional e pessoa adulta durante psicoterapia",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre psicoterapia para adultos com TDAH.",
@@ -55,6 +57,11 @@ const content = {
   finalTitle: "Você não precisa resolver tudo de uma vez para começar.",
   finalText:
     "Explique quais situações mais pesam hoje. A equipe explica como funciona o acompanhamento, e a psicóloga responsável analisa a adequação do serviço à demanda apresentada.",
+  relatedLinks: [
+    { label: "Avaliação neuropsicológica on-line para adultos", href: "/avaliacao-neuropsicologica-online-adultos" },
+    { label: "Como funciona a investigação de TDAH", href: "/avaliacaotdah" },
+    { label: "Rastreamento informativo de TDAH em adultos", href: "/testetdahadulto" },
+  ],
   technicalResponsibility:
     "Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08/39739",
 } satisfies ServiceDetailContent;

@@ -1,7 +1,16 @@
 import Link from "next/link";
+import { blogArticles } from "./blogArticles";
 import { ContactForm } from "./ContactForm";
+import { createPageMetadata } from "./seo";
 import { SiteHeader } from "./SiteHeader";
 import { TestimonialsCarousel } from "./TestimonialsCarousel";
+
+export const metadata = createPageMetadata({
+  title: "Avaliação Neuropsicológica | Integrada Neuropsicologia",
+  description:
+    "Avaliação neuropsicológica para crianças, adolescentes, adultos e pessoas idosas, com atendimento presencial em Curitiba e modalidades on-line conforme o serviço.",
+  path: "/",
+});
 
 const whatsapp =
   "https://wa.me/5541992113665?text=Ol%C3%A1%21%20Gostaria%20de%20entender%20qual%20atendimento%20%C3%A9%20mais%20indicado%20para%20mim.";
@@ -12,7 +21,7 @@ const services = [
     title: "Infantojuvenil",
     description:
       "Desenvolvimento, aprendizagem, TDAH, TEA, altas habilidades e regulação emocional.",
-    image: "/infantojuvenil.png",
+    image: "/infantojuvenil.webp",
     alt: "Criança em atividade lúdica durante acompanhamento profissional",
     message: "avaliação infantojuvenil",
     href: "/avaliacaoinfantil",
@@ -22,7 +31,7 @@ const services = [
     title: "Adultos",
     description:
       "Atenção, memória, organização, ansiedade e mudanças no funcionamento cognitivo.",
-    image: "/adulto.png",
+    image: "/adulto.webp",
     alt: "Aplicação de instrumento de avaliação neuropsicológica em adulto",
     message: "avaliação neuropsicológica para adultos",
     href: "/avaliacaoneuropsicologicaadulto",
@@ -32,7 +41,7 @@ const services = [
     title: "Idosos",
     description:
       "Esquecimentos, autonomia, avaliação pré-operatória e monitoramento cognitivo.",
-    image: "/idoso.png",
+    image: "/idoso.webp",
     alt: "Pessoa idosa em atividade de cuidado e atenção",
     message: "avaliação neuropsicológica para idosos",
     href: "/avaliacaoneuropsicologicaidoso",
@@ -42,17 +51,17 @@ const services = [
     title: "Avaliação on-line",
     description:
       "Um processo remoto, seguro e criterioso para adultos em qualquer lugar do Brasil.",
-    image: "/online.png",
-    alt: "Pessoa participando de atendimento profissional por videochamada",
+    image: "/online.webp",
+    alt: "Computador preparado para atendimento profissional on-line",
     message: "avaliação neuropsicológica on-line",
-    href: "/avaliacaoonline",
+    href: "/avaliacao-neuropsicologica-online-adultos",
   },
   {
     number: "05",
     title: "Psicoterapia (TCC)",
     description:
       "Metas claras e estratégias práticas para rotina, relações e qualidade de vida.",
-    image: "/terapia.png",
+    image: "/terapia.webp",
     alt: "Sessão de psicoterapia em ambiente acolhedor",
     message: "psicoterapia TCC",
     href: "/terapiaparaadultos",
@@ -63,10 +72,12 @@ function WhatsAppLink({
   children,
   className = "",
   message,
+  analyticsContext = "home",
 }: {
   children: React.ReactNode;
   className?: string;
   message?: string;
+  analyticsContext?: string;
 }) {
   const href = message
     ? `https://wa.me/5541992113665?text=${encodeURIComponent(
@@ -75,7 +86,14 @@ function WhatsAppLink({
     : whatsapp;
 
   return (
-    <a className={className} href={href} target="_blank" rel="noreferrer">
+    <a
+      className={className}
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      data-analytics-event="whatsapp_click"
+      data-analytics-context={analyticsContext}
+    >
       {children}
     </a>
   );
@@ -91,6 +109,7 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow">Avaliação neuropsicológica com clareza e acolhimento</p>
             <h1>
+              <span className="hero-title-kicker">Avaliação neuropsicológica</span>
               Entender abre <em>caminhos.</em>
             </h1>
             <p className="hero-lead">
@@ -114,7 +133,7 @@ export default function Home() {
           <div className="hero-visual">
             <div className="hero-image-frame">
               <img
-                src="/hero.png"
+                src="/hero.webp"
                 alt="Família reunida ao ar livre em um momento de alegria"
                 width="1000"
                 height="1000"
@@ -139,6 +158,29 @@ export default function Home() {
           <div><span>01</span><p>Compreender mudanças no funcionamento cognitivo e emocional</p></div>
           <div><span>02</span><p>Investigar dificuldades que afetam estudos, trabalho ou rotina</p></div>
           <div><span>03</span><p>Transformar resultados em orientações e próximos passos possíveis</p></div>
+        </div>
+      </section>
+
+      <section className="home-online-feature" aria-labelledby="home-online-title">
+        <div className="container home-online-feature-grid">
+          <div>
+            <p className="eyebrow">Atendimento para adultos</p>
+            <h2 id="home-online-title">Avaliação neuropsicológica on-line, planejada para o formato remoto.</h2>
+          </div>
+          <div>
+            <p>
+              Quando houver indicação técnica e condições adequadas de participação, o processo
+              pode ser realizado on-line, com procedimentos compatíveis com essa modalidade.
+            </p>
+            <Link
+              className="text-link"
+              href="/avaliacao-neuropsicologica-online-adultos"
+              data-analytics-event="internal_cta_click"
+              data-analytics-context="home_online_feature"
+            >
+              Conheça a avaliação on-line <span aria-hidden="true">→</span>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -233,6 +275,25 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section home-professional" aria-labelledby="responsavel-tecnica">
+        <div className="container home-professional-grid">
+          <div className="home-professional-mark" aria-hidden="true">15+</div>
+          <div>
+            <p className="eyebrow">Responsabilidade técnica</p>
+            <h2 id="responsavel-tecnica">Mais de 15 anos de experiência dedicados ao cuidado psicológico.</h2>
+            <p>
+              A Integrada tem como responsável técnica Carla Luciana da Conceição Lima,
+              psicóloga inscrita no CRP 08/39739. Cada processo é conduzido com critérios
+              técnicos, sigilo e atenção à história de quem busca atendimento.
+            </p>
+            <div className="home-professional-links">
+              <Link className="text-link" href="/carla-luciana-conceicao-lima">Conheça a responsável técnica <span aria-hidden="true">→</span></Link>
+              <Link className="text-link" href="/sobre">Sobre a Integrada <span aria-hidden="true">→</span></Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="section testimonials" id="depoimentos">
         <div className="container">
           <div className="section-heading testimonial-heading">
@@ -240,6 +301,29 @@ export default function Home() {
             <h2>Histórias de quem encontrou respostas.</h2>
           </div>
           <TestimonialsCarousel />
+        </div>
+      </section>
+
+      <section className="section home-content-preview" aria-labelledby="conteudos-title">
+        <div className="container">
+          <div className="section-heading split-heading">
+            <div>
+              <p className="eyebrow">Conteúdo informativo</p>
+              <h2 id="conteudos-title">Informação para tomar decisões com mais clareza.</h2>
+            </div>
+            <p>Artigos educativos sobre avaliação neuropsicológica, desenvolvimento e funcionamento cognitivo.</p>
+          </div>
+          <div className="home-blog-grid">
+            {blogArticles.slice(0, 3).map((article) => (
+              <article className="home-blog-card" key={article.slug}>
+                <p className="eyebrow">{article.eyebrow}</p>
+                <h3>{article.title}</h3>
+                <p>{article.description}</p>
+                <Link className="text-link" href={`/post/${article.slug}`}>Ler artigo <span aria-hidden="true">→</span></Link>
+              </article>
+            ))}
+          </div>
+          <Link className="button button-outline home-content-all" href="/blog">Ver todos os conteúdos</Link>
         </div>
       </section>
 
@@ -281,7 +365,7 @@ export default function Home() {
               mais adequado — sem compromisso.
             </p>
             <div className="contact-details">
-              <a href="tel:+5541992113665"><small>Telefone e WhatsApp</small><strong>(41) 99211-3665</strong></a>
+              <a href="tel:+5541992113665" data-analytics-event="phone_click" data-analytics-context="home_contact"><small>Telefone e WhatsApp</small><strong>(41) 99211-3665</strong></a>
               <a href="https://maps.google.com/?q=Rua+Jacarezinho+1266+Mercês+Curitiba+PR" target="_blank" rel="noreferrer">
                 <small>Atendimento presencial</small><strong>Rua Jacarezinho, 1266 — Mercês, Curitiba/PR</strong>
               </a>
@@ -302,10 +386,15 @@ export default function Home() {
           <nav aria-label="Links do rodapé">
             <a href="#atendimentos">Atendimentos</a>
             <a href="#como-funciona">Como funciona</a>
-            <a href="#depoimentos">Depoimentos</a>
-            <a href="#duvidas">Dúvidas frequentes</a>
+            <Link href="/sobre">Sobre a Integrada</Link>
+            <Link href="/carla-luciana-conceicao-lima">Responsável técnica</Link>
+            <Link href="/blog">Conteúdos</Link>
             <Link href="/exercicios-de-estimulacao-mental">Exercícios de estimulação mental</Link>
+            <Link href="/politica-de-privacidade">Privacidade</Link>
           </nav>
+        </div>
+        <div className="container footer-responsibility">
+          <p>Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08/39739</p>
         </div>
         <div className="container footer-bottom">
           <p>© {new Date().getFullYear()} Integrada Neuropsicologia. Todos os direitos reservados.</p>

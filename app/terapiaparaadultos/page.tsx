@@ -1,18 +1,20 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 import { ServiceDetailPage, type ServiceDetailContent } from "../ServiceDetailPage";
 
-export const metadata: Metadata = {
-  title: "Psicoterapia TCC para Adultos | Integrada Neuropsicologia",
+export const metadata = createPageMetadata({
+  title: "Psicoterapia TCC On-line para Adultos | Integrada Neuropsicologia",
   description:
     "Psicoterapia para adultos com abordagem cognitivo-comportamental, objetivos individualizados e estratégias aplicáveis à rotina.",
-};
+  path: "/terapiaparaadultos",
+});
 
 const content = {
+  canonicalPath: "/terapiaparaadultos",
   eyebrow: "Psicoterapia para adultos — TCC",
   title: "Acolhimento, objetivos claros e estratégias para a vida cotidiana.",
   introduction:
     "A psicoterapia cognitivo-comportamental oferece um espaço de escuta e construção conjunta para compreender padrões, desenvolver recursos e promover mudanças possíveis no seu contexto.",
-  image: "/terapia.png",
+  image: "/terapia.webp",
   imageAlt: "Sessão de psicoterapia em ambiente acolhedor",
   whatsappMessage: "Olá! Gostaria de receber orientação sobre psicoterapia para adultos.",
   secondaryActionLabel: "Veja quando a psicoterapia pode ser indicada",

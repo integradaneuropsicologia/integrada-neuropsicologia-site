@@ -1,24 +1,31 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { InformationalFooter } from "../InformationalFooter";
+import { breadcrumbJsonLd, createPageMetadata, JsonLd } from "../seo";
 import { SiteHeader } from "../SiteHeader";
 import { exerciseCatalog } from "./exerciseData";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Exercícios de Estimulação Mental | Integrada Neuropsicologia",
   description:
     "Exercícios interativos de atenção, memória, linguagem, raciocínio e planejamento, com acesso direto e sem cadastro.",
-  alternates: { canonical: "/exercicios-de-estimulacao-mental" },
-};
+  path: "/exercicios-de-estimulacao-mental",
+});
 
 export default function MentalExercisesPage() {
   return (
     <main className="exercise-page">
+      <JsonLd data={breadcrumbJsonLd([
+        { name: "Início", path: "/" },
+        { name: "Exercícios de estimulação mental", path: "/exercicios-de-estimulacao-mental" },
+      ])} />
       <SiteHeader />
 
       <section className="exercise-hero">
         <div className="container exercise-hero-grid">
           <div>
+            <nav className="exercise-breadcrumbs" aria-label="Navegação estrutural">
+              <Link href="/">Início</Link><span aria-hidden="true">/</span><span aria-current="page">Exercícios</span>
+            </nav>
             <p className="eyebrow">Prática leve, gratuita e acessível</p>
             <h1>Exercícios para uma mente ativa.</h1>
             <p>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { InformationalFooter } from "../../InformationalFooter";
+import { breadcrumbJsonLd, createPageMetadata, JsonLd } from "../../seo";
 import { SiteHeader } from "../../SiteHeader";
 import {
   exerciseCatalog,
@@ -27,26 +28,14 @@ export async function generateMetadata({ params }: ExercisePageProps): Promise<M
     return { title: "Exercício não encontrado | Integrada Neuropsicologia" };
   }
 
-  const title = `${exercise.title} — exercício de ${exercise.category}`;
-  return {
-    title: `${title} | Integrada Neuropsicologia`,
+  const title = `${exercise.title} — exercício de ${exercise.category} | Integrada Neuropsicologia`;
+  return createPageMetadata({
+    title,
     description: `${exercise.description} Atividade gratuita, interativa e sem cadastro.`,
-    alternates: {
-      canonical: `/exercicios-de-estimulacao-mental/${exercise.slug}`,
-    },
-    openGraph: {
-      title,
-      description: exercise.description,
-      type: "website",
-      images: [{ url: exercise.image, alt: exercise.imageAlt }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description: exercise.description,
-      images: [exercise.image],
-    },
-  };
+    path: `/exercicios-de-estimulacao-mental/${exercise.slug}`,
+    image: exercise.image,
+    imageAlt: exercise.imageAlt,
+  });
 }
 
 function isExercise(value: ExerciseDefinition | undefined): value is ExerciseDefinition {
@@ -64,6 +53,11 @@ export default async function ExerciseDetailPage({ params }: ExercisePageProps) 
 
   return (
     <main className="exercise-detail-page">
+      <JsonLd data={breadcrumbJsonLd([
+        { name: "Início", path: "/" },
+        { name: "Exercícios de estimulação mental", path: "/exercicios-de-estimulacao-mental" },
+        { name: exercise.title, path: `/exercicios-de-estimulacao-mental/${exercise.slug}` },
+      ])} />
       <SiteHeader />
 
       <section className="exercise-detail-hero">

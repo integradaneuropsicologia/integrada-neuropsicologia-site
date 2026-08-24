@@ -1,18 +1,20 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 import { ServiceDetailPage, type ServiceDetailContent } from "../ServiceDetailPage";
 
-export const metadata: Metadata = {
-  title: "Avaliação Neuropsicológica para Idosos | Integrada Neuropsicologia",
+export const metadata = createPageMetadata({
+  title: "Avaliação Neuropsicológica para Pessoas Idosas em Curitiba | Integrada",
   description:
     "Avaliação neuropsicológica para idosos em Curitiba, com investigação cognitiva, orientação familiar e recomendações para autonomia e qualidade de vida.",
-};
+  path: "/avaliacaoneuropsicologicaidoso",
+});
 
 const content = {
+  canonicalPath: "/avaliacaoneuropsicologicaidoso",
   eyebrow: "Avaliação neuropsicológica para pessoas idosas",
   title: "Compreender as mudanças ajuda a cuidar com mais segurança.",
   introduction:
     "A avaliação investiga memória, atenção e outras habilidades cognitivas, considerando condições de saúde, aspectos emocionais e atividades do dia a dia. Os resultados podem subsidiar orientações à pessoa idosa e, quando pertinente e autorizado, à família e à rede de cuidado.",
-  image: "/idoso.png",
+  image: "/idoso.webp",
   imageAlt: "Pessoa idosa em atividade de cuidado e atenção",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre avaliação neuropsicológica para idosos.",

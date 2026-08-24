@@ -24,8 +24,6 @@ const mentalExercises = [
   ["palavra-emoji", "Palavra & Emoji", "representações visuais"],
 ];
 
-const oldWixUrl = /https?:\/\/(?:www\.)?integradaneuropsicologia\.com\.br/i;
-
 function normalizeHtml(html) {
   return html
     .replaceAll("&amp;", "&")
@@ -46,6 +44,18 @@ async function render(pathname = "/") {
   );
 }
 
+async function requestAbsolute(url) {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-absolute`);
+  const { default: worker } = await import(workerUrl.href);
+
+  return worker.fetch(
+    new Request(url, { headers: { accept: "text/html" } }),
+    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
+    { waitUntil() {}, passThroughOnException() {} },
+  );
+}
+
 test("server-renders the Integrada homepage", async () => {
   const response = await render();
   assert.equal(response.status, 200);
@@ -53,7 +63,7 @@ test("server-renders the Integrada homepage", async () => {
 
   const html = await response.text();
   assert.match(html, /<html[^>]*lang="pt-BR"/i);
-  assert.match(html, /<title>Integrada Neuropsicologia \| Avaliação neuropsicológica<\/title>/i);
+  assert.match(html, /<title>Avaliação Neuropsicológica \| Integrada Neuropsicologia<\/title>/i);
   assert.match(html, /Entender abre/);
   assert.match(html, /Mais de 15 anos/);
   assert.match(html, /Cuidado em cada etapa da vida/);
@@ -71,7 +81,7 @@ test("server-renders the Integrada homepage", async () => {
     "/avaliacaoinfantil",
     "/avaliacaoneuropsicologicaadulto",
     "/avaliacaoneuropsicologicaidoso",
-    "/avaliacaoonline",
+    "/avaliacao-neuropsicologica-online-adultos",
     "/terapiaparaadultos",
   ]) {
     assert.match(html, new RegExp(`href="${href}"`));
@@ -85,7 +95,7 @@ test("server-renders every service detail route", async () => {
     ["/avaliacaoinfantil", "Compreender o desenvolvimento"],
     ["/avaliacaoneuropsicologicaadulto", "Clareza para compreender"],
     ["/avaliacaoneuropsicologicaidoso", "Compreender as mudanças"],
-    ["/avaliacaoonline", "Cuidado e rigor técnico"],
+    ["/avaliacao-neuropsicologica-online-adultos", "Avaliação neuropsicológica on-line para adultos"],
     ["/terapiaparaadultos", "Acolhimento, objetivos claros"],
     ["/avaliacaotdah", "TDAH"],
     ["/avaliacaoautismo", "autismo"],
@@ -264,7 +274,7 @@ test("renders the revised older-adult assessment content", async () => {
 });
 
 test("renders the revised autism assessment content and general image", async () => {
-  await access(new URL("../public/avaliacao-tea-geral.png", import.meta.url));
+  await access(new URL("../public/avaliacao-tea-geral.webp", import.meta.url));
   const response = await render("/avaliacaoautismo");
   assert.equal(response.status, 200);
 
@@ -286,9 +296,9 @@ test("renders the revised autism assessment content and general image", async ()
   assert.match(html, /psicóloga responsável analisa se a avaliação é indicada/i);
   assert.match(html, /qual modalidade é adequada/i);
   assert.match(html, /Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08\/39739/i);
-  assert.match(html, /src="\/avaliacao-tea-geral\.png"/i);
+  assert.match(html, /src="\/avaliacao-tea-geral\.webp"/i);
   assert.match(html, /alt="Pessoas de diferentes idades em conversa com uma psicóloga"/i);
-  assert.doesNotMatch(html, /src="\/infantojuvenil\.png"/i);
+  assert.doesNotMatch(html, /src="\/infantojuvenil\.webp"/i);
   assert.doesNotMatch(html, /Planejamento por faixa etária/i);
 });
 
@@ -319,27 +329,27 @@ test("renders the revised ADHD assessment content", async () => {
 });
 
 test("combines the adult clinical process with the online format", async () => {
-  const response = await render("/avaliacaoonline");
+  const response = await render("/avaliacao-neuropsicologica-online-adultos");
   assert.equal(response.status, 200);
 
   const html = normalizeHtml(await response.text());
   assert.match(html, /funcionamento cognitivo, emocional e funcional de adultos/i);
   assert.match(html, /indicação técnica e condições adequadas de participação/i);
-  assert.match(html, /Veja quando a modalidade on-line pode ser indicada/i);
+  assert.match(html, /Veja quando pode ser indicada/i);
   assert.match(html, /Processo<\/span><strong>8 encontros/i);
-  assert.match(html, /On-line para adultos, após análise de adequação/i);
+  assert.match(html, /On-line, após análise de adequação/i);
   assert.match(html, /Devolutiva e laudo psicológico digital/i);
   assert.match(html, /alterações de humor/i);
   assert.match(html, /manifestações semelhantes/i);
-  assert.match(html, /Procedimentos definidos conforme a demanda e as condições do atendimento remoto/i);
+  assert.match(html, /procedimentos são definidos conforme a demanda e as condições do atendimento remoto/i);
   assert.match(html, /A avaliação é organizada em 8 encontros/i);
-  assert.match(html, /instrumentos compatíveis com a modalidade remota/i);
+  assert.match(html, /procedimentos e instrumentos compatíveis com aplicação remota/i);
   assert.match(html, /Entrevista clínica por vídeo/i);
   assert.match(html, /Definição do plano e orientação técnica/i);
-  assert.match(html, /fontes de informação adequados à demanda e à modalidade/i);
+  assert.match(html, /instrumentos e fontes de informação adequados à demanda e à modalidade/i);
   assert.match(html, /ambiente reservado/i);
   assert.match(html, /Integração clínica/i);
-  assert.match(html, /mediante autorização da pessoa avaliada/i);
+  assert.match(html, /quando pertinente e autorizado/i);
   assert.match(html, /pessoas próximas ou de outros profissionais/i);
   assert.match(html, /limites da avaliação e das recomendações/i);
   assert.match(html, /funcionamento cognitivo, emocional e comportamental da pessoa/i);
@@ -376,14 +386,13 @@ test("serves original local pages for every screening and the blog", async () =>
       `${pathname} must render every base question`,
     );
     assert.doesNotMatch(html, /Auto-observação educativa|Sem pontuação diagnóstica|Nenhuma resposta é enviada/i, pathname);
-    assert.doesNotMatch(html, /https?:\/\/(?:www\.)?integradaneuropsicologia\.com\.br/i, pathname);
   }
 
   const blogResponse = await render("/blog");
   assert.equal(blogResponse.status, 200);
   const blogHtml = await blogResponse.text();
   assert.match(blogHtml, /Integrada Neuropsicologia/);
-  assert.doesNotMatch(blogHtml, /https?:\/\/(?:www\.)?integradaneuropsicologia\.com\.br/i);
+  assert.match(blogHtml, /href="\/post\//i);
 });
 
 test("keeps the base scoring thresholds and result WhatsApp action", async () => {
@@ -439,7 +448,6 @@ test("serves every mental exercise without an access gate", async () => {
     assert.ok(localExerciseImages.has(`/exercises/${slug}.webp`), `missing card image for ${slug}`);
   }
 
-  assert.doesNotMatch(html, oldWixUrl);
   assert.doesNotMatch(html, /name="cpf"|cpfPaciente|SheetDB|data-access|prescrito|restrito/i);
 });
 
@@ -460,7 +468,6 @@ test("server-renders all 19 exercise guides and isolated activity windows", asyn
     assert.match(html, /target="_blank"/, pathname);
     assert.match(html, /rel="noopener noreferrer"/, pathname);
     assert.doesNotMatch(html, /exercise-play-shell/, pathname);
-    assert.doesNotMatch(html, oldWixUrl, pathname);
 
     const activityPathname = `${pathname}/atividade`;
     const activityResponse = await render(activityPathname);
@@ -472,7 +479,6 @@ test("server-renders all 19 exercise guides and isolated activity windows", asyn
     assert.match(activityHtml, /exercise-window-page/, activityPathname);
     assert.match(activityHtml, /exercise-play-shell is-standalone/, activityPathname);
     assert.match(activityHtml, /Voltar às instruções/, activityPathname);
-    assert.doesNotMatch(activityHtml, oldWixUrl, activityPathname);
   }
 });
 
@@ -496,9 +502,9 @@ test("ships production metadata, local imagery, and responsive styles", async ()
   ]);
 
   assert.match(layout, /metadataBase/);
-  assert.match(layout, /\/og\.png/);
+  assert.match(layout, /\/og\.webp/);
   assert.match(layout, /lang="pt-BR"/);
-  assert.match(page, /\/hero\.png/);
+  assert.match(page, /\/hero\.webp/);
   assert.match(page, /ContactForm/);
   assert.match(siteHeader, /Exercícios de estimulação mental/);
   assert.match(siteHeader, /["']use client["']/);
@@ -527,14 +533,100 @@ test("ships production metadata, local imagery, and responsive styles", async ()
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
 
   await Promise.all([
-    "hero.png",
-    "infantojuvenil.png",
-    "adulto.png",
-    "idoso.png",
-    "online.png",
-    "terapia.png",
-    "og.png",
+    "hero.webp",
+    "infantojuvenil.webp",
+    "adulto.webp",
+    "idoso.webp",
+    "online.webp",
+    "terapia.webp",
+    "og.webp",
+    "avaliacao-tea-geral.webp",
+    "icon-192.png",
+    "icon-512.png",
     "logo-horizontal.jpg",
     "logo-icon.jpg",
   ].map((file) => access(new URL(`../public/${file}`, import.meta.url))));
+});
+
+test("serves canonical SEO metadata, sitemap, robots and a real 404", async () => {
+  const coreRoutes = [
+    "/",
+    "/avaliacao-neuropsicologica-online-adultos",
+    "/avaliacaoinfantil",
+    "/avaliacaoneuropsicologicaadulto",
+    "/avaliacaoneuropsicologicaidoso",
+    "/avaliacaotdah",
+    "/avaliacaoautismo",
+    "/sobre",
+    "/carla-luciana-conceicao-lima",
+    "/blog",
+  ];
+
+  for (const pathname of coreRoutes) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+    const html = await response.text();
+    const canonical = `https://www.integradaneuropsicologia.com.br${pathname === "/" ? "/" : pathname}`;
+    assert.match(html, new RegExp(`<link rel="canonical" href="${canonical.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`), pathname);
+    assert.match(html, /<meta property="og:url" content="https:\/\/www\.integradaneuropsicologia\.com\.br\//, pathname);
+    assert.equal((html.match(/<h1\b/g) ?? []).length, 1, `${pathname} must have exactly one H1`);
+    assert.doesNotMatch(html, /content="noindex/i, pathname);
+  }
+
+  const sitemapResponse = await render("/sitemap.xml");
+  assert.equal(sitemapResponse.status, 200);
+  const sitemap = await sitemapResponse.text();
+  assert.match(sitemap, /https:\/\/www\.integradaneuropsicologia\.com\.br\/avaliacao-neuropsicologica-online-adultos/);
+  assert.match(sitemap, /https:\/\/www\.integradaneuropsicologia\.com\.br\/post\/tdah-ansiedade-ou-burnout/);
+  assert.doesNotMatch(sitemap, /\/avaliacaoonline<\/loc>/);
+  assert.doesNotMatch(sitemap, /\/atividade<\/loc>/);
+  assert.doesNotMatch(sitemap, /politica-de-privacidade/);
+
+  const robotsResponse = await render("/robots.txt");
+  assert.equal(robotsResponse.status, 200);
+  const robots = await robotsResponse.text();
+  assert.match(robots, /User-Agent:\s*\*/i);
+  assert.match(robots, /Sitemap:\s*https:\/\/www\.integradaneuropsicologia\.com\.br\/sitemap\.xml/i);
+
+  const missingResponse = await render("/pagina-que-nao-existe-para-teste");
+  assert.equal(missingResponse.status, 404);
+  assert.match(await missingResponse.text(), /Página não encontrada/i);
+});
+
+test("keeps legacy content URLs and applies one-hop permanent redirects", async () => {
+  const legacyArticles = [
+    "/post/tdah-ansiedade-ou-burnout-como-diferenciar-em-adultos",
+    "/post/quanto-custa-uma-avaliação-neuropsicológica",
+    "/post/não-é-só-inteligência-o-que-você-precisa-saber-sobre-altas-habilidades-superdotação",
+    "/post/como-é-feito-o-diagnóstico-de-tdah-em-crianças-uma-abordagem-multidisciplinar",
+    "/post/avaliação-neuropsicológica-x-avaliação-neurológica-qual-é-a-diferença",
+    "/post/sinal-da-necessidade-de-avaliação-neuropsicológica",
+  ];
+
+  for (const pathname of legacyArticles) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+    assert.match(await response.text(), /"@type":"Article"/, pathname);
+  }
+
+  const redirects = [
+    ["/avaliacaoonline?origem=legado", "https://www.integradaneuropsicologia.com.br/avaliacao-neuropsicologica-online-adultos?origem=legado"],
+    ["/jogodolabirinto", "https://www.integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental/labirinto"],
+    ["/jogosdeestimula%C3%A7%C3%A3omental", "https://www.integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental"],
+    ["/blank-5", "https://www.integradaneuropsicologia.com.br/teste-autismo-infantil"],
+  ];
+
+  for (const [source, destination] of redirects) {
+    const response = await render(source);
+    assert.equal(response.status, 301, source);
+    assert.equal(response.headers.get("location"), destination, source);
+  }
+
+  const apexResponse = await requestAbsolute("http://integradaneuropsicologia.com.br/avaliacaotdah?ref=apex");
+  assert.equal(apexResponse.status, 301);
+  assert.equal(apexResponse.headers.get("location"), "https://www.integradaneuropsicologia.com.br/avaliacaotdah?ref=apex");
+
+  const previewResponse = await requestAbsolute("https://integrada-neuropsicologia-site.elieltonlimacosta.chatgpt.site/blog");
+  assert.equal(previewResponse.status, 301);
+  assert.equal(previewResponse.headers.get("location"), "https://www.integradaneuropsicologia.com.br/blog");
 });

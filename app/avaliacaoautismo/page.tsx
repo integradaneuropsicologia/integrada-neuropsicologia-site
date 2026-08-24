@@ -1,18 +1,20 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 import { ServiceDetailPage, type ServiceDetailContent } from "../ServiceDetailPage";
 
-export const metadata: Metadata = {
-  title: "Avaliação para TEA e Autismo | Integrada Neuropsicologia",
+export const metadata = createPageMetadata({
+  title: "Avaliação Neuropsicológica para Investigação de TEA (Autismo) | Integrada",
   description:
     "Avaliação neuropsicológica para investigar sinais relacionados ao espectro autista, com análise do desenvolvimento, comunicação, comportamento e rotina.",
-};
+  path: "/avaliacaoautismo",
+});
 
 const content = {
+  canonicalPath: "/avaliacaoautismo",
   eyebrow: "Avaliação neuropsicológica para investigação de TEA (autismo)",
   title: "Compreender características, necessidades e potencialidades com respeito à singularidade.",
   introduction:
     "A investigação considera a história do desenvolvimento, a comunicação, as relações, os interesses, o perfil sensorial e o funcionamento cotidiano, sem reduzir a pessoa a uma lista de sinais.",
-  image: "/avaliacao-tea-geral.png",
+  image: "/avaliacao-tea-geral.webp",
   imageAlt: "Pessoas de diferentes idades em conversa com uma psicóloga",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre avaliação neuropsicológica para investigar TEA/autismo.",
@@ -55,6 +57,11 @@ const content = {
   finalTitle: "Uma avaliação responsável também reconhece recursos e necessidades.",
   finalText:
     "Compartilhe suas dúvidas e o momento de vida da pessoa que será avaliada. A equipe explica como funciona o processo, e a psicóloga responsável analisa se a avaliação é indicada e qual modalidade é adequada para a demanda apresentada.",
+  relatedLinks: [
+    { label: "Avaliação neuropsicológica on-line para adultos", href: "/avaliacao-neuropsicologica-online-adultos" },
+    { label: "Avaliação infantojuvenil em Curitiba", href: "/avaliacaoinfantil" },
+    { label: "Psicoterapia para adultos autistas", href: "/terapiaparaadultoscomautismo" },
+  ],
   technicalResponsibility:
     "Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08/39739",
 } satisfies ServiceDetailContent;

@@ -1,18 +1,20 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 import { ServiceDetailPage, type ServiceDetailContent } from "../ServiceDetailPage";
 
-export const metadata: Metadata = {
-  title: "Avaliação Neuropsicológica Infantil | Integrada Neuropsicologia",
+export const metadata = createPageMetadata({
+  title: "Avaliação Neuropsicológica Infantojuvenil em Curitiba | Integrada",
   description:
     "Avaliação neuropsicológica infantil em Curitiba, com investigação cuidadosa, orientação à família e recomendações para a rotina e a escola.",
-};
+  path: "/avaliacaoinfantil",
+});
 
 const content = {
+  canonicalPath: "/avaliacaoinfantil",
   eyebrow: "Avaliação neuropsicológica infantojuvenil",
   title: "Compreender o desenvolvimento é o primeiro passo para cuidar melhor.",
   introduction:
     "A avaliação investiga habilidades cognitivas, emocionais e comportamentais de crianças e adolescentes, considerando sua história, rotina familiar e contexto escolar.",
-  image: "/infantojuvenil.png",
+  image: "/infantojuvenil.webp",
   imageAlt: "Criança em atividade lúdica durante acompanhamento profissional",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre avaliação neuropsicológica infantojuvenil.",

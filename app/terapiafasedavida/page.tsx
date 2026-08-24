@@ -1,18 +1,20 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 import { ServiceDetailPage, type ServiceDetailContent } from "../ServiceDetailPage";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Psicoterapia para Jovens e Adolescentes | Integrada Neuropsicologia",
   description:
     "Psicoterapia para adolescentes e jovens, com acolhimento, participação familiar responsável e estratégias para emoções, relações, estudos e transições.",
-};
+  path: "/terapiafasedavida",
+});
 
 const content = {
+  canonicalPath: "/terapiafasedavida",
   eyebrow: "Psicoterapia para jovens e adolescentes",
   title: "Acolhimento para compreender mudanças e construir novos recursos.",
   introduction:
     "A adolescência e o início da vida adulta trazem transformações importantes. A terapia oferece um espaço protegido para falar sobre emoções, relações, identidade, escolhas e desafios da rotina.",
-  image: "/infantojuvenil.png",
+  image: "/infantojuvenil.webp",
   imageAlt: "Jovem em atividade durante acompanhamento psicológico",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre psicoterapia para jovens e adolescentes.",

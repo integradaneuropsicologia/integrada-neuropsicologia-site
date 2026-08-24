@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { breadcrumbJsonLd, faqJsonLd, JsonLd, serviceJsonLd } from "./seo";
 import { SiteHeader } from "./SiteHeader";
 
 const whatsappNumber = "5541992113665";
@@ -19,6 +20,8 @@ type DetailStep = {
 };
 
 export type ServiceDetailContent = {
+  canonicalPath: string;
+  breadcrumbLabel?: string;
   eyebrow: string;
   title: string;
   introduction: string;
@@ -39,6 +42,8 @@ export type ServiceDetailContent = {
   disclaimer: string;
   finalTitle: string;
   finalText: string;
+  faqs?: Array<{ question: string; answer: string }>;
+  relatedLinks?: Array<{ label: string; href: string }>;
   technicalResponsibility?: string;
 };
 
@@ -51,17 +56,34 @@ export function ServiceDetailPage({ content }: { content: ServiceDetailContent }
 
   return (
     <main className="detail-page">
+      <JsonLd data={[
+        breadcrumbJsonLd([
+          { name: "Início", path: "/" },
+          { name: "Atendimentos", path: "/#atendimentos" },
+          { name: content.breadcrumbLabel ?? content.eyebrow, path: content.canonicalPath },
+        ]),
+        serviceJsonLd({
+          name: content.eyebrow,
+          description: content.introduction,
+          path: content.canonicalPath,
+        }),
+        ...(content.faqs?.length ? [faqJsonLd(content.faqs)] : []),
+      ]} />
       <SiteHeader />
 
       <section className="detail-hero">
         <div className="detail-container detail-hero-grid">
           <div className="detail-hero-copy">
-            <Link className="detail-back-link" href="/#atendimentos">← Voltar aos atendimentos</Link>
-            <p className="detail-eyebrow">{content.eyebrow}</p>
-            <h1>{content.title}</h1>
+            <nav className="breadcrumbs" aria-label="Navegação estrutural">
+              <Link href="/">Início</Link><span aria-hidden="true">›</span>
+              <Link href="/#atendimentos">Atendimentos</Link><span aria-hidden="true">›</span>
+              <span aria-current="page">{content.breadcrumbLabel ?? content.eyebrow}</span>
+            </nav>
+            <h1>{content.eyebrow}</h1>
+            <p className="detail-hero-tagline">{content.title}</p>
             <p className="detail-hero-lead">{content.introduction}</p>
             <div className="detail-hero-actions">
-              <a className="detail-button" href={contactHref} target="_blank" rel="noreferrer">
+              <a className="detail-button" href={contactHref} target="_blank" rel="noreferrer" data-analytics-event="whatsapp_click" data-analytics-context={content.canonicalPath}>
                 Quero receber orientação
               </a>
               <a className="detail-text-link" href="#quando-procurar">
@@ -150,6 +172,39 @@ export function ServiceDetailPage({ content }: { content: ServiceDetailContent }
         </div>
       </aside>
 
+      {content.faqs?.length ? (
+        <section className="detail-section detail-faq-section" id="duvidas-do-servico">
+          <div className="detail-container detail-two-columns">
+            <div className="detail-section-heading">
+              <p className="detail-eyebrow">Dúvidas frequentes</p>
+              <h2>Informações para começar com mais clareza.</h2>
+            </div>
+            <div className="faq-list">
+              {content.faqs.map((faq) => (
+                <details key={faq.question}>
+                  <summary>{faq.question}</summary>
+                  <p>{faq.answer}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {content.relatedLinks?.length ? (
+        <section className="detail-section detail-related-section" aria-label="Atendimentos relacionados">
+          <div className="detail-container">
+            <div className="detail-section-heading detail-section-heading-centered">
+              <p className="detail-eyebrow">Continue explorando</p>
+              <h2>Outras páginas que podem ajudar.</h2>
+            </div>
+            <nav className="detail-related-links">
+              {content.relatedLinks.map((link) => <Link href={link.href} key={link.href}>{link.label}<span aria-hidden="true">→</span></Link>)}
+            </nav>
+          </div>
+        </section>
+      ) : null}
+
       <section className="detail-final-cta">
         <div className="detail-container detail-final-cta-inner">
           <div>
@@ -157,7 +212,7 @@ export function ServiceDetailPage({ content }: { content: ServiceDetailContent }
             <h2>{content.finalTitle}</h2>
             <p>{content.finalText}</p>
           </div>
-          <a className="detail-button detail-button-light" href={contactHref} target="_blank" rel="noreferrer">
+          <a className="detail-button detail-button-light" href={contactHref} target="_blank" rel="noreferrer" data-analytics-event="whatsapp_click" data-analytics-context={content.canonicalPath}>
             Conversar com a equipe
           </a>
         </div>
@@ -178,8 +233,10 @@ export function ServiceDetailPage({ content }: { content: ServiceDetailContent }
           <nav aria-label="Links do rodapé">
             <Link href="/#atendimentos">Atendimentos</Link>
             <Link href="/#como-funciona">Como funciona</Link>
-            <Link href="/#duvidas">Dúvidas frequentes</Link>
+            <Link href="/sobre">Sobre a Integrada</Link>
+            <Link href="/blog">Conteúdos</Link>
             <Link href="/exercicios-de-estimulacao-mental">Exercícios de estimulação mental</Link>
+            <Link href="/politica-de-privacidade">Privacidade</Link>
           </nav>
         </div>
         {content.technicalResponsibility ? (

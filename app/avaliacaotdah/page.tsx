@@ -1,18 +1,20 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 import { ServiceDetailPage, type ServiceDetailContent } from "../ServiceDetailPage";
 
-export const metadata: Metadata = {
-  title: "Avaliação para TDAH | Integrada Neuropsicologia",
+export const metadata = createPageMetadata({
+  title: "Avaliação Neuropsicológica para Investigação de TDAH | Integrada",
   description:
     "Avaliação neuropsicológica para investigar sinais de TDAH, considerando atenção, funções executivas, história de vida e impacto na rotina.",
-};
+  path: "/avaliacaotdah",
+});
 
 const content = {
+  canonicalPath: "/avaliacaotdah",
   eyebrow: "Avaliação neuropsicológica para investigação de TDAH",
   title: "Uma investigação cuidadosa para compreender atenção, impulsividade e organização.",
   introduction:
     "A avaliação reúne história clínica, informações sobre a rotina e instrumentos apropriados para entender como as dificuldades aparecem em diferentes contextos e quais fatores podem estar envolvidos.",
-  image: "/adulto.png",
+  image: "/adulto.webp",
   imageAlt: "Pessoa adulta participando de avaliação neuropsicológica",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre avaliação neuropsicológica para investigar TDAH.",
@@ -55,6 +57,11 @@ const content = {
   finalTitle: "Sua dúvida pode ser o começo de uma investigação mais clara.",
   finalText:
     "Conte quais dificuldades você percebe e como elas afetam a rotina. A equipe explica como funciona o processo, e a psicóloga responsável analisa se a avaliação é indicada e qual modalidade é adequada para a demanda apresentada.",
+  relatedLinks: [
+    { label: "Avaliação neuropsicológica on-line para adultos", href: "/avaliacao-neuropsicologica-online-adultos" },
+    { label: "Avaliação para adultos em Curitiba", href: "/avaliacaoneuropsicologicaadulto" },
+    { label: "Psicoterapia para adultos com TDAH", href: "/terapiaparaadultoscomtdah" },
+  ],
   technicalResponsibility:
     "Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08/39739",
 } satisfies ServiceDetailContent;

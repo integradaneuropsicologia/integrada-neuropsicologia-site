@@ -1,18 +1,20 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "../seo";
 import { ServiceDetailPage, type ServiceDetailContent } from "../ServiceDetailPage";
 
-export const metadata: Metadata = {
-  title: "Avaliação Neuropsicológica para Adultos | Integrada Neuropsicologia",
+export const metadata = createPageMetadata({
+  title: "Avaliação Neuropsicológica para Adultos em Curitiba | Integrada",
   description:
     "Avaliação neuropsicológica para adultos em Curitiba, com investigação de atenção, memória, funções executivas e impacto na vida cotidiana.",
-};
+  path: "/avaliacaoneuropsicologicaadulto",
+});
 
 const content = {
+  canonicalPath: "/avaliacaoneuropsicologicaadulto",
   eyebrow: "Avaliação neuropsicológica para adultos",
   title: "Clareza para compreender seu funcionamento e decidir os próximos passos.",
   introduction:
     "A avaliação reúne entrevista clínica, instrumentos padronizados e análise da rotina para investigar habilidades cognitivas, aspectos emocionais e seu impacto no estudo, no trabalho e nas relações.",
-  image: "/adulto.png",
+  image: "/adulto.webp",
   imageAlt: "Aplicação de instrumento de avaliação neuropsicológica em adulto",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre avaliação neuropsicológica para adultos.",
@@ -83,6 +85,11 @@ const content = {
   finalTitle: "Entender melhor é uma forma de cuidar de si.",
   finalText:
     "Fale sobre suas dúvidas e sua rotina. A equipe explica como funciona o processo, e a psicóloga responsável analisa se a avaliação é indicada para a demanda apresentada.",
+  relatedLinks: [
+    { label: "Entenda a avaliação neuropsicológica on-line para adultos", href: "/avaliacao-neuropsicologica-online-adultos" },
+    { label: "Investigação de TDAH", href: "/avaliacaotdah" },
+    { label: "Investigação de TEA (autismo)", href: "/avaliacaoautismo" },
+  ],
   technicalResponsibility:
     "Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08/39739",
 } satisfies ServiceDetailContent;

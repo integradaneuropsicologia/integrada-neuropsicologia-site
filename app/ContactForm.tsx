@@ -1,9 +1,17 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
+import Link from "next/link";
 
 export function ContactForm() {
   const [sent, setSent] = useState(false);
+  const started = useRef(false);
+
+  function handleFormStart() {
+    if (started.current) return;
+    started.current = true;
+    window.dataLayer?.push({ event: "form_start", form_name: "home_contact" });
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -13,12 +21,13 @@ export function ContactForm() {
     const interest = String(form.get("interest") || "avaliação neuropsicológica");
     const message = `Olá! Meu nome é ${name}. Tenho interesse em ${interest}. Meu telefone é ${phone}. Gostaria de receber uma orientação.`;
 
+    window.dataLayer?.push({ event: "form_submit", form_name: "home_contact" });
     window.open(`https://wa.me/5541992113665?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
     setSent(true);
   }
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit}>
+    <form className="contact-form" onSubmit={handleSubmit} onFocusCapture={handleFormStart}>
       <div className="form-heading">
         <span>Orientação inicial</span>
         <p>Preencha os dados e continue a conversa pelo WhatsApp.</p>
@@ -33,7 +42,7 @@ export function ContactForm() {
       </label>
       <label>
         O que você procura?
-        <select name="interest" defaultValue="">
+        <select name="interest" defaultValue="" required>
           <option value="" disabled>Selecione uma opção</option>
           <option>Avaliação infantojuvenil</option>
           <option>Avaliação para adultos</option>
@@ -43,11 +52,18 @@ export function ContactForm() {
           <option>Ainda tenho dúvidas</option>
         </select>
       </label>
+      <label className="consent-field">
+        <input name="consent" type="checkbox" required />
+        <span>
+          Autorizo o uso destes dados para responder ao meu contato e declaro que li a{" "}
+          <Link href="/politica-de-privacidade" target="_blank">Política de Privacidade</Link>.
+        </span>
+      </label>
       <button className="button form-button" type="submit">
         Receber orientação <span aria-hidden="true">↗</span>
       </button>
       <p className="form-privacy">
-        {sent ? "Conversa aberta no WhatsApp." : "Seus dados serão usados apenas para este contato."}
+        {sent ? "Conversa aberta no WhatsApp." : "Não envie laudos, documentos ou informações sensíveis neste formulário."}
       </p>
     </form>
   );

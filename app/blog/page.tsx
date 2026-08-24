@@ -1,115 +1,44 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { blogArticles } from "../blogArticles";
 import { InformationalFooter } from "../InformationalFooter";
+import { breadcrumbJsonLd, createPageMetadata, JsonLd } from "../seo";
 import { SiteHeader } from "../SiteHeader";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Conteúdos sobre Neuropsicologia | Integrada Neuropsicologia",
   description:
-    "Informações claras sobre avaliação neuropsicológica, atenção, memória, devolutiva e estimulação mental para diferentes fases da vida.",
-};
-
-const articles = [
-  {
-    id: "quando-avaliar",
-    eyebrow: "Avaliação neuropsicológica",
-    title: "Quando vale a pena procurar uma avaliação neuropsicológica?",
-    introduction:
-      "A avaliação pode ser útil quando mudanças ou dificuldades cognitivas, emocionais ou comportamentais começam a interferir na rotina. O objetivo não é procurar um rótulo, mas compreender o funcionamento da pessoa e orientar decisões de cuidado.",
-    points: [
-      "Dificuldades persistentes de atenção, memória, organização, aprendizagem ou tomada de decisões.",
-      "Mudanças percebidas pela própria pessoa, família, escola ou equipe de saúde.",
-      "Dúvidas diagnósticas que exigem integrar história, comportamento e desempenho em tarefas padronizadas.",
-      "Necessidade de planejar apoios, adaptações, tratamento ou acompanhamento ao longo do tempo.",
-    ],
-    closing:
-      "A primeira conversa ajuda a verificar se a avaliação é indicada, qual pergunta precisa ser respondida e que formato combina com a demanda.",
-    href: "/#atendimentos",
-    linkLabel: "Conhecer as modalidades de avaliação",
-  },
-  {
-    id: "atencao-memoria-rotina",
-    eyebrow: "Vida cotidiana",
-    title: "Atenção e memória não funcionam separadas da rotina.",
-    introduction:
-      "Esquecimentos e distrações nem sempre significam um transtorno. Sono, estresse, ansiedade, sobrecarga, dor, medicamentos e excesso de estímulos podem modificar o desempenho cognitivo de forma importante.",
-    points: [
-      "Antes de concluir, observe quando a dificuldade começou e em quais situações ela aumenta ou diminui.",
-      "Reduza a quantidade de tarefas simultâneas e deixe pistas visuais para compromissos importantes.",
-      "Faça pausas reais: alternar rapidamente entre telas nem sempre permite recuperação da atenção.",
-      "Procure orientação quando a mudança é nova, progressiva, intensa ou traz risco e perda de autonomia.",
-    ],
-    closing:
-      "Estratégias de rotina podem ajudar, mas não substituem investigação quando há impacto relevante ou mudança em relação ao funcionamento habitual.",
-    href: "/exercicios-de-estimulacao-mental",
-    linkLabel: "Acessar exercícios de estimulação mental",
-  },
-  {
-    id: "devolutiva",
-    eyebrow: "Etapas do processo",
-    title: "A devolutiva transforma dados em orientações compreensíveis.",
-    introduction:
-      "Depois das entrevistas, observações e tarefas, os resultados precisam ser integrados à história e ao contexto. A devolutiva é o momento de explicar o que foi compreendido, acolher dúvidas e discutir recomendações possíveis.",
-    points: [
-      "Os resultados são apresentados em linguagem clara, incluindo habilidades preservadas e pontos que merecem apoio.",
-      "Uma medida isolada não deve ser interpretada fora do conjunto de informações reunidas.",
-      "As recomendações podem envolver rotina, escola, trabalho, psicoterapia, reabilitação ou avaliação de outros profissionais.",
-      "O laudo registra o processo, mas a conversa de devolutiva é essencial para que as conclusões tenham utilidade prática.",
-    ],
-    closing:
-      "Perguntar, pedir exemplos e conversar sobre prioridades ajuda a transformar a avaliação em um plano de cuidado aplicável à realidade.",
-    href: "/avaliacaoonline",
-    linkLabel: "Entender como funciona a avaliação on-line",
-  },
-  {
-    id: "estimulacao-mental",
-    eyebrow: "Cuidado contínuo",
-    title: "Estimulação mental funciona melhor quando faz sentido para a pessoa.",
-    introduction:
-      "Atividades cognitivas podem ser uma forma leve de variar desafios e manter curiosidade, mas saúde cerebral não depende de um exercício isolado. Movimento, sono, vínculos, alimentação, lazer e cuidado clínico também fazem parte do conjunto.",
-    points: [
-      "Escolha tarefas com dificuldade possível: nem automáticas demais, nem frustrantes a ponto de impedir continuidade.",
-      "Varie entre linguagem, atenção, raciocínio, memória, planejamento e atividades manuais ou sociais.",
-      "Priorize regularidade e interesse pessoal em vez de longas sessões ocasionais.",
-      "Exercícios recreativos não medem capacidade cognitiva, não previnem sozinhos doenças e não substituem tratamento.",
-    ],
-    closing:
-      "Uma prática prazerosa e conectada à vida cotidiana tende a ser mais sustentável do que perseguir pontuações ou comparações.",
-    href: "/exercicios-de-estimulacao-mental",
-    linkLabel: "Escolher uma atividade",
-  },
-];
+    "Informações claras sobre avaliação neuropsicológica, atenção, memória, desenvolvimento, TDAH, TEA e estimulação mental.",
+  path: "/blog",
+});
 
 export default function BlogPage() {
   return (
-    <main className="detail-page">
+    <main className="detail-page blog-page">
+      <JsonLd data={breadcrumbJsonLd([
+        { name: "Início", path: "/" },
+        { name: "Conteúdos", path: "/blog" },
+      ])} />
       <SiteHeader />
 
       <section className="detail-hero">
         <div className="detail-container detail-hero-grid">
           <div className="detail-hero-copy">
-            <Link className="detail-back-link" href="/">← Voltar ao início</Link>
+            <nav className="breadcrumbs" aria-label="Navegação estrutural">
+              <Link href="/">Início</Link><span aria-hidden="true">›</span><span aria-current="page">Conteúdos</span>
+            </nav>
             <p className="detail-eyebrow">Conteúdo Integrada</p>
-            <h1>Informação clara para decisões de cuidado mais conscientes.</h1>
+            <h1>Neuropsicologia explicada com clareza e responsabilidade.</h1>
             <p className="detail-hero-lead">
-              Leituras próprias sobre neuropsicologia, saúde cognitiva e acompanhamento profissional — com linguagem
-              acessível e sem promessas simplistas.
+              Leituras sobre avaliação, funcionamento cognitivo e cuidado em diferentes fases da vida, sem promessas
+              simplistas ou conclusões por listas de sintomas.
             </p>
             <div className="detail-hero-actions">
               <a className="detail-button" href="#artigos">Explorar conteúdos</a>
-              <Link className="detail-text-link" href="/#contato">
-                Falar com a equipe <span aria-hidden="true">→</span>
-              </Link>
+              <Link className="detail-text-link" href="/#contato">Falar com a equipe <span aria-hidden="true">→</span></Link>
             </div>
           </div>
           <div className="detail-hero-media">
-            <img
-              src="/hero.png"
-              alt="Profissional em ambiente acolhedor de atendimento"
-              width="700"
-              height="700"
-              fetchPriority="high"
-            />
+            <img src="/hero.webp" alt="Família reunida ao ar livre" width="700" height="700" fetchPriority="high" />
           </div>
         </div>
       </section>
@@ -117,54 +46,31 @@ export default function BlogPage() {
       <section className="detail-section detail-scope" id="artigos">
         <div className="detail-container">
           <div className="detail-section-heading detail-section-heading-centered">
-            <p className="detail-eyebrow">Para começar</p>
+            <p className="detail-eyebrow">Biblioteca</p>
             <h2>Escolha um tema para ler no seu ritmo.</h2>
-            <p>Todos os links abaixo levam a conteúdos desta página e a serviços do novo site.</p>
+            <p>Os artigos têm finalidade educativa e direcionam para páginas próprias do novo site.</p>
           </div>
-          <div className="detail-topic-grid">
-            {articles.map((article, index) => (
-              <article className="detail-topic-card" key={article.id}>
-                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                <h3><a href={`#${article.id}`}>{article.title}</a></h3>
-                <p>{article.introduction}</p>
+          <div className="blog-card-grid">
+            {blogArticles.map((article) => (
+              <article className="blog-card" key={article.slug}>
+                <p className="detail-eyebrow">{article.eyebrow}</p>
+                <h3><Link href={`/post/${article.slug}`}>{article.title}</Link></h3>
+                <p>{article.description}</p>
+                <Link className="detail-text-link" href={`/post/${article.slug}`}>
+                  Ler conteúdo <span aria-hidden="true">→</span>
+                </Link>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      {articles.map((article, index) => (
-        <article
-          className={`detail-section${index % 2 === 1 ? " detail-scope" : ""}`}
-          id={article.id}
-          key={article.id}
-        >
-          <div className="detail-container detail-two-columns">
-            <div className="detail-section-heading">
-              <p className="detail-eyebrow">{article.eyebrow}</p>
-              <h2>{article.title}</h2>
-              <p>{article.introduction}</p>
-              <p>{article.closing}</p>
-              <p><a className="detail-text-link" href={article.href}>{article.linkLabel} →</a></p>
-            </div>
-            <ul className="detail-check-list">
-              {article.points.map((point) => (
-                <li key={point}>
-                  <span aria-hidden="true">✓</span>
-                  <p>{point}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </article>
-      ))}
-
       <aside className="detail-disclaimer">
         <div className="detail-container">
           <strong>Sobre estes conteúdos</strong>
           <p>
-            Os textos têm finalidade educativa e não substituem consulta, avaliação, diagnóstico ou tratamento.
-            Recomendações individuais dependem da história, do contexto e das necessidades de cada pessoa.
+            Os textos não substituem consulta, avaliação, diagnóstico ou tratamento. Recomendações individuais
+            dependem da história, do contexto e das necessidades de cada pessoa.
           </p>
         </div>
       </aside>
@@ -174,7 +80,7 @@ export default function BlogPage() {
           <div>
             <p className="detail-eyebrow">Ainda tem dúvidas?</p>
             <h2>Uma conversa pode ajudar a encontrar o próximo passo.</h2>
-            <p>Conheça os atendimentos ou envie sua dúvida para a equipe da Integrada Neuropsicologia.</p>
+            <p>Conheça os atendimentos ou explique brevemente sua necessidade para a equipe.</p>
           </div>
           <Link className="detail-button detail-button-light" href="/#contato">Entrar em contato</Link>
         </div>

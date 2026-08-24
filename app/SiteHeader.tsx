@@ -9,7 +9,7 @@ const navigationGroups = [
     links: [
       { label: "Infantojuvenil", href: "/avaliacaoinfantil" },
       { label: "Adultos", href: "/avaliacaoneuropsicologicaadulto" },
-      { label: "On-line", href: "/avaliacaoonline" },
+      { label: "On-line para adultos", href: "/avaliacao-neuropsicologica-online-adultos" },
       { label: "TDAH", href: "/avaliacaotdah" },
       { label: "TEA/Autismo", href: "/avaliacaoautismo" },
       { label: "Idosos", href: "/avaliacaoneuropsicologicaidoso" },
@@ -57,6 +57,10 @@ const navigationGroups = [
 ] as const;
 
 const directLinks = [
+  {
+    label: "Sobre",
+    href: "/sobre",
+  },
   {
     label: "Blog",
     href: "/blog",
@@ -115,7 +119,7 @@ export function SiteHeader() {
       <div className="topbar">
         <div className="container topbar-inner">
           <p>Atendimentos presenciais em Curitiba e on-line em todo o Brasil, conforme o serviço</p>
-          <a href="tel:+5541992113665">(41) 99211-3665</a>
+          <a href="tel:+5541992113665" data-analytics-event="phone_click" data-analytics-context="site_header">(41) 99211-3665</a>
         </div>
       </div>
 
