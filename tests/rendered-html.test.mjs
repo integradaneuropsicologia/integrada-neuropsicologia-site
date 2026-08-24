@@ -162,7 +162,6 @@ test("renders the revised adult assessment content", async () => {
 test("uses the requested notice across assessment pages", async () => {
   for (const pathname of [
     "/avaliacaoneuropsicologicaidoso",
-    "/avaliacaotdah",
     "/avaliacaoautismo",
   ]) {
     const response = await render(pathname);
@@ -175,6 +174,32 @@ test("uses the requested notice across assessment pages", async () => {
     assert.match(html, /percurso terapêutico e os cuidados mais adequados/i, pathname);
     assert.match(html, /maior previsibilidade e bem-estar/i, pathname);
   }
+});
+
+test("renders the revised ADHD assessment content", async () => {
+  const response = await render("/avaliacaotdah");
+  assert.equal(response.status, 200);
+
+  const html = normalizeHtml(await response.text());
+  assert.match(html, /Avaliação neuropsicológica para investigação de TDAH/i);
+  assert.match(html, /Veja quando a avaliação pode ser indicada/i);
+  assert.match(html, /Processo<\/span><strong>8 encontros/i);
+  assert.match(html, /Presencial; on-line para adultos, após análise de adequação/i);
+  assert.match(html, /Entrega<\/span><strong>Devolutiva e laudo psicológico/i);
+  assert.match(html, /As hipóteses são analisadas a partir de diferentes fontes de informação/i);
+  assert.match(html, /A avaliação é organizada em 8 encontros/i);
+  assert.match(html, /procedimentos, instrumentos e fontes complementares de informação/i);
+  assert.match(html, /tarefas selecionados conforme a idade, a demanda e os objetivos/i);
+  assert.match(html, /funcionamento da pessoa em diferentes contextos/i);
+  assert.match(html, /Devolutiva e laudo psicológico/i);
+  assert.match(html, /das hipóteses consideradas, dos limites da avaliação/i);
+  assert.match(html, /análise da hipótese de TDAH/i);
+  assert.match(html, /outras condições que apresentem manifestações semelhantes/i);
+  assert.match(html, /psicóloga responsável analisa se a avaliação é indicada/i);
+  assert.match(html, /qual modalidade é adequada/i);
+  assert.match(html, /Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08\/39739/i);
+  assert.doesNotMatch(html, /Planejamento individual<\/strong>/i);
+  assert.doesNotMatch(html, /\*A viabilidade on-line depende de triagem prévia/i);
 });
 
 test("combines the adult clinical process with the online format", async () => {
