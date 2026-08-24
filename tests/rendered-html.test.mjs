@@ -161,7 +161,6 @@ test("renders the revised adult assessment content", async () => {
 
 test("uses the requested notice across assessment pages", async () => {
   for (const pathname of [
-    "/avaliacaoonline",
     "/avaliacaoneuropsicologicaidoso",
     "/avaliacaotdah",
     "/avaliacaoautismo",
@@ -183,11 +182,32 @@ test("combines the adult clinical process with the online format", async () => {
   assert.equal(response.status, 200);
 
   const html = normalizeHtml(await response.text());
+  assert.match(html, /funcionamento cognitivo, emocional e funcional de adultos/i);
+  assert.match(html, /indicação técnica e condições adequadas de participação/i);
+  assert.match(html, /Veja quando a modalidade on-line pode ser indicada/i);
+  assert.match(html, /Processo<\/span><strong>8 encontros/i);
+  assert.match(html, /On-line para adultos, após análise de adequação/i);
+  assert.match(html, /Devolutiva e laudo psicológico digital/i);
+  assert.match(html, /alterações de humor/i);
+  assert.match(html, /manifestações semelhantes/i);
+  assert.match(html, /Procedimentos definidos conforme a demanda e as condições do atendimento remoto/i);
+  assert.match(html, /A avaliação é organizada em 8 encontros/i);
+  assert.match(html, /instrumentos compatíveis com a modalidade remota/i);
   assert.match(html, /Entrevista clínica por vídeo/i);
   assert.match(html, /Definição do plano e orientação técnica/i);
-  assert.match(html, /fontes de informação relevantes/i);
+  assert.match(html, /fontes de informação adequados à demanda e à modalidade/i);
+  assert.match(html, /ambiente reservado/i);
   assert.match(html, /Integração clínica/i);
-  assert.match(html, /pessoas próximas indicadas pelo próprio paciente/i);
+  assert.match(html, /mediante autorização da pessoa avaliada/i);
+  assert.match(html, /pessoas próximas ou de outros profissionais/i);
+  assert.match(html, /limites da avaliação e das recomendações/i);
+  assert.match(html, /funcionamento cognitivo, emocional e comportamental da pessoa/i);
+  assert.match(html, /modalidade presencial ou outro encaminhamento/i);
+  assert.match(html, /Verifique se a modalidade on-line é adequada para a sua necessidade/i);
+  assert.match(html, /psicóloga responsável analisa a adequação da modalidade/i);
+  assert.match(html, /Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08\/39739/i);
+  assert.doesNotMatch(html, /Planejamento individual/i);
+  assert.doesNotMatch(html, /incorporando outros olhares à investigação/i);
   assert.doesNotMatch(html, /Antes de iniciar, a equipe verifica/i);
   assert.doesNotMatch(html, /Quando o formato não for indicado/i);
   assert.doesNotMatch(html, /Nem toda demanda pode ser avaliada integralmente on-line/i);
