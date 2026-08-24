@@ -16,8 +16,9 @@ const content = {
   imageAlt: "Conversa entre profissional e pessoa adulta durante psicoterapia",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre psicoterapia para adultos com TDAH.",
+  secondaryActionLabel: "Veja quando a psicoterapia pode ser indicada",
   indicators: [
-    { label: "Sessões", value: "Periodicidade combinada" },
+    { label: "Acompanhamento", value: "Periodicidade definida em conjunto" },
     { label: "Formato", value: "On-line" },
     { label: "Abordagem", value: "TCC individualizada" },
   ],
@@ -37,7 +38,7 @@ const content = {
     { title: "Planejamento e tempo", description: "Priorização, divisão de tarefas, lembretes e estratégias externas de organização." },
     { title: "Regulação emocional", description: "Reconhecimento de gatilhos, manejo de impulsos e respostas mais flexíveis." },
     { title: "Hábitos e ambiente", description: "Ajustes que reduzem barreiras e favorecem constância sem depender apenas de motivação." },
-    { title: "Autoconhecimento e relações", description: "Compreensão de padrões, comunicação de necessidades e reparação da autocrítica." },
+    { title: "Autoconhecimento e relações", description: "Compreensão de padrões, comunicação de necessidades e manejo da autocrítica." },
   ],
   processTitle: "Pequenas mudanças são planejadas, testadas e ajustadas.",
   processIntroduction:
@@ -47,13 +48,15 @@ const content = {
     { title: "Definição de prioridades", description: "Escolha conjunta de objetivos específicos e viáveis para o momento." },
     { title: "Análise de padrões", description: "Observação de pensamentos, emoções, comportamentos e condições do ambiente." },
     { title: "Aplicação de estratégias", description: "Experimentação de ferramentas entre as sessões e adaptação ao cotidiano." },
-    { title: "Revisão e manutenção", description: "Acompanhamento dos avanços e planejamento para lidar com obstáculos e recaídas." },
+    { title: "Revisão e manutenção", description: "Acompanhamento dos avanços e planejamento para lidar com obstáculos, oscilações e retomadas." },
   ],
   disclaimer:
-    "A psicoterapia não substitui avaliação diagnóstica nem acompanhamento médico quando indicados. Os resultados variam conforme as necessidades e o contexto de cada pessoa, e o plano pode incluir encaminhamentos ou cuidado multiprofissional.",
+    "A psicoterapia não substitui avaliação diagnóstica nem acompanhamento médico quando indicados e não oferece garantia de resultados específicos. Quando houver necessidade de outros cuidados, poderão ser discutidos encaminhamentos e acompanhamento multiprofissional. Este serviço não se destina ao atendimento de situações de urgência ou emergência.",
   finalTitle: "Você não precisa resolver tudo de uma vez para começar.",
   finalText:
-    "Explique quais situações mais pesam hoje. A equipe orienta sobre o acompanhamento e ajuda a definir um primeiro passo possível.",
+    "Explique quais situações mais pesam hoje. A equipe explica como funciona o acompanhamento, e a psicóloga responsável analisa a adequação do serviço à demanda apresentada.",
+  technicalResponsibility:
+    "Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08/39739",
 } satisfies ServiceDetailContent;
 
 export default function AdhdAdultTherapyPage() {
