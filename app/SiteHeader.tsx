@@ -114,7 +114,7 @@ export function SiteHeader() {
     <>
       <div className="topbar">
         <div className="container topbar-inner">
-          <p>Atendimentos presenciais em Curitiba e modalidades on-line conforme o serviço</p>
+          <p>Atendimentos presenciais em Curitiba e on-line em todo o Brasil, conforme o serviço</p>
           <a href="tel:+5541992113665">(41) 99211-3665</a>
         </div>
       </div>

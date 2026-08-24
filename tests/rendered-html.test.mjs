@@ -111,7 +111,7 @@ test("describes the school-context analysis in the child assessment process", as
   assert.equal(response.status, 200);
 
   const html = normalizeHtml(await response.text());
-  assert.match(html, /Atendimentos presenciais em Curitiba e modalidades on-line conforme o serviço/i);
+  assert.match(html, /Atendimentos presenciais em Curitiba e on-line em todo o Brasil, conforme o serviço/i);
   assert.match(html, /Rastreamentos informativos/i);
   assert.match(html, /Veja quando a avaliação pode ser indicada/i);
   assert.match(html, /Processo<\/span><strong>Média de 10 sessões/i);
@@ -131,23 +131,37 @@ test("describes the school-context analysis in the child assessment process", as
   assert.doesNotMatch(html, /professores e pedagogos da criança/i);
 });
 
-test("describes formats and external perspectives in the adult assessment", async () => {
+test("renders the revised adult assessment content", async () => {
   const response = await render("/avaliacaoneuropsicologicaadulto");
   assert.equal(response.status, 200);
 
   const html = normalizeHtml(await response.text());
-  assert.match(html, /Presencial, on-line ou híbrido/i);
+  assert.match(html, /Atendimentos presenciais em Curitiba e on-line em todo o Brasil, conforme o serviço/i);
+  assert.match(html, /Rastreamentos informativos/i);
+  assert.match(html, /Veja quando a avaliação pode ser indicada/i);
+  assert.match(html, /Processo<\/span><strong>8 encontros/i);
+  assert.match(html, /Presencial, on-line ou híbrido, conforme indicação técnica/i);
+  assert.match(html, /Entrega<\/span><strong>Devolutiva e laudo psicológico/i);
   assert.match(html, /o quanto isso interfere no dia a dia/i);
   assert.match(html, /sem resumir sua história a um diagnóstico/i);
-  assert.match(html, /com autorização do paciente/i);
-  assert.match(html, /pessoas próximas indicadas pelo próprio paciente/i);
-  assert.match(html, /outros olhares à investigação/i);
+  assert.match(html, /alterações de humor/i);
+  assert.match(html, /manifestações semelhantes/i);
+  assert.match(html, /A avaliação é organizada em 8 encontros/i);
+  assert.match(html, /procedimentos, instrumentos e fontes de informação adequados/i);
+  assert.match(html, /tarefas selecionados conforme os objetivos da avaliação/i);
+  assert.match(html, /mediante autorização da pessoa avaliada/i);
+  assert.match(html, /pessoas próximas ou de outros profissionais/i);
+  assert.match(html, /Devolutiva e laudo psicológico/i);
+  assert.match(html, /funcionamento cognitivo, emocional e comportamental da pessoa/i);
+  assert.match(html, /a psicóloga responsável analisa se a avaliação é indicada/i);
+  assert.match(html, /Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08\/39739/i);
+  assert.doesNotMatch(html, /Planejamento individual/i);
+  assert.doesNotMatch(html, /incorporando outros olhares à investigação/i);
 });
 
 test("uses the requested notice across assessment pages", async () => {
   for (const pathname of [
     "/avaliacaoonline",
-    "/avaliacaoneuropsicologicaadulto",
     "/avaliacaoneuropsicologicaidoso",
     "/avaliacaotdah",
     "/avaliacaoautismo",
