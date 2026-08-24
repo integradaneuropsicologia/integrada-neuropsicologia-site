@@ -15,10 +15,11 @@ const content = {
   image: "/terapia.png",
   imageAlt: "Sessão de psicoterapia em ambiente acolhedor",
   whatsappMessage: "Olá! Gostaria de receber orientação sobre psicoterapia para adultos.",
+  secondaryActionLabel: "Veja quando a psicoterapia pode ser indicada",
   indicators: [
-    { label: "Sessões", value: "Periodicidade combinada" },
+    { label: "Acompanhamento", value: "Periodicidade definida em conjunto" },
     { label: "Formato", value: "On-line" },
-    { label: "Entrega", value: "Plano terapêutico individual" },
+    { label: "Abordagem", value: "Terapia cognitivo-comportamental" },
   ],
   signsTitle: "A terapia pode fazer sentido em diferentes momentos.",
   signsIntroduction:
@@ -68,7 +69,7 @@ const content = {
     },
     {
       title: "Sessões e prática",
-      description: "Reflexões, experimentos e ferramentas que podem ser aplicados entre os encontros.",
+      description: "Reflexões, exercícios e estratégias que podem ser aplicados entre os encontros.",
     },
     {
       title: "Acompanhamento de progresso",
@@ -76,10 +77,12 @@ const content = {
     },
   ],
   disclaimer:
-    "A psicoterapia é individualizada e não oferece garantia de resultados específicos. Em situações que demandem avaliação médica, atendimento de urgência ou outro tipo de cuidado, serão discutidos encaminhamentos apropriados.",
+    "A psicoterapia é individualizada e não oferece garantia de resultados específicos. Quando houver necessidade de avaliação médica ou de outros cuidados, serão discutidos os encaminhamentos pertinentes. Este serviço não se destina ao atendimento de situações de urgência ou emergência.",
   finalTitle: "O primeiro encontro começa com uma conversa.",
   finalText:
-    "Conte o que você deseja trabalhar. A equipe explica como funciona o acompanhamento e verifica a melhor forma de começar.",
+    "Conte o que você deseja trabalhar. A equipe explica como funciona o acompanhamento, e a psicóloga responsável analisa a adequação do serviço à demanda apresentada.",
+  technicalResponsibility:
+    "Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08/39739",
 } satisfies ServiceDetailContent;
 
 export default function AdultTherapyPage() {

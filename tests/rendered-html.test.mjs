@@ -106,6 +106,24 @@ test("server-renders every service detail route", async () => {
   }
 });
 
+test("renders the revised adult psychotherapy content", async () => {
+  const response = await render("/terapiaparaadultos");
+  assert.equal(response.status, 200);
+
+  const html = normalizeHtml(await response.text());
+  assert.match(html, /Veja quando a psicoterapia pode ser indicada/i);
+  assert.match(html, /Acompanhamento<\/span><strong>Periodicidade definida em conjunto/i);
+  assert.match(html, /Formato<\/span><strong>On-line/i);
+  assert.match(html, /Abordagem<\/span><strong>Terapia cognitivo-comportamental/i);
+  assert.match(html, /Reflexões, exercícios e estratégias que podem ser aplicados entre os encontros/i);
+  assert.match(html, /Este serviço não se destina ao atendimento de situações de urgência ou emergência/i);
+  assert.match(html, /a psicóloga responsável analisa a adequação do serviço à demanda apresentada/i);
+  assert.match(html, /Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08\/39739/i);
+  assert.doesNotMatch(html, /Periodicidade combinada/i);
+  assert.doesNotMatch(html, /Plano terapêutico individual/i);
+  assert.doesNotMatch(html, /experimentos e ferramentas/i);
+});
+
 test("describes the school-context analysis in the child assessment process", async () => {
   const response = await render("/avaliacaoinfantil");
   assert.equal(response.status, 200);
