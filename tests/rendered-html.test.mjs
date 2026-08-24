@@ -159,20 +159,31 @@ test("renders the revised adult assessment content", async () => {
   assert.doesNotMatch(html, /incorporando outros olhares à investigação/i);
 });
 
-test("uses the requested notice across assessment pages", async () => {
-  for (const pathname of [
-    "/avaliacaoneuropsicologicaidoso",
-  ]) {
-    const response = await render(pathname);
-    assert.equal(response.status, 200, pathname);
+test("renders the revised older-adult assessment content", async () => {
+  const response = await render("/avaliacaoneuropsicologicaidoso");
+  assert.equal(response.status, 200);
 
-    const html = normalizeHtml(await response.text());
-    assert.match(html, /diagnóstico previamente estabelecido/i, pathname);
-    assert.match(html, /investigação clínica aprofundada/i, pathname);
-    assert.match(html, /perfil global da pessoa avaliada/i, pathname);
-    assert.match(html, /percurso terapêutico e os cuidados mais adequados/i, pathname);
-    assert.match(html, /maior previsibilidade e bem-estar/i, pathname);
-  }
+  const html = normalizeHtml(await response.text());
+  assert.match(html, /Avaliação neuropsicológica para pessoas idosas/i);
+  assert.match(html, /condições de saúde, aspectos emocionais e atividades do dia a dia/i);
+  assert.match(html, /quando pertinente e autorizado, à família e à rede de cuidado/i);
+  assert.match(html, /Veja quando a avaliação pode ser indicada/i);
+  assert.match(html, /Processo<\/span><strong>8 encontros/i);
+  assert.match(html, /Formato<\/span><strong>Presencial em Curitiba/i);
+  assert.match(html, /Entrega<\/span><strong>Devolutiva e laudo psicológico/i);
+  assert.match(html, /A avaliação é organizada em 8 encontros/i);
+  assert.match(html, /necessidades de acessibilidade e os objetivos da avaliação/i);
+  assert.match(html, /mediante consentimento da pessoa avaliada ou de seu responsável legal/i);
+  assert.match(html, /procedimentos e instrumentos adequados ao histórico/i);
+  assert.match(html, /informações sobre autonomia, segurança e atividades da vida diária/i);
+  assert.match(html, /Devolutiva e laudo psicológico/i);
+  assert.match(html, /das hipóteses consideradas, dos limites da avaliação/i);
+  assert.match(html, /funcionamento cognitivo, emocional e funcional da pessoa idosa/i);
+  assert.match(html, /respeitando a autonomia da pessoa avaliada/i);
+  assert.match(html, /psicóloga responsável analisa se a avaliação é indicada/i);
+  assert.match(html, /Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08\/39739/i);
+  assert.doesNotMatch(html, /Planejamento individual/i);
+  assert.doesNotMatch(html, /Laudo e orientação familiar/i);
 });
 
 test("renders the revised autism assessment content and general image", async () => {

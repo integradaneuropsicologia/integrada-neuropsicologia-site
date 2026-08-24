@@ -8,18 +8,19 @@ export const metadata: Metadata = {
 };
 
 const content = {
-  eyebrow: "Avaliação neuropsicológica para idosos",
+  eyebrow: "Avaliação neuropsicológica para pessoas idosas",
   title: "Compreender as mudanças ajuda a cuidar com mais segurança.",
   introduction:
-    "A avaliação investiga memória, atenção e outras habilidades cognitivas, considerando saúde, emoções e atividades do dia a dia para orientar a pessoa idosa, sua família e a rede de cuidado.",
+    "A avaliação investiga memória, atenção e outras habilidades cognitivas, considerando condições de saúde, aspectos emocionais e atividades do dia a dia. Os resultados podem subsidiar orientações à pessoa idosa e, quando pertinente e autorizado, à família e à rede de cuidado.",
   image: "/idoso.png",
   imageAlt: "Pessoa idosa em atividade de cuidado e atenção",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre avaliação neuropsicológica para idosos.",
+  secondaryActionLabel: "Veja quando a avaliação pode ser indicada",
   indicators: [
-    { label: "Sessões", value: "Planejamento individual" },
+    { label: "Processo", value: "8 encontros" },
     { label: "Formato", value: "Presencial em Curitiba" },
-    { label: "Entrega", value: "Laudo e orientação familiar" },
+    { label: "Entrega", value: "Devolutiva e laudo psicológico" },
   ],
   signsTitle: "Mudanças persistentes merecem atenção profissional.",
   signsIntroduction:
@@ -53,15 +54,15 @@ const content = {
   ],
   processTitle: "Uma avaliação atenta à pessoa e à família.",
   processIntroduction:
-    "O planejamento considera condições de saúde, ritmo, necessidades de acessibilidade e a pergunta apresentada pela família ou pelo profissional solicitante.",
+    "A avaliação é organizada em 8 encontros. A distribuição das etapas e a seleção dos procedimentos consideram as condições de saúde, o ritmo, as necessidades de acessibilidade e os objetivos da avaliação.",
   steps: [
     {
       title: "Entrevista inicial",
-      description: "Conversa com a pessoa idosa e, mediante concordância, com um familiar ou cuidador.",
+      description: "Conversa com a pessoa idosa e, quando pertinente, com familiar ou cuidador, mediante consentimento da pessoa avaliada ou de seu responsável legal.",
     },
     {
       title: "Planejamento",
-      description: "Seleção de instrumentos adequados ao histórico, às condições de saúde e às queixas atuais.",
+      description: "Definição dos procedimentos e instrumentos adequados ao histórico, às condições de saúde e aos objetivos da avaliação.",
     },
     {
       title: "Sessões de avaliação",
@@ -69,18 +70,20 @@ const content = {
     },
     {
       title: "Análise funcional",
-      description: "Integração dos resultados com autonomia, segurança e atividades da vida diária.",
+      description: "Integração dos resultados com informações sobre autonomia, segurança e atividades da vida diária.",
     },
     {
-      title: "Devolutiva e laudo",
-      description: "Explicação dos achados e recomendações para acompanhamento, rotina e rede de saúde.",
+      title: "Devolutiva e laudo psicológico",
+      description: "Apresentação dos achados, das hipóteses consideradas, dos limites da avaliação e das recomendações para acompanhamento, rotina e rede de saúde.",
     },
   ],
   disclaimer:
-    "A avaliação não parte de um diagnóstico previamente estabelecido nem garante a confirmação de uma hipótese específica. Seu propósito é realizar uma investigação clínica aprofundada, buscando compreender o perfil global da pessoa avaliada e identificar os fatores que podem estar relacionados ao seu sofrimento. A partir dos resultados, será possível indicar o percurso terapêutico e os cuidados mais adequados, favorecendo um desenvolvimento saudável, seguro, com maior previsibilidade e bem-estar.",
+    "A avaliação não tem como objetivo confirmar automaticamente um diagnóstico ou uma hipótese previamente formulada. Seu propósito é investigar, de forma integrada, o funcionamento cognitivo, emocional e funcional da pessoa idosa, considerando sua história, suas condições de saúde e sua rotina. Os resultados podem contribuir para compreender as mudanças observadas, analisar hipóteses clínicas e subsidiar recomendações, encaminhamentos e estratégias de cuidado, respeitando a autonomia da pessoa avaliada.",
   finalTitle: "Cuidar começa por compreender o que mudou.",
   finalText:
-    "Conte quais sinais foram percebidos e há quanto tempo. A equipe orienta os próximos passos com respeito à autonomia da pessoa idosa.",
+    "Conte quais sinais foram percebidos e há quanto tempo. A equipe explica como funciona o processo, e a psicóloga responsável analisa se a avaliação é indicada para a demanda apresentada, respeitando a autonomia da pessoa idosa.",
+  technicalResponsibility:
+    "Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08/39739",
 } satisfies ServiceDetailContent;
 
 export default function OlderAdultAssessmentPage() {
