@@ -25,6 +25,7 @@ export type ServiceDetailContent = {
   image: string;
   imageAlt: string;
   whatsappMessage: string;
+  secondaryActionLabel?: string;
   indicators: DetailIndicator[];
   signsTitle: string;
   signsIntroduction?: string;
@@ -38,6 +39,7 @@ export type ServiceDetailContent = {
   disclaimer: string;
   finalTitle: string;
   finalText: string;
+  technicalResponsibility?: string;
 };
 
 function whatsappHref(message: string) {
@@ -63,7 +65,7 @@ export function ServiceDetailPage({ content }: { content: ServiceDetailContent }
                 Quero receber orientação
               </a>
               <a className="detail-text-link" href="#quando-procurar">
-                Entenda se faz sentido para você <span aria-hidden="true">↓</span>
+                {content.secondaryActionLabel ?? "Entenda se faz sentido para você"} <span aria-hidden="true">↓</span>
               </a>
             </div>
           </div>
@@ -180,6 +182,11 @@ export function ServiceDetailPage({ content }: { content: ServiceDetailContent }
             <Link href="/exercicios-de-estimulacao-mental">Exercícios de estimulação mental</Link>
           </nav>
         </div>
+        {content.technicalResponsibility ? (
+          <div className="detail-container detail-footer-responsibility">
+            <p>{content.technicalResponsibility}</p>
+          </div>
+        ) : null}
         <div className="detail-container detail-footer-bottom">
           <p>© {new Date().getFullYear()} Integrada Neuropsicologia. Todos os direitos reservados.</p>
           <p>Conteúdo informativo. Não substitui avaliação ou acompanhamento profissional.</p>

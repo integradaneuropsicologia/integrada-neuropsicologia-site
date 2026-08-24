@@ -16,10 +16,11 @@ const content = {
   imageAlt: "Criança em atividade lúdica durante acompanhamento profissional",
   whatsappMessage:
     "Olá! Gostaria de receber orientação sobre avaliação neuropsicológica infantojuvenil.",
+  secondaryActionLabel: "Veja quando a avaliação pode ser indicada",
   indicators: [
-    { label: "Sessões", value: "Planejamento individual" },
+    { label: "Processo", value: "Média de 10 sessões" },
     { label: "Formato", value: "Presencial em Curitiba" },
-    { label: "Entrega", value: "Devolutiva e laudo" },
+    { label: "Entrega", value: "Devolutiva e laudo psicológico" },
   ],
   signsTitle: "Alguns sinais merecem uma investigação cuidadosa.",
   signsIntroduction:
@@ -28,7 +29,7 @@ const content = {
     "Dificuldades persistentes de aprendizagem ou queda no rendimento escolar.",
     "Desatenção, impulsividade, agitação ou dificuldade para organizar tarefas.",
     "Desafios na comunicação, na socialização ou na regulação emocional.",
-    "Dúvidas sobre desenvolvimento, altas habilidades, TDAH, TEA ou outras hipóteses clínicas.",
+    "Dúvidas relacionadas ao desenvolvimento, a altas habilidades/superdotação ou a hipóteses clínicas como TDAH e TEA.",
     "Solicitação de avaliação feita pela escola, pelo pediatra ou por outro profissional de saúde.",
   ],
   scopeEyebrow: "O que investigamos",
@@ -53,7 +54,7 @@ const content = {
   ],
   processTitle: "Um processo construído com a família.",
   processIntroduction:
-    "A quantidade de encontros e os instrumentos utilizados são definidos de acordo com a idade e a pergunta clínica.",
+    "A avaliação é organizada em 10 encontros. A distribuição das etapas e os procedimentos utilizados são definidos conforme a idade, a demanda e os objetivos da avaliação.",
   steps: [
     {
       title: "Entrevista inicial",
@@ -61,7 +62,7 @@ const content = {
     },
     {
       title: "Planejamento da avaliação",
-      description: "Seleção de instrumentos e estratégias adequados à idade e às hipóteses que precisam ser investigadas.",
+      description: "Definição dos procedimentos e instrumentos adequados à idade, à demanda e aos objetivos da avaliação.",
     },
     {
       title: "Encontros com a criança ou adolescente",
@@ -70,18 +71,20 @@ const content = {
     {
       title: "Integração de informações",
       description:
-        "Análise conjunta dos resultados e, com autorização da família, conversa com professores e pedagogos da criança para compreender o contexto escolar, além do diálogo com outros profissionais quando pertinente.",
+        "Análise integrada dos resultados e, quando pertinente, contato com a escola e outros profissionais envolvidos, mediante autorização dos responsáveis legais e observância do sigilo profissional.",
     },
     {
-      title: "Devolutiva e laudo",
+      title: "Devolutiva e laudo psicológico",
       description: "Explicação clara dos achados, das hipóteses consideradas e das recomendações para os próximos passos.",
     },
   ],
   disclaimer:
-    "A avaliação não parte de um diagnóstico previamente estabelecido nem garante a confirmação de uma hipótese específica. Seu propósito é realizar uma investigação clínica aprofundada, buscando compreender o perfil global da criança ou do adolescente e identificar os fatores que podem estar relacionados ao seu sofrimento. A partir dos resultados, será possível indicar o percurso terapêutico e os cuidados mais adequados, favorecendo um desenvolvimento saudável, seguro, com maior previsibilidade e bem-estar.",
+    "A avaliação não tem como objetivo confirmar automaticamente um diagnóstico ou uma hipótese previamente formulada. Seu propósito é investigar, de forma integrada, o funcionamento cognitivo, emocional e comportamental da criança ou do adolescente, considerando sua história e os contextos familiar, escolar e social. Os resultados podem subsidiar recomendações, encaminhamentos e estratégias de cuidado compatíveis com as necessidades identificadas.",
   finalTitle: "Você não precisa organizar todas as dúvidas antes de conversar.",
   finalText:
-    "Conte o que vem sendo observado. A equipe ajuda a entender se a avaliação é indicada e como o processo pode ser planejado.",
+    "Conte o que vem sendo observado. A equipe esclarece como funciona o processo, e a psicóloga responsável analisa se a avaliação é indicada para a demanda apresentada.",
+  technicalResponsibility:
+    "Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08/39739",
 } satisfies ServiceDetailContent;
 
 export default function ChildAssessmentPage() {

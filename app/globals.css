@@ -713,6 +713,8 @@ footer { padding: 54px 0 24px; background: #0b2e2b; color: white; }
 .detail-footer-main nav { display: grid; gap: 10px; }
 .detail-footer-main nav a { color: #b8cac4; font-size: 11px; }
 .detail-footer-main nav a:hover { color: white; }
+.detail-footer-responsibility { padding: 0 0 18px; color: #b8cac4; font-size: 10px; }
+.detail-footer-responsibility p { margin: 0; }
 .detail-footer-bottom { display: flex; justify-content: space-between; gap: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.12); color: #799590; font-size: 9px; }
 .detail-footer-bottom p { margin: 0; }
 

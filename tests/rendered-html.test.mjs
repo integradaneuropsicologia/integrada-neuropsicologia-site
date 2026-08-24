@@ -61,7 +61,7 @@ test("server-renders the Integrada homepage", async () => {
   assert.match(html, /Dúvidas frequentes/);
   assert.match(html, /Avaliação Neuropsicológica/);
   assert.match(html, /Psicoterapia/);
-  assert.match(html, /Teste grátis/);
+  assert.match(html, /Rastreamentos informativos/);
   assert.match(html, /Exercícios de estimulação mental/);
   assert.match(html, /href="\/exercicios-de-estimulacao-mental"/);
   assert.match(html, /wa\.me\/5541992113665/);
@@ -111,13 +111,24 @@ test("describes the school-context analysis in the child assessment process", as
   assert.equal(response.status, 200);
 
   const html = normalizeHtml(await response.text());
-  assert.match(html, /professores e pedagogos da criança/i);
-  assert.match(html, /compreender o contexto escolar/i);
-  assert.match(html, /autorização da família/i);
-  assert.match(html, /investigação clínica aprofundada/i);
-  assert.match(html, /percurso terapêutico e os cuidados mais adequados/i);
-  assert.match(html, /maior previsibilidade e bem-estar/i);
-  assert.doesNotMatch(html, /diagnóstico pronto/i);
+  assert.match(html, /Atendimentos presenciais em Curitiba e modalidades on-line conforme o serviço/i);
+  assert.match(html, /Rastreamentos informativos/i);
+  assert.match(html, /Veja quando a avaliação pode ser indicada/i);
+  assert.match(html, /Processo<\/span><strong>Média de 10 sessões/i);
+  assert.match(html, /Formato<\/span><strong>Presencial em Curitiba/i);
+  assert.match(html, /Entrega<\/span><strong>Devolutiva e laudo psicológico/i);
+  assert.match(html, /altas habilidades\/superdotação/i);
+  assert.match(html, /A avaliação é organizada em 10 encontros/i);
+  assert.match(html, /Definição dos procedimentos e instrumentos adequados à idade/i);
+  assert.match(html, /mediante autorização dos responsáveis legais/i);
+  assert.match(html, /observância do sigilo profissional/i);
+  assert.match(html, /Devolutiva e laudo psicológico/i);
+  assert.match(html, /funcionamento cognitivo, emocional e comportamental/i);
+  assert.match(html, /contextos familiar, escolar e social/i);
+  assert.match(html, /a psicóloga responsável analisa se a avaliação é indicada/i);
+  assert.match(html, /Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08\/39739/i);
+  assert.doesNotMatch(html, /Planejamento individual/i);
+  assert.doesNotMatch(html, /professores e pedagogos da criança/i);
 });
 
 test("describes formats and external perspectives in the adult assessment", async () => {
