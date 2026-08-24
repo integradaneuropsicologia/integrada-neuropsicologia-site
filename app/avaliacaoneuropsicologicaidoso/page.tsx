@@ -77,7 +77,7 @@ const content = {
     },
   ],
   disclaimer:
-    "Alterações de memória podem ter diferentes causas. A avaliação neuropsicológica contribui para a investigação, mas não substitui exames médicos e pode indicar encaminhamento para neurologia, geriatria ou outras especialidades.",
+    "A avaliação não parte de um diagnóstico previamente estabelecido nem garante a confirmação de uma hipótese específica. Seu propósito é realizar uma investigação clínica aprofundada, buscando compreender o perfil global da pessoa avaliada e identificar os fatores que podem estar relacionados ao seu sofrimento. A partir dos resultados, será possível indicar o percurso terapêutico e os cuidados mais adequados, favorecendo um desenvolvimento saudável, seguro, com maior previsibilidade e bem-estar.",
   finalTitle: "Cuidar começa por compreender o que mudou.",
   finalText:
     "Conte quais sinais foram percebidos e há quanto tempo. A equipe orienta os próximos passos com respeito à autonomia da pessoa idosa.",

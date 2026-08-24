@@ -27,7 +27,7 @@ export type ServiceDetailContent = {
   whatsappMessage: string;
   indicators: DetailIndicator[];
   signsTitle: string;
-  signsIntroduction: string;
+  signsIntroduction?: string;
   signs: string[];
   scopeEyebrow: string;
   scopeTitle: string;
@@ -89,7 +89,7 @@ export function ServiceDetailPage({ content }: { content: ServiceDetailContent }
           <div className="detail-section-heading">
             <p className="detail-eyebrow">Quando procurar</p>
             <h2>{content.signsTitle}</h2>
-            <p>{content.signsIntroduction}</p>
+            {content.signsIntroduction ? <p>{content.signsIntroduction}</p> : null}
           </div>
           <ul className="detail-check-list">
             {content.signs.map((sign) => (

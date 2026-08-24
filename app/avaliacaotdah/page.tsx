@@ -50,7 +50,7 @@ const content = {
     { title: "Devolutiva e orientações", description: "Explicação dos achados, limites, hipóteses e recomendações para os próximos passos." },
   ],
   disclaimer:
-    "Nenhum teste isolado confirma ou exclui TDAH. Sinais semelhantes podem estar relacionados a sono, ansiedade, humor, condições médicas, contexto ou outras particularidades; por isso, a conclusão depende da integração clínica e pode exigir avaliação complementar.",
+    "A avaliação não parte de um diagnóstico previamente estabelecido nem garante a confirmação de uma hipótese específica. Seu propósito é realizar uma investigação clínica aprofundada, buscando compreender o perfil global da pessoa avaliada e identificar os fatores que podem estar relacionados ao seu sofrimento. A partir dos resultados, será possível indicar o percurso terapêutico e os cuidados mais adequados, favorecendo um desenvolvimento saudável, seguro, com maior previsibilidade e bem-estar.",
   finalTitle: "Sua dúvida pode ser o começo de uma investigação mais clara.",
   finalText:
     "Conte quais dificuldades você percebe e como elas afetam a rotina. A equipe orienta sobre a indicação e o formato possível da avaliação. *A viabilidade on-line depende de triagem prévia.",

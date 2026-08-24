@@ -22,8 +22,6 @@ const content = {
     { label: "Entrega", value: "Devolutiva e laudo digital" },
   ],
   signsTitle: "Uma alternativa para quem precisa de flexibilidade.",
-  signsIntroduction:
-    "Antes de iniciar, a equipe verifica se a demanda, o ambiente e os recursos disponíveis permitem uma avaliação remota adequada.",
   signs: [
     "Dificuldades de atenção, memória, organização ou produtividade que afetam a rotina.",
     "Dúvidas sobre TDAH, TEA, ansiedade, humor ou outras hipóteses em adultos.",
@@ -53,23 +51,24 @@ const content = {
   ],
   processTitle: "Tecnologia a serviço de um processo cuidadoso.",
   processIntroduction:
-    "Somente procedimentos apropriados para aplicação remota são utilizados. Quando o formato não for indicado, a equipe explica alternativas.",
+    "O número de sessões e a composição da bateria variam conforme a demanda, o histórico e as condições de cada pessoa. Somente procedimentos apropriados para aplicação remota são utilizados.",
   steps: [
     {
-      title: "Entrevista por vídeo",
-      description: "Compreensão da demanda, do histórico e das condições necessárias para participação.",
+      title: "Entrevista clínica por vídeo",
+      description: "Levantamento da história de vida, saúde, desenvolvimento, demandas atuais e condições necessárias para participação.",
     },
     {
-      title: "Orientação técnica",
-      description: "Checagem de equipamentos, privacidade do ambiente e combinados para os encontros.",
+      title: "Definição do plano e orientação técnica",
+      description: "Escolha dos instrumentos e das fontes de informação relevantes, além da checagem de equipamentos, privacidade e combinados para os encontros.",
     },
     {
       title: "Sessões de avaliação",
       description: "Aplicação de instrumentos e tarefas adequados ao atendimento remoto.",
     },
     {
-      title: "Integração dos dados",
-      description: "Análise conjunta de entrevistas, resultados, escalas e funcionamento cotidiano.",
+      title: "Integração clínica",
+      description:
+        "Análise dos resultados em conjunto com a história, o funcionamento cotidiano e, com autorização do paciente, informações de pessoas próximas indicadas pelo próprio paciente, incorporando outros olhares à investigação.",
     },
     {
       title: "Devolutiva e laudo digital",
@@ -77,7 +76,7 @@ const content = {
     },
   ],
   disclaimer:
-    "Nem toda demanda pode ser avaliada integralmente on-line. A indicação depende de triagem profissional, disponibilidade de instrumentos adequados e condições técnicas. Pode ser recomendado atendimento presencial ou avaliação complementar.",
+    "A avaliação não parte de um diagnóstico previamente estabelecido nem garante a confirmação de uma hipótese específica. Seu propósito é realizar uma investigação clínica aprofundada, buscando compreender o perfil global da pessoa avaliada e identificar os fatores que podem estar relacionados ao seu sofrimento. A partir dos resultados, será possível indicar o percurso terapêutico e os cuidados mais adequados, favorecendo um desenvolvimento saudável, seguro, com maior previsibilidade e bem-estar.",
   finalTitle: "Descubra se a modalidade on-line é adequada para você.",
   finalText:
     "Explique brevemente sua necessidade e onde você está. A equipe avalia a viabilidade do formato antes do início do processo.",

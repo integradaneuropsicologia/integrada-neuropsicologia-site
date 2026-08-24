@@ -50,7 +50,7 @@ const content = {
     { title: "Devolutiva e recomendações", description: "Apresentação dos achados, das hipóteses e dos apoios que podem favorecer o cotidiano." },
   ],
   disclaimer:
-    "Questionários ou testes isolados não confirmam TEA. A avaliação considera trajetória de desenvolvimento, contexto, condições que podem coexistir ou produzir sinais semelhantes e, quando necessário, articulação com outros profissionais.",
+    "A avaliação não parte de um diagnóstico previamente estabelecido nem garante a confirmação de uma hipótese específica. Seu propósito é realizar uma investigação clínica aprofundada, buscando compreender o perfil global da pessoa avaliada e identificar os fatores que podem estar relacionados ao seu sofrimento. A partir dos resultados, será possível indicar o percurso terapêutico e os cuidados mais adequados, favorecendo um desenvolvimento saudável, seguro, com maior previsibilidade e bem-estar.",
   finalTitle: "Uma avaliação responsável também reconhece recursos e necessidades.",
   finalText:
     "Compartilhe suas dúvidas e o momento de vida da pessoa que será avaliada. A equipe orienta como a investigação pode ser organizada.",

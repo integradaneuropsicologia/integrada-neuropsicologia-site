@@ -133,6 +133,41 @@ test("describes formats and external perspectives in the adult assessment", asyn
   assert.match(html, /outros olhares à investigação/i);
 });
 
+test("uses the requested notice across assessment pages", async () => {
+  for (const pathname of [
+    "/avaliacaoonline",
+    "/avaliacaoneuropsicologicaadulto",
+    "/avaliacaoneuropsicologicaidoso",
+    "/avaliacaotdah",
+    "/avaliacaoautismo",
+  ]) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+
+    const html = normalizeHtml(await response.text());
+    assert.match(html, /diagnóstico previamente estabelecido/i, pathname);
+    assert.match(html, /investigação clínica aprofundada/i, pathname);
+    assert.match(html, /perfil global da pessoa avaliada/i, pathname);
+    assert.match(html, /percurso terapêutico e os cuidados mais adequados/i, pathname);
+    assert.match(html, /maior previsibilidade e bem-estar/i, pathname);
+  }
+});
+
+test("combines the adult clinical process with the online format", async () => {
+  const response = await render("/avaliacaoonline");
+  assert.equal(response.status, 200);
+
+  const html = normalizeHtml(await response.text());
+  assert.match(html, /Entrevista clínica por vídeo/i);
+  assert.match(html, /Definição do plano e orientação técnica/i);
+  assert.match(html, /fontes de informação relevantes/i);
+  assert.match(html, /Integração clínica/i);
+  assert.match(html, /pessoas próximas indicadas pelo próprio paciente/i);
+  assert.doesNotMatch(html, /Antes de iniciar, a equipe verifica/i);
+  assert.doesNotMatch(html, /Quando o formato não for indicado/i);
+  assert.doesNotMatch(html, /Nem toda demanda pode ser avaliada integralmente on-line/i);
+});
+
 test("serves original local pages for every screening and the blog", async () => {
   const screenings = [
     ["/testetdahadulto", 18, "comete erros por falta de atenção"],
