@@ -18,7 +18,6 @@ export const metadata: Metadata = {
     "Avaliação neuropsicológica para compreender atenção, memória, linguagem, aprendizagem e emoções. Atendimento presencial em Curitiba e modalidades on-line conforme o serviço.",
   applicationName: siteConfig.name,
   manifest: "/manifest.webmanifest",
-  robots: { index: true, follow: true },
   icons: {
     icon: [{ url: "/logo-icon.jpg", type: "image/jpeg" }],
     apple: [{ url: "/logo-icon.jpg", type: "image/jpeg" }],

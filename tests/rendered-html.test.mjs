@@ -604,6 +604,10 @@ test("serves canonical SEO metadata, sitemap, robots and a real 404", async () =
   const missingHtml = await missingResponse.text();
   assert.match(missingHtml, /Página não encontrada/i);
   assert.match(missingHtml, /<meta[^>]+content="noindex"[^>]+name="robots"/i);
+  assert.doesNotMatch(
+    missingHtml,
+    /<meta[^>]+(?:name="robots"[^>]+content="index, follow"|content="index, follow"[^>]+name="robots")/i,
+  );
 });
 
 test("keeps legacy content URLs and applies one-hop permanent redirects", async () => {
