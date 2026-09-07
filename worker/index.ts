@@ -6,6 +6,7 @@ const canonicalOrigin = "https://www.integradaneuropsicologia.com.br";
 const canonicalHostname = "www.integradaneuropsicologia.com.br";
 
 const permanentRedirects = new Map<string, string>([
+  ["/home", "/"],
   ["/avaliacaoonline", "/avaliacao-neuropsicologica-online-adultos"],
   ["/avaliacao-neuropsicologica-online-adultos/como-funciona", "/avaliacao-neuropsicologica-online-adultos#como-funciona"],
   ["/avaliacao-neuropsicologica-online-adultos/para-quem", "/avaliacao-neuropsicologica-online-adultos#para-quem"],
@@ -119,7 +120,20 @@ const worker = {
       }, allowedWidths);
     }
 
-    return handler.fetch(request, env, ctx);
+    const response = await handler.fetch(request, env, ctx);
+
+    if (response.status !== 404) {
+      return response;
+    }
+
+    const headers = new Headers(response.headers);
+    headers.set("X-Robots-Tag", "noindex, nofollow");
+
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    });
   },
 };
 

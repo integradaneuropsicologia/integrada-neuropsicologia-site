@@ -600,7 +600,10 @@ test("serves canonical SEO metadata, sitemap, robots and a real 404", async () =
 
   const missingResponse = await render("/pagina-que-nao-existe-para-teste");
   assert.equal(missingResponse.status, 404);
-  assert.match(await missingResponse.text(), /Página não encontrada/i);
+  assert.match(missingResponse.headers.get("x-robots-tag") ?? "", /noindex/i);
+  const missingHtml = await missingResponse.text();
+  assert.match(missingHtml, /Página não encontrada/i);
+  assert.match(missingHtml, /<meta[^>]+content="noindex"[^>]+name="robots"/i);
 });
 
 test("keeps legacy content URLs and applies one-hop permanent redirects", async () => {
@@ -620,6 +623,7 @@ test("keeps legacy content URLs and applies one-hop permanent redirects", async 
   }
 
   const redirects = [
+    ["/home?origem=search-console", "https://www.integradaneuropsicologia.com.br/?origem=search-console"],
     ["/avaliacaoonline?origem=legado", "https://www.integradaneuropsicologia.com.br/avaliacao-neuropsicologica-online-adultos?origem=legado"],
     ["/jogodolabirinto", "https://www.integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental/labirinto"],
     ["/jogosdeestimula%C3%A7%C3%A3omental", "https://www.integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental"],
