@@ -502,9 +502,10 @@ test("ships all 19 optimized exercise card images", async () => {
 });
 
 test("ships production metadata, local imagery, and responsive styles", async () => {
-  const [layout, page, siteHeader, exercisePage, css, landingCss, packageJson] = await Promise.all([
+  const [layout, page, landingPage, siteHeader, exercisePage, css, landingCss, packageJson] = await Promise.all([
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/avaliacao-neuropsicologica-online-adultos/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/SiteHeader.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/exercicios-de-estimulacao-mental/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
@@ -517,7 +518,9 @@ test("ships production metadata, local imagery, and responsive styles", async ()
   assert.match(layout, /lang="pt-BR"/);
   assert.match(page, /\/hero\.webp/);
   assert.match(page, /ContactForm/);
+  assert.match(landingPage, /className="lp-brand" href="\/"/);
   assert.match(siteHeader, /Exercícios de estimulação mental/);
+  assert.match(siteHeader, /className="brand brand-logo-link"[\s\S]*?href="\/"/);
   assert.match(siteHeader, /["']use client["']/);
   assert.match(siteHeader, /pointerdown/);
   assert.match(siteHeader, /Escape/);
@@ -542,7 +545,7 @@ test("ships production metadata, local imagery, and responsive styles", async ()
   assert.match(css, /@media \(max-width: 760px\)/);
   assert.match(css, /prefers-reduced-motion/);
   assert.doesNotMatch(css, /\.cookie-consent\s*\{/);
-  assert.match(landingCss, /\.cookie-button \{[^}]*font-size:\.875rem/s);
+  assert.match(landingCss, /\.cookie-button \{[^}]*font-size:\.8125rem/s);
   assert.match(landingCss, /\.cookie-consent-actions \.cookie-button-primary \{[^}]*background:#075f32;[^}]*color:#fff;/s);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
 

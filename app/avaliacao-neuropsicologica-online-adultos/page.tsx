@@ -233,7 +233,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
       <header className="lp-header">
-        <a className="lp-brand" href="#inicio">
+        <a className="lp-brand" href="/" aria-label="Integrada Neuropsicologia — página principal">
           <img src="/landing-logo.png" alt="" width={38} height={38} decoding="async" />
           <span><strong>Integrada</strong><small>Neuropsicologia</small></span>
         </a>
