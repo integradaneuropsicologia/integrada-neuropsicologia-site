@@ -636,6 +636,7 @@ test("keeps legacy content URLs and applies one-hop permanent redirects", async 
   const redirects = [
     ["/home?origem=search-console", "https://www.integradaneuropsicologia.com.br/?origem=search-console"],
     ["/avaliacaoonline?origem=legado", "https://www.integradaneuropsicologia.com.br/avaliacao-neuropsicologica-online-adultos?origem=legado"],
+    ["/caca-rapida", "https://www.integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental"],
     ["/jogodolabirinto", "https://www.integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental/labirinto"],
     ["/jogosdeestimula%C3%A7%C3%A3omental", "https://www.integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental"],
     ["/blank-5", "https://www.integradaneuropsicologia.com.br/teste-autismo-infantil"],

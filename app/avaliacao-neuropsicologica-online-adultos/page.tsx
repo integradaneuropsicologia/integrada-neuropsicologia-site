@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
+import Link from "next/link";
 import { CookieSettingsButton } from "@/components/CookieConsent";
 import { OnlineAssessmentLeadForm } from "@/components/OnlineAssessmentLeadForm";
 import {
@@ -233,10 +234,10 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
       <header className="lp-header">
-        <a className="lp-brand" href="/" aria-label="Integrada Neuropsicologia — página principal">
+        <Link className="lp-brand" href="/" aria-label="Integrada Neuropsicologia — página principal">
           <img src="/landing-logo.png" alt="" width={38} height={38} decoding="async" />
           <span><strong>Integrada</strong><small>Neuropsicologia</small></span>
-        </a>
+        </Link>
         <nav className="lp-nav" aria-label="Navegação da landing page">
           <a href="#para-quem">Para quem é</a>
           <a href="#como-funciona">Como funciona</a>

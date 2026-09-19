@@ -18,6 +18,7 @@ const permanentRedirects = new Map<string, string>([
   ["/jogos-de-estimulação-mental", "/exercicios-de-estimulacao-mental"],
   ["/jogosdeestimulacaomental", "/exercicios-de-estimulacao-mental"],
   ["/jogosdeestimulaçãomental", "/exercicios-de-estimulacao-mental"],
+  ["/caca-rapida", "/exercicios-de-estimulacao-mental"],
   ["/jogodolabirinto", "/exercicios-de-estimulacao-mental/labirinto"],
   ["/caca-palavras-estimulacao-cognitiva", "/exercicios-de-estimulacao-mental/caca-palavras"],
   ["/desafiohanoi", "/exercicios-de-estimulacao-mental/torre-de-hanoi"],
