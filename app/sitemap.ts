@@ -21,6 +21,7 @@ const staticRoutes = [
   "/teste-autismo-infantil",
   "/sobre",
   "/carla-luciana-conceicao-lima",
+  "/politica-de-privacidade",
   "/blog",
   "/exercicios-de-estimulacao-mental",
 ];

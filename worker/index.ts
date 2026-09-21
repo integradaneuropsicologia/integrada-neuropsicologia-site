@@ -2,8 +2,9 @@
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
 
-const canonicalOrigin = "https://www.integradaneuropsicologia.com.br";
-const canonicalHostname = "www.integradaneuropsicologia.com.br";
+const canonicalOrigin = "https://integradaneuropsicologia.com.br";
+const canonicalHostname = "integradaneuropsicologia.com.br";
+const legacyHostname = "www.integradaneuropsicologia.com.br";
 
 const permanentRedirects = new Map<string, string>([
   ["/home", "/"],
@@ -99,7 +100,7 @@ const worker = {
     const isPreviewHostname = url.hostname.endsWith(".chatgpt.site");
     const isKnownProductionHostname =
       url.hostname === canonicalHostname ||
-      url.hostname === "integradaneuropsicologia.com.br" ||
+      url.hostname === legacyHostname ||
       isPreviewHostname;
 
     if (mappedDestination) {

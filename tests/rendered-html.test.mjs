@@ -583,9 +583,9 @@ test("serves canonical SEO metadata, sitemap, robots and a real 404", async () =
     const response = await render(pathname);
     assert.equal(response.status, 200, pathname);
     const html = await response.text();
-    const canonical = `https://www.integradaneuropsicologia.com.br${pathname === "/" ? "/" : pathname}`;
+    const canonical = `https://integradaneuropsicologia.com.br${pathname === "/" ? "/" : pathname}`;
     assert.match(html, new RegExp(`<link rel="canonical" href="${canonical.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`), pathname);
-    assert.match(html, /<meta property="og:url" content="https:\/\/www\.integradaneuropsicologia\.com\.br\//, pathname);
+    assert.match(html, /<meta property="og:url" content="https:\/\/integradaneuropsicologia\.com\.br\//, pathname);
     assert.equal((html.match(/<h1\b/g) ?? []).length, 1, `${pathname} must have exactly one H1`);
     assert.doesNotMatch(html, /content="noindex/i, pathname);
   }
@@ -593,17 +593,17 @@ test("serves canonical SEO metadata, sitemap, robots and a real 404", async () =
   const sitemapResponse = await render("/sitemap.xml");
   assert.equal(sitemapResponse.status, 200);
   const sitemap = await sitemapResponse.text();
-  assert.match(sitemap, /https:\/\/www\.integradaneuropsicologia\.com\.br\/avaliacao-neuropsicologica-online-adultos/);
-  assert.match(sitemap, /https:\/\/www\.integradaneuropsicologia\.com\.br\/post\/tdah-ansiedade-ou-burnout/);
+  assert.match(sitemap, /https:\/\/integradaneuropsicologia\.com\.br\/avaliacao-neuropsicologica-online-adultos/);
+  assert.match(sitemap, /https:\/\/integradaneuropsicologia\.com\.br\/post\/tdah-ansiedade-ou-burnout/);
   assert.doesNotMatch(sitemap, /\/avaliacaoonline<\/loc>/);
   assert.doesNotMatch(sitemap, /\/atividade<\/loc>/);
-  assert.doesNotMatch(sitemap, /politica-de-privacidade/);
+  assert.match(sitemap, /https:\/\/integradaneuropsicologia\.com\.br\/politica-de-privacidade/);
 
   const robotsResponse = await render("/robots.txt");
   assert.equal(robotsResponse.status, 200);
   const robots = await robotsResponse.text();
   assert.match(robots, /User-Agent:\s*\*/i);
-  assert.match(robots, /Sitemap:\s*https:\/\/www\.integradaneuropsicologia\.com\.br\/sitemap\.xml/i);
+  assert.match(robots, /Sitemap:\s*https:\/\/integradaneuropsicologia\.com\.br\/sitemap\.xml/i);
 
   const missingResponse = await render("/pagina-que-nao-existe-para-teste");
   assert.equal(missingResponse.status, 404);
@@ -634,12 +634,12 @@ test("keeps legacy content URLs and applies one-hop permanent redirects", async 
   }
 
   const redirects = [
-    ["/home?origem=search-console", "https://www.integradaneuropsicologia.com.br/?origem=search-console"],
-    ["/avaliacaoonline?origem=legado", "https://www.integradaneuropsicologia.com.br/avaliacao-neuropsicologica-online-adultos?origem=legado"],
-    ["/caca-rapida", "https://www.integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental"],
-    ["/jogodolabirinto", "https://www.integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental/labirinto"],
-    ["/jogosdeestimula%C3%A7%C3%A3omental", "https://www.integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental"],
-    ["/blank-5", "https://www.integradaneuropsicologia.com.br/teste-autismo-infantil"],
+    ["/home?origem=search-console", "https://integradaneuropsicologia.com.br/?origem=search-console"],
+    ["/avaliacaoonline?origem=legado", "https://integradaneuropsicologia.com.br/avaliacao-neuropsicologica-online-adultos?origem=legado"],
+    ["/caca-rapida", "https://integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental"],
+    ["/jogodolabirinto", "https://integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental/labirinto"],
+    ["/jogosdeestimula%C3%A7%C3%A3omental", "https://integradaneuropsicologia.com.br/exercicios-de-estimulacao-mental"],
+    ["/blank-5", "https://integradaneuropsicologia.com.br/teste-autismo-infantil"],
   ];
 
   for (const [source, destination] of redirects) {
@@ -650,9 +650,16 @@ test("keeps legacy content URLs and applies one-hop permanent redirects", async 
 
   const apexResponse = await requestAbsolute("http://integradaneuropsicologia.com.br/avaliacaotdah?ref=apex");
   assert.equal(apexResponse.status, 301);
-  assert.equal(apexResponse.headers.get("location"), "https://www.integradaneuropsicologia.com.br/avaliacaotdah?ref=apex");
+  assert.equal(apexResponse.headers.get("location"), "https://integradaneuropsicologia.com.br/avaliacaotdah?ref=apex");
+
+  const canonicalResponse = await requestAbsolute("https://integradaneuropsicologia.com.br/avaliacao-neuropsicologica-online-adultos?ref=canonical");
+  assert.equal(canonicalResponse.status, 200);
+
+  const wwwResponse = await requestAbsolute("https://www.integradaneuropsicologia.com.br/avaliacao-neuropsicologica-online-adultos?ref=legacy-www");
+  assert.equal(wwwResponse.status, 301);
+  assert.equal(wwwResponse.headers.get("location"), "https://integradaneuropsicologia.com.br/avaliacao-neuropsicologica-online-adultos?ref=legacy-www");
 
   const previewResponse = await requestAbsolute("https://integrada-neuropsicologia-site.elieltonlimacosta.chatgpt.site/blog");
   assert.equal(previewResponse.status, 301);
-  assert.equal(previewResponse.headers.get("location"), "https://www.integradaneuropsicologia.com.br/blog");
+  assert.equal(previewResponse.headers.get("location"), "https://integradaneuropsicologia.com.br/blog");
 });

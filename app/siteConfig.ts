@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Integrada Neuropsicologia",
   shortName: "Integrada",
-  url: "https://www.integradaneuropsicologia.com.br",
+  url: "https://integradaneuropsicologia.com.br",
   description:
     "Avaliação neuropsicológica e psicoterapia com atendimento presencial em Curitiba e modalidades on-line conforme o serviço.",
   phoneDisplay: "(41) 99211-3665",
