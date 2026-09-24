@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "integrada-neuropsicologia",
+  "account_id": "91107fae9aa1b8f1b89bd826bdcc3ba8",
+  "main": "./worker/index.ts",
+  "compatibility_date": "2026-05-15",
+  // nodejs_compat is supplied by vite.config.ts; do not repeat it here.
+  "assets": {
+    "binding": "ASSETS",
+    "not_found_handling": "none"
+  },
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+  // No routes or custom domains yet: the apex/www move to this Worker happens
+  // only at cutover, after the preview has been validated.
+}

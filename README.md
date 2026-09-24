@@ -16,7 +16,7 @@ npm run dev
 npm run build
 ```
 
-This starter does not use `wrangler.jsonc`.
+Cloudflare Workers publishing is configured in `wrangler.jsonc` (see below).
 
 ## Included Shape
 
@@ -84,6 +84,30 @@ or enforce explicit server-side membership or allowlist checks.
 
 Use SIWC for account pages, user-specific dashboards, saved records, and write
 actions tied to the current ChatGPT user. Leave public content anonymous.
+
+## Publicação (Cloudflare Workers)
+
+O site é publicado como Worker `integrada-neuropsicologia` na conta Cloudflare
+da clínica (Workers Paid). O `wrangler.jsonc` da raiz é combinado pelo plugin
+Vite da Cloudflare na build; o arquivo final fica em `dist/server/wrangler.json`.
+
+Autenticação: o Wrangler lê o token da variável de ambiente
+`CLOUDFLARE_API_TOKEN`, definida pela responsável no próprio terminal. O token
+tem permissão só para publicar Workers (sem DNS) e nunca é versionado nem
+colocado em arquivos do projeto (`.env*`, `.dev.vars*` e `.wrangler/` são
+ignorados pelo Git).
+
+- Prévia: `npm run deploy:preview` roda os testes e envia uma nova versão sem
+  colocá-la em produção, com o alias
+  `https://previa-integrada-neuropsicologia.integradaneuropsicologia.workers.dev`.
+  Endereços `*.workers.dev` respondem com `X-Robots-Tag: noindex`.
+- Produção: `npm run deploy` roda os testes e publica a versão para todo o
+  tráfego do Worker.
+- Reverter: `npx wrangler deployments list` mostra as publicações e os IDs das
+  versões; `npx wrangler rollback <version-id>` volta para uma versão anterior.
+
+Durante a janela de retorno para o Sites, `.openai/hosting.json` e o plugin
+`sites()` do `vite.config.ts` continuam no projeto sem alteração.
 
 ## Useful Commands
 

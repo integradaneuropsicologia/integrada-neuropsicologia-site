@@ -11,6 +11,8 @@
     "start": "vinext start",
     "test": "npm run build && node --experimental-strip-types --test tests/data-layer.test.mjs tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "deploy:preview": "npm test && wrangler versions upload --preview-alias previa",
+    "deploy": "npm test && wrangler deploy",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
