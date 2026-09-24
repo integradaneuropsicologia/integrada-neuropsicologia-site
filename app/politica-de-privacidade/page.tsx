@@ -7,7 +7,6 @@ export const metadata = createPageMetadata({
   title: "Política de Privacidade | Integrada Neuropsicologia",
   description: "Saiba como a Integrada Neuropsicologia trata dados de contato, preferências de cookies e informações de navegação.",
   path: "/politica-de-privacidade",
-  noIndex: true,
 });
 
 export default function PrivacyPage() {

@@ -617,6 +617,28 @@ test("serves canonical SEO metadata, sitemap, robots and a real 404", async () =
   );
 });
 
+test("lists only indexable, self-canonical URLs in the sitemap", async () => {
+  const sitemap = await (await render("/sitemap.xml")).text();
+  const sitemapPaths = [...sitemap.matchAll(/<loc>https:\/\/integradaneuropsicologia\.com\.br([^<]*)<\/loc>/g)]
+    .map(([, pathname]) => pathname || "/");
+  assert.ok(sitemapPaths.length > 20, "sitemap must list the site pages");
+
+  for (const pathname of sitemapPaths) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, `${pathname} is in the sitemap and must return 200 without redirect`);
+    assert.doesNotMatch(response.headers.get("x-robots-tag") ?? "", /noindex/i, pathname);
+    const html = await response.text();
+    const robotsTags = html.match(/<meta\b[^>]*\bname="robots"[^>]*>/gi) ?? [];
+    assert.ok(robotsTags.every((tag) => !/noindex/i.test(tag)), `${pathname} is in the sitemap but is marked noindex`);
+    const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1] ?? "";
+    assert.equal(
+      decodeURI(canonical),
+      decodeURI(`https://integradaneuropsicologia.com.br${pathname}`),
+      `${pathname} must be its own canonical`,
+    );
+  }
+});
+
 test("keeps legacy content URLs and applies one-hop permanent redirects", async () => {
   const legacyArticles = [
     "/post/tdah-ansiedade-ou-burnout-como-diferenciar-em-adultos",
