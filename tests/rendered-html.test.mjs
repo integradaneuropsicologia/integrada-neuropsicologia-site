@@ -360,6 +360,7 @@ test("serves the Google Ads landing with its original conversion structure", asy
   assert.match(html, /first-contentful-paint/);
   assert.match(html, /setTimeout\(start,3000\)/);
   assert.match(html, /\['pointerdown','keydown','focusin'\]/);
+  assert.match(html, /location\.hostname!=='integradaneuropsicologia\.com\.br'\)return;/, "GTM must not load on preview hosts");
   assert.doesNotMatch(html, /insertBefore\(j,f\)/, "gtm.js must only be inserted inside start()");
   assert.match(html, /Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08\/39739/i);
   assert.equal((html.match(/data-tracking-event="whatsapp_click"/g) ?? []).length, 7);
@@ -730,6 +731,7 @@ test("names Cloudflare as the hosting provider in the privacy policy", async () 
 
   const html = normalizeHtml(await response.text());
   assert.match(html, /hospedado e entregue pela Cloudflare, Inc\./);
-  assert.match(html, /endereço IP, navegador e dispositivo utilizados \(user agent\)/);
+  assert.match(html, /endereço IP, localização aproximada \(país e cidade\) inferida do IP, navegador e dispositivo utilizados \(user agent\)/);
+  assert.match(html, /ficam disponíveis por até 7 dias/);
   assert.doesNotMatch(html, /OpenAI\/Sites/);
 });

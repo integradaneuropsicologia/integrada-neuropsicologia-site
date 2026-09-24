@@ -92,15 +92,25 @@ da clínica (Workers Paid). O `wrangler.jsonc` da raiz é combinado pelo plugin
 Vite da Cloudflare na build; o arquivo final fica em `dist/server/wrangler.json`.
 
 Autenticação: o Wrangler lê o token da variável de ambiente
-`CLOUDFLARE_API_TOKEN`, definida pela responsável no próprio terminal. O token
-tem permissão só para publicar Workers (sem DNS) e nunca é versionado nem
+`CLOUDFLARE_API_TOKEN`, definida pela pessoa responsável no próprio terminal. O
+token tem permissão só para publicar Workers (sem DNS) e nunca é versionado nem
 colocado em arquivos do projeto (`.env*`, `.dev.vars*` e `.wrangler/` são
 ignorados pelo Git).
 
+- Primeira publicação: `npm run deploy`. Sem rotas no `wrangler.jsonc`, ela só
+  ativa o endereço
+  `https://integrada-neuropsicologia.integradaneuropsicologia.workers.dev`
+  (com noindex); o domínio oficial continua intocado. A prévia por alias só
+  funciona depois que o Worker existe.
 - Prévia: `npm run deploy:preview` roda os testes e envia uma nova versão sem
   colocá-la em produção, com o alias
   `https://previa-integrada-neuropsicologia.integradaneuropsicologia.workers.dev`.
-  Endereços `*.workers.dev` respondem com `X-Robots-Tag: noindex`.
+  As páginas em `*.workers.dev` respondem com `X-Robots-Tag: noindex` (arquivos
+  estáticos não) e não carregam o Google Tag Manager, então testes nesses
+  endereços não geram conversões.
+- Nunca coloque rotas `custom_domain` no `wrangler.jsonc`: o Wrangler passaria
+  a controlar os registros DNS do domínio. As rotas de produção são criadas no
+  painel da Cloudflare na virada.
 - Produção: `npm run deploy` roda os testes e publica a versão para todo o
   tráfego do Worker.
 - Reverter: `npx wrangler deployments list` mostra as publicações e os IDs das

@@ -61,12 +61,15 @@ export function GoogleTagManagerHead({ containerId }: { containerId: string | nu
   // Official GTM snippet, except that gtm.js is inserted only after the first contentful paint
   // (fallbacks: first interaction, or 3 s after window load) so it does not compete with the first render.
   // The dataLayer init and the gtm.start event stay synchronous, after the consent defaults.
+  // GTM loads only on the canonical host, so preview and version URLs (*.workers.dev) never send
+  // GA4 hits or Google Ads conversions from tests.
   return (
     <script
       data-google-tag-manager="head"
       dangerouslySetInnerHTML={{
         __html: `
           (function(w,d,s,l,i){
+            if(w.location.hostname!=='integradaneuropsicologia.com.br')return;
             w[l]=w[l]||[];
             w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
             var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'',started=false;
