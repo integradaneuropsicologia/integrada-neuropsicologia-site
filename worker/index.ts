@@ -69,6 +69,23 @@ function permanentRedirect(requestUrl: URL, destination: string) {
   });
 }
 
+// workers.dev hosts only serve previews (version and alias URLs) and must never
+// be indexed; production traffic arrives on the canonical domain instead.
+function isWorkersDevHostname(hostname: string) {
+  return hostname.endsWith(".workers.dev");
+}
+
+function withNoindex(response: Response) {
+  const headers = new Headers(response.headers);
+  headers.set("X-Robots-Tag", "noindex");
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 interface Env {
   ASSETS: Fetcher;
   DB: D1Database;
@@ -92,50 +109,53 @@ interface ExecutionContext {
 // dangerouslyAllowSVG: true in next.config.js and uncomment below:
 // const imageConfig: ImageConfig = { dangerouslyAllowSVG: true };
 
+async function handleRequest(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  const url = new URL(request.url);
+  const pathname = normalizedPathname(url);
+  const mappedDestination = permanentRedirects.get(pathname);
+  const isPreviewHostname = url.hostname.endsWith(".chatgpt.site");
+  const isKnownProductionHostname =
+    url.hostname === canonicalHostname ||
+    url.hostname === legacyHostname ||
+    isPreviewHostname;
+
+  if (mappedDestination) {
+    return permanentRedirect(url, mappedDestination);
+  }
+
+  if (isKnownProductionHostname && (url.protocol !== "https:" || url.hostname !== canonicalHostname)) {
+    return permanentRedirect(url, `${pathname}${url.search}`);
+  }
+
+  if (url.pathname === "/_vinext/image") {
+    const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
+    return handleImageOptimization(request, {
+      fetchAsset: (path) => env.ASSETS.fetch(new Request(new URL(path, request.url))),
+      transformImage: async (body, { width, format, quality }) => {
+        const result = await env.IMAGES.input(body).transform(width > 0 ? { width } : {}).output({ format, quality });
+        return result.response();
+      },
+    }, allowedWidths);
+  }
+
+  const response = await handler.fetch(request, env, ctx);
+
+  if (response.status !== 404) {
+    return response;
+  }
+
+  return withNoindex(response);
+}
+
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    const url = new URL(request.url);
-    const pathname = normalizedPathname(url);
-    const mappedDestination = permanentRedirects.get(pathname);
-    const isPreviewHostname = url.hostname.endsWith(".chatgpt.site");
-    const isKnownProductionHostname =
-      url.hostname === canonicalHostname ||
-      url.hostname === legacyHostname ||
-      isPreviewHostname;
+    const response = await handleRequest(request, env, ctx);
 
-    if (mappedDestination) {
-      return permanentRedirect(url, mappedDestination);
-    }
-
-    if (isKnownProductionHostname && (url.protocol !== "https:" || url.hostname !== canonicalHostname)) {
-      return permanentRedirect(url, `${pathname}${url.search}`);
-    }
-
-    if (url.pathname === "/_vinext/image") {
-      const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
-      return handleImageOptimization(request, {
-        fetchAsset: (path) => env.ASSETS.fetch(new Request(new URL(path, request.url))),
-        transformImage: async (body, { width, format, quality }) => {
-          const result = await env.IMAGES.input(body).transform(width > 0 ? { width } : {}).output({ format, quality });
-          return result.response();
-        },
-      }, allowedWidths);
-    }
-
-    const response = await handler.fetch(request, env, ctx);
-
-    if (response.status !== 404) {
+    if (!isWorkersDevHostname(new URL(request.url).hostname)) {
       return response;
     }
 
-    const headers = new Headers(response.headers);
-    headers.set("X-Robots-Tag", "noindex");
-
-    return new Response(response.body, {
-      status: response.status,
-      statusText: response.statusText,
-      headers,
-    });
+    return withNoindex(response);
   },
 };
 

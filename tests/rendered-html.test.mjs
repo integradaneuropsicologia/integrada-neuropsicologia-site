@@ -694,3 +694,32 @@ test("keeps legacy content URLs and applies one-hop permanent redirects", async 
   assert.equal(previewResponse.status, 301);
   assert.equal(previewResponse.headers.get("location"), "https://integradaneuropsicologia.com.br/blog");
 });
+
+test("marks workers.dev preview hosts as noindex without affecting the canonical domain", async () => {
+  const workersDevOrigins = [
+    "https://integrada-neuropsicologia.integradaneuropsicologia.workers.dev",
+    "https://previa-integrada-neuropsicologia.integradaneuropsicologia.workers.dev",
+  ];
+
+  for (const origin of workersDevOrigins) {
+    const pageResponse = await requestAbsolute(`${origin}/avaliacao-neuropsicologica-online-adultos`);
+    assert.equal(pageResponse.status, 200, origin);
+    assert.equal(pageResponse.headers.get("x-robots-tag"), "noindex", origin);
+    assert.match(await pageResponse.text(), /<link rel="canonical" href="https:\/\/integradaneuropsicologia\.com\.br\/avaliacao-neuropsicologica-online-adultos"/, origin);
+
+    const redirectResponse = await requestAbsolute(`${origin}/home?ref=preview`);
+    assert.equal(redirectResponse.status, 301, origin);
+    assert.equal(redirectResponse.headers.get("location"), "https://integradaneuropsicologia.com.br/?ref=preview", origin);
+    assert.equal(redirectResponse.headers.get("x-robots-tag"), "noindex", origin);
+
+    const missingResponse = await requestAbsolute(`${origin}/pagina-que-nao-existe-para-teste`);
+    assert.equal(missingResponse.status, 404, origin);
+    assert.equal(missingResponse.headers.get("x-robots-tag"), "noindex", origin);
+  }
+
+  for (const pathname of ["/", "/avaliacao-neuropsicologica-online-adultos", "/politica-de-privacidade"]) {
+    const apexResponse = await requestAbsolute(`https://integradaneuropsicologia.com.br${pathname}`);
+    assert.equal(apexResponse.status, 200, pathname);
+    assert.equal(apexResponse.headers.get("x-robots-tag"), null, pathname);
+  }
+});
