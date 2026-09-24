@@ -723,3 +723,13 @@ test("marks workers.dev preview hosts as noindex without affecting the canonical
     assert.equal(apexResponse.headers.get("x-robots-tag"), null, pathname);
   }
 });
+
+test("names Cloudflare as the hosting provider in the privacy policy", async () => {
+  const response = await render("/politica-de-privacidade");
+  assert.equal(response.status, 200);
+
+  const html = normalizeHtml(await response.text());
+  assert.match(html, /hospedado e entregue pela Cloudflare, Inc\./);
+  assert.match(html, /endereço IP, navegador e dispositivo utilizados \(user agent\)/);
+  assert.doesNotMatch(html, /OpenAI\/Sites/);
+});
