@@ -64,6 +64,7 @@ export function OnlineAssessmentLeadForm({ placement }: OnlineAssessmentLeadForm
 
   return (
     <form
+      method="post"
       className={`lp-lead-form lp-lead-form-${placement}`}
       data-form-location={formLocation}
       onFocusCapture={handleFieldInteraction}

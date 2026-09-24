@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/next-script-for-ga -- The specification requires the official GTM head and noscript snippets, conditionally rendered from a validated real container ID. */
+/* eslint-disable @next/next/next-script-for-ga -- The GTM head and noscript snippets are rendered inline from a validated real container ID; the head snippet is the official one except that gtm.js is inserted after the first paint. */
 
 import {
   COOKIE_CONSENT_STORAGE_KEY,
@@ -58,6 +58,9 @@ export function GoogleConsentDefaults() {
 export function GoogleTagManagerHead({ containerId }: { containerId: string | null }) {
   if (!containerId) return null;
 
+  // Official GTM snippet, except that gtm.js is inserted only after the first contentful paint
+  // (fallbacks: first interaction, or 3 s after window load) so it does not compete with the first render.
+  // The dataLayer init and the gtm.start event stay synchronous, after the consent defaults.
   return (
     <script
       data-google-tag-manager="head"
@@ -66,10 +69,23 @@ export function GoogleTagManagerHead({ containerId }: { containerId: string | nu
           (function(w,d,s,l,i){
             w[l]=w[l]||[];
             w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-            var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+            var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'',started=false;
             j.async=true;
             j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-            f.parentNode.insertBefore(j,f);
+            function start(){
+              if(started)return;
+              started=true;
+              setTimeout(function(){(d.head||f.parentNode).appendChild(j);},0);
+            }
+            try{
+              new PerformanceObserver(function(list){
+                if(list.getEntriesByName('first-contentful-paint').length)start();
+              }).observe({type:'paint',buffered:true});
+            }catch(_){}
+            w.addEventListener('load',function(){setTimeout(start,3000);});
+            ['pointerdown','keydown','focusin'].forEach(function(t){
+              d.addEventListener(t,start,{once:true,capture:true,passive:true});
+            });
           })(window,document,'script','dataLayer',${JSON.stringify(containerId)});
         `,
       }}

@@ -38,7 +38,7 @@ export function OnlineContactForm() {
   }
 
   return (
-    <form className="contact-form online-contact-form" onSubmit={handleSubmit} onFocusCapture={handleFormStart}>
+    <form method="post" className="contact-form online-contact-form" onSubmit={handleSubmit} onFocusCapture={handleFormStart}>
       <div className="form-heading">
         <span>Orientação inicial</span>
         <p>Preencha apenas informações gerais. A conversa continuará pelo WhatsApp.</p>

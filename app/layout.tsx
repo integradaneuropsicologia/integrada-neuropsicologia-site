@@ -45,6 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="pt-BR">
       <head>
+        {gtmContainerId ? <link rel="dns-prefetch" href="https://www.googletagmanager.com" /> : null}
         <GoogleConsentDefaults />
         <GoogleTagManagerHead containerId={gtmContainerId} />
       </head>

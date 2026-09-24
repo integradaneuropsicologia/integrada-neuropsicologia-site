@@ -64,6 +64,7 @@ test("server-renders the Integrada homepage", async () => {
   const html = await response.text();
   assert.match(html, /<html[^>]*lang="pt-BR"/i);
   assert.match(html, /<title>Avaliação Neuropsicológica \| Integrada Neuropsicologia<\/title>/i);
+  assert.match(html, /<form(?=[^>]*class="contact-form")(?=[^>]*method="post")[^>]*>/i, "the contact form must not submit personal data in the URL");
   assert.match(html, /Entender abre/);
   assert.match(html, /Mais de 15 anos/);
   assert.match(html, /Cuidado em cada etapa da vida/);
@@ -352,6 +353,14 @@ test("serves the Google Ads landing with its original conversion structure", asy
   assert.match(html, /id="avaliacoes"/i);
   assert.match(html, /id="contato"/i);
   assert.match(html, /landing-hero-online\.webp/i);
+  assert.match(html, /<img[^>]+landing-hero-online\.webp[^>]*fetchpriority="low"/i);
+  assert.doesNotMatch(html, /<link[^>]+rel="preload"[^>]+landing-hero-online\.webp|<link[^>]+landing-hero-online\.webp[^>]+rel="preload"/i);
+  assert.doesNotMatch(html, /HL\[\\?"\/landing-hero-online\.webp/);
+  assert.equal((html.match(/<form[^>]+method="post"/g) ?? []).length, 2, "lead forms must not submit personal data in the URL");
+  assert.match(html, /first-contentful-paint/);
+  assert.match(html, /setTimeout\(start,3000\)/);
+  assert.match(html, /\['pointerdown','keydown','focusin'\]/);
+  assert.doesNotMatch(html, /insertBefore\(j,f\)/, "gtm.js must only be inserted inside start()");
   assert.match(html, /Responsável técnica: Carla Luciana da Conceição Lima — Psicóloga — CRP 08\/39739/i);
   assert.equal((html.match(/data-tracking-event="whatsapp_click"/g) ?? []).length, 7);
   assert.equal((html.match(/data-tracking-event="phone_click"/g) ?? []).length, 1);

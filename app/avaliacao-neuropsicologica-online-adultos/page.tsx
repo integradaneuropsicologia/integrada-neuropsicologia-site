@@ -228,7 +228,6 @@ const faqs = [
 export default function Home() {
   return (
     <div className="lp-page">
-      <link rel="preload" as="image" href="/landing-hero-online.webp" fetchPriority="high" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
@@ -266,7 +265,7 @@ export default function Home() {
 
           <div className="lp-hero-panel">
             <div className="lp-hero-image">
-              <img src="/landing-hero-online.webp" alt="Pessoa adulta participando de avaliação neuropsicológica on-line em ambiente privativo" width={1200} height={630} loading="eager" decoding="async" fetchPriority="high" />
+              <img src="/landing-hero-online.webp" alt="Pessoa adulta participando de avaliação neuropsicológica on-line em ambiente privativo" width={1200} height={630} loading="eager" decoding="async" fetchPriority="low" />
               <div className="lp-image-badge"><strong>Mais de 15 anos</strong><span>de experiência clínica</span></div>
             </div>
             <OnlineAssessmentLeadForm placement="hero" />

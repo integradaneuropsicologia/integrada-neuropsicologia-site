@@ -27,7 +27,7 @@ export function ContactForm() {
   }
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit} onFocusCapture={handleFormStart}>
+    <form method="post" className="contact-form" onSubmit={handleSubmit} onFocusCapture={handleFormStart}>
       <div className="form-heading">
         <span>Orientação inicial</span>
         <p>Preencha os dados e continue a conversa pelo WhatsApp.</p>
