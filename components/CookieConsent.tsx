@@ -9,7 +9,7 @@ import {
 } from "@/lib/consent-config";
 
 type ConsentPreference = {
-  version: 1;
+  version: 2;
   analytics: boolean;
   ads: boolean;
   decidedAt: string;
@@ -174,7 +174,7 @@ export function CookieConsent() {
           </label>
           <label htmlFor={adsId}>
             <input id={adsId} type="checkbox" checked={ads} onChange={(event) => setAds(event.target.checked)} />
-            <span><strong>Publicidade e conversões</strong><small>Permite medir campanhas. Dados sobre sua dúvida clínica não são enviados para criar públicos.</small></span>
+            <span><strong>Publicidade e conversões</strong><small>Permite medir campanhas. Se você chegou por um anúncio do Google, a mensagem do WhatsApp inclui um código do clique (você pode apagá-lo antes de enviar). Se o contato virar agendamento, informamos ao Google esse código e a data: o Google fica sabendo apenas que esse clique resultou em agendamento na Integrada, sem nome, telefone, conteúdo da conversa ou informações clínicas. A Integrada não usa esses dados para criar públicos.</small></span>
           </label>
         </div>
       )}

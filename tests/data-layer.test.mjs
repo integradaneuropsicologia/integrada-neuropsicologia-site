@@ -173,7 +173,7 @@ test("adds a consented Google Ads click reference only to the WhatsApp draft", (
     getItem(key) {
       if (key !== "integrada-cookie-consent-v1") return null;
       return JSON.stringify({
-        version: 1,
+        version: 2,
         ads: true,
         expiresAt: Date.now() + 60_000,
       });

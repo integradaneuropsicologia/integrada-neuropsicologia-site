@@ -213,13 +213,17 @@ const process = [
 
 const faqs = [
   ["Para quem é a avaliação neuropsicológica on-line?", "Para brasileiros com 18 anos ou mais, no Brasil ou no exterior, que desejam compreender dificuldades cognitivas, emocionais ou comportamentais com impacto na rotina, nos estudos, no trabalho ou nos relacionamentos."],
-  ["Ela pode investigar TDAH ou autismo em pessoas com 18 anos ou mais?", "Pode contribuir para a investigação dessas e de outras hipóteses. Nenhum teste isolado confirma um diagnóstico, e a avaliação não garante que uma hipótese inicial será confirmada."],
+  ["A avaliação investiga TDAH e autismo (TEA) em adultos?", "Pode contribuir para a investigação dessas e de outras hipóteses. Nenhum teste isolado confirma um diagnóstico, e a avaliação não garante que uma hipótese inicial será confirmada."],
   ["Todo o processo acontece on-line?", "Sim. A avaliação foi planejada para acontecer integralmente on-line, da entrevista inicial à devolutiva e à entrega da documentação."],
+  ["Como é feita a avaliação neuropsicológica de adulto no formato on-line?", "Os encontros acontecem por videochamada, com horário marcado. Incluem entrevista sobre a história e as dificuldades atuais, tarefas e questionários selecionados para a modalidade remota e, ao final, a devolutiva com a explicação dos achados."],
   ["Os instrumentos são adequados ao formato remoto?", "Sim. São selecionados procedimentos e instrumentos compatíveis com a aplicação on-line e com o objetivo da avaliação, conforme as normas profissionais vigentes."],
-  ["Quanto tempo dura?", "O processo costuma ser organizado em torno de 8 encontros. A duração e o planejamento são definidos conforme a demanda e organizados a partir da entrevista inicial."],
+  ["Quanto tempo dura?", "O processo costuma ser organizado em torno de 8 encontros on-line, de cerca de 1 hora cada, ao longo de aproximadamente 4 a 6 semanas, incluindo a devolutiva. A duração e o planejamento são definidos conforme a demanda, a partir da entrevista inicial."],
+  ["Qual é o valor e quais são as formas de pagamento?", "O valor considera o processo completo, da entrevista inicial à devolutiva e à documentação. No primeiro contato pelo WhatsApp, a equipe informa o valor e as formas de pagamento, sem compromisso de iniciar a avaliação."],
+  ["A avaliação é coberta por convênio? Posso pedir reembolso?", "No momento não atendemos a convênios. Se o seu plano permitir reembolso, fornecemos a documentação solicitada; a cobertura e o valor reembolsado dependem das regras do seu contrato."],
   ["O que preciso para participar?", "Em geral, conexão estável, câmera, computador ou notebook e um ambiente silencioso e privativo. As orientações específicas são fornecidas antes do início."],
   ["Vocês atendem brasileiros que vivem no exterior?", "Sim. O atendimento on-line também recebe brasileiros que vivem em outros países. Os horários dos encontros são combinados considerando o fuso de cada pessoa."],
-  ["Receberei uma devolutiva?", "Sim. Ao final, os resultados são explicados e é apresentada a documentação correspondente ao escopo da avaliação e às normas aplicáveis."],
+  ["Recebo um laudo ao final?", "Sim. Na devolutiva, os resultados são explicados e é entregue o laudo psicológico, elaborado conforme o escopo da avaliação e a Resolução CFP nº 6/2019. O documento descreve o que foi investigado e as conclusões possíveis, sem garantia de confirmar uma hipótese inicial."],
+  ["Vocês também fazem a avaliação presencial?", "Sim, em Curitiba (PR). Esta página descreve a modalidade 100% on-line; a avaliação neuropsicológica de adultos presencial tem página própria no site da Integrada."],
   ["Preciso de encaminhamento médico para fazer a avaliação?", "Em geral, não. Você pode procurar a equipe diretamente para compreender como funciona o processo. Quando houver encaminhamento de outro profissional, essa informação pode ser integrada ao planejamento."],
   ["A avaliação neuropsicológica on-line é confiável?", "O processo pode oferecer informações clínicas úteis quando é conduzido com entrevista cuidadosa, procedimentos adequados à modalidade remota e integração dos dados. Nenhum resultado isolado substitui a análise do conjunto."],
   ["A documentação on-line pode ser usada no exterior?", "A documentação é elaborada conforme o escopo da avaliação e as normas profissionais brasileiras. A aceitação em outro país depende da finalidade e das regras da instituição ou autoridade que receberá o documento; por isso, vale confirmar esses requisitos antes de começar."],
@@ -248,7 +252,7 @@ export default function Home() {
       <main>
         <section className="lp-hero" id="inicio">
           <div className="lp-hero-copy">
-            <span className="lp-kicker"><i aria-hidden="true" /> On-line • Brasileiros 18+ • Brasil e exterior</span>
+            <span className="lp-kicker"><i aria-hidden="true" /> On-line • Adultos 18+ • Brasil e exterior</span>
             <h1>Avaliação neuropsicológica <em>100% on-line para adultos.</em></h1>
             <p className="lp-hero-lede"><strong>Entenda o que está por trás das dificuldades de foco, memória, organização e relacionamento.</strong> O processo integra entrevista, histórico e procedimentos adequados à modalidade remota para compreender os impactos na vida real — com devolutiva clara e orientação.</p>
             <ul className="lp-hero-points">

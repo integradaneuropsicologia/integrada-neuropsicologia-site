@@ -1,7 +1,7 @@
 export const LANDING_PAGE_TYPE = "landing_neuro_online" as const;
 
 const ADS_CONSENT_STORAGE_KEY = "integrada-cookie-consent-v1";
-const ADS_CONSENT_VERSION = 1;
+const ADS_CONSENT_VERSION = 2;
 const GOOGLE_AD_CLICK_ID_KEYS = ["gclid", "gbraid", "wbraid"] as const;
 const GOOGLE_AD_CLICK_ID_PATTERN = /^[A-Za-z0-9._~-]{6,512}$/;
 
