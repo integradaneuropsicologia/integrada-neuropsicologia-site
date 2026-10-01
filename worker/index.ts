@@ -86,6 +86,39 @@ function withNoindex(response: Response) {
   });
 }
 
+// Proposta 9b: on the Google Ads landing (fully server-rendered), the ~96 KB of
+// hydration scripts were preloaded in <head> and finished before the first paint,
+// delaying LCP on slow mobile connections. Here the modulepreload hints are removed
+// and the React bootstrap import starts only after the first contentful paint, on
+// the first interaction, or at most 3 s after parsing. Local A/B (Lighthouse 13.5,
+// mobile, 6 rounds): LCP 3.33 s -> 2.22 s, FCP 2.67 s -> 1.55 s; hydration completes
+// ~0.2 s after FCP. If the expected markup is not found, the HTML is left unchanged.
+const deferredHydrationPaths = new Set(["/avaliacao-neuropsicologica-online-adultos"]);
+const reactBootstrapPattern = /<script id="_R_">import\("(\/assets\/[A-Za-z0-9_-]+\.js)"\)<\/script>/;
+
+function deferLandingHydration(html: string): string {
+  const entry = html.match(reactBootstrapPattern);
+  if (!entry) return html;
+  const gate =
+    '<script id="_R_">(function(){var s=0;function go(){if(s)return;s=1;import(' + JSON.stringify(entry[1]) + ")}" +
+    'try{new PerformanceObserver(function(l){if(l.getEntriesByName("first-contentful-paint").length)setTimeout(go,0)}).observe({type:"paint",buffered:true})}catch(e){}' +
+    '["pointerdown","keydown","focusin","touchstart"].forEach(function(t){document.addEventListener(t,go,{once:true,capture:true,passive:true})});' +
+    "setTimeout(go,3000)})()</script>";
+  return html.replace(/<link rel="modulepreload"[^>]*>/g, "").replace(entry[0], gate);
+}
+
+async function withDeferredHydration(response: Response): Promise<Response> {
+  const contentType = response.headers.get("content-type") ?? "";
+  const contentEncoding = response.headers.get("content-encoding");
+  if (response.status !== 200 || !response.body || !/^text\/html\b/i.test(contentType) || (contentEncoding && contentEncoding !== "identity")) {
+    return response;
+  }
+  const html = await response.text();
+  const headers = new Headers(response.headers);
+  headers.delete("content-length");
+  return new Response(deferLandingHydration(html), { status: response.status, statusText: response.statusText, headers });
+}
+
 interface Env {
   ASSETS: Fetcher;
   DB: D1Database;
@@ -138,7 +171,10 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext):
     }, allowedWidths);
   }
 
-  const response = await handler.fetch(request, env, ctx);
+  const handlerResponse = await handler.fetch(request, env, ctx);
+  const response = deferredHydrationPaths.has(pathname)
+    ? await withDeferredHydration(handlerResponse)
+    : handlerResponse;
 
   if (response.status !== 404) {
     return response;
