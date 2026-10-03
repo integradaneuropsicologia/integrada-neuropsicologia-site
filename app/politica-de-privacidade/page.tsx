@@ -26,7 +26,7 @@ export default function PrivacyPage() {
           <p className="detail-eyebrow">Privacidade e transparência</p>
           <h1>Política de Privacidade</h1>
           <p className="article-lead">Este documento explica, em linguagem direta, como os dados são tratados ao navegar no site ou iniciar uma conversa com a equipe.</p>
-          <p className="article-byline">Atualizada em 1º de outubro de 2026.</p>
+          <p className="article-byline">Atualizada em 3 de outubro de 2026.</p>
         </div>
       </header>
 
