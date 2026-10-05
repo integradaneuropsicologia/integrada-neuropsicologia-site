@@ -300,7 +300,7 @@ export default function Home() {
           </div>
           <div className="lp-inline-cta">
             <p><strong>Esses sinais podem ocorrer por diferentes motivos e não definem um diagnóstico.</strong> Eles mostram que pode ser útil olhar para o conjunto com mais cuidado.</p>
-            <TrackedWhatsAppLink className="lp-dark-button" href={whatsappUrl("Olá! Quero conversar sobre dificuldades de foco, memória, organização ou relacionamento e entender melhor a avaliação neuropsicológica on-line.")} ctaLocation="signals" target="_blank" rel="noreferrer">Conversar sobre minhas dificuldades <span aria-hidden="true">→</span></TrackedWhatsAppLink>
+            <TrackedWhatsAppLink className="lp-dark-button" href={whatsappUrl("Olá! Gostaria de entender como funciona a avaliação neuropsicológica on-line para adultos.")} ctaLocation="signals" target="_blank" rel="noreferrer">Conversar sobre minhas dificuldades <span aria-hidden="true">→</span></TrackedWhatsAppLink>
           </div>
         </section>
 
