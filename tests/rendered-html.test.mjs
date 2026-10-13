@@ -725,6 +725,29 @@ test("marks workers.dev preview hosts as noindex without affecting the canonical
   }
 });
 
+test("sends 30-day HSTS on the production hostnames only", async () => {
+  const hsts = "max-age=2592000";
+  const apex = "https://integradaneuropsicologia.com.br";
+
+  for (const pathname of ["/", "/avaliacao-neuropsicologica-online-adultos", "/home?gclid=teste", "/pagina-que-nao-existe-para-teste"]) {
+    const response = await requestAbsolute(`${apex}${pathname}`);
+    assert.equal(response.headers.get("strict-transport-security"), hsts, pathname);
+  }
+
+  const wwwResponse = await requestAbsolute("https://www.integradaneuropsicologia.com.br/?gclid=teste");
+  assert.equal(wwwResponse.status, 301);
+  assert.equal(wwwResponse.headers.get("strict-transport-security"), hsts);
+
+  for (const url of ["http://localhost/", "https://integrada-neuropsicologia.integradaneuropsicologia.workers.dev/"]) {
+    const response = await requestAbsolute(url);
+    assert.equal(response.headers.get("strict-transport-security"), null, url);
+  }
+
+  const staticHeaders = (await readFile(new URL("../public/_headers", import.meta.url), "utf8")).replaceAll("\r\n", "\n");
+  assert.match(staticHeaders, /^\/\*\n\s+Strict-Transport-Security: max-age=2592000$/m);
+  assert.match(staticHeaders, /^\/assets\/\*\n\s+Cache-Control: public, max-age=31536000, immutable$/m);
+});
+
 test("names Cloudflare as the hosting provider in the privacy policy", async () => {
   const response = await render("/politica-de-privacidade");
   assert.equal(response.status, 200);

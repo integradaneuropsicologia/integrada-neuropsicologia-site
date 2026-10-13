@@ -75,9 +75,18 @@ function isWorkersDevHostname(hostname: string) {
   return hostname.endsWith(".workers.dev");
 }
 
-function withNoindex(response: Response) {
+// HSTS for the production hostnames only, on every response (pages, redirects
+// and 404s). 30 days, without includeSubDomains or preload, while the move to
+// Cloudflare settles; static files get the same line from public/_headers.
+const strictTransportSecurity = "max-age=2592000";
+
+function isProductionHostname(hostname: string) {
+  return hostname === canonicalHostname || hostname === legacyHostname;
+}
+
+function withHeader(response: Response, name: string, value: string) {
   const headers = new Headers(response.headers);
-  headers.set("X-Robots-Tag", "noindex");
+  headers.set(name, value);
 
   return new Response(response.body, {
     status: response.status,
@@ -183,11 +192,20 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext):
   return withNoindex(response);
 }
 
+function withNoindex(response: Response) {
+  return withHeader(response, "X-Robots-Tag", "noindex");
+}
+
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const response = await handleRequest(request, env, ctx);
+    const { hostname } = new URL(request.url);
 
-    if (!isWorkersDevHostname(new URL(request.url).hostname)) {
+    if (isProductionHostname(hostname)) {
+      return withHeader(response, "Strict-Transport-Security", strictTransportSecurity);
+    }
+
+    if (!isWorkersDevHostname(hostname)) {
       return response;
     }
 

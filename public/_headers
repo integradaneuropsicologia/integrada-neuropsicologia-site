@@ -1,0 +1,7 @@
+# Cache content-hashed assets immutably (same rule vinext generates when this file is absent)
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HSTS for static files served before the Worker (30 days, no includeSubDomains/preload)
+/*
+  Strict-Transport-Security: max-age=2592000
