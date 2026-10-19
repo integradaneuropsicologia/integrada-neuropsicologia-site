@@ -48,12 +48,13 @@ export function OnlineAssessmentLeadForm({ placement }: OnlineAssessmentLeadForm
     const name = String(data.get("name") ?? "").trim();
     const interest = String(data.get("interest") ?? "").trim();
     const message = String(data.get("message") ?? "").trim();
+    // Mensagem curta: o consentimento fica registrado na caixa obrigatória do formulário.
+    // "Tenho interesse na" e "Nome:" identificam o formulário no funil do WhatsApp.
     const text = [
-      "Olá! Tenho interesse na avaliação neuropsicológica on-line para brasileiros com 18 anos ou mais.",
+      "Olá! Tenho interesse na avaliação neuropsicológica on-line para adultos (18 anos ou mais).",
       `Nome: ${name}`,
-      `Quero compreender melhor: ${interest}`,
+      `Dúvida principal: ${interest}`,
       message ? `Contexto: ${message}` : null,
-      "Consentimento: autorizo o tratamento destes dados para preparar esta mensagem e responder ao meu contato pelo WhatsApp.",
     ].filter(Boolean).join("\n");
 
     const whatsappDestination = appendGoogleAdsClickReference(whatsappUrl(text));
